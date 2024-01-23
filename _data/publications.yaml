@@ -3,7 +3,7 @@ papers:
   - title: "Extrapolated Random Tree for Regression"
     authors: "Yuchao Cai, Yuheng Ma, <b>Yiwei Dong</b>, Hanfang Yang"
     venue: "Proceedings of the 40th International Conference on Machine Learning, PMLR 202:3442-3468, 2023."
-    paper_pdf: "/assets/publications/2023_icml/ertr_paper.pdf"
+    paper_pdf: "../assets/publications/2023_icml/ertr_paper.pdf"
     code: "https://github.com/Karlmyh/ERTR"
     selected: y
 
@@ -17,13 +17,13 @@ papers:
   - title: "Meta-Adaptive Stock Movement Prediction with Two-Stage Representation Learning"
     authors: "Donglin Zhan<sup>‡</sup>, Yusheng Dai<sup>‡</sup>, <b>Yiwei Dong<sup>‡</sup></b>, Jinghai He, Zhenyi Wang, James Anderson"
     venue: "NeurIPS 2022 Workshop on Distribution Shifts: Connecting Methods and Applications."
-    paper_pdf: "/assets/publications/2022_nips/masser_paper.pdf"
+    paper_pdf: "../assets/publications/2022_nips/masser_paper.pdf"
     selected: y
 
   - title: "Blind Source Separation-based IVA-Xception Model for Bird Sound Recognition in Complex Acoustic Environments"
     authors: "Yusheng Dai, Jin Yang, <b>Yiwei Dong</b>, Haipeng Zou, Mingzhi Hu, and Bin Wang"
     venue: "Electronics Letters, vol 57, no. 11 (2021): 454-456, 2021."
-    paper_pdf: "/assets/publications/2021_eletter/iva_paper.pdf"
+    paper_pdf: "../assets/publications/2021_eletter/iva_paper.pdf"
     code: "https://github.com/dalision/IVA-Xception/"
     data: "https://github.com/dalision/IVA-Xception/"
     selected: y
