@@ -1,4 +1,4 @@
----
+<!-- ---
 layout: project
 title: Detecting Network Effects
 subtitle: "Randomizing Over Randomized Experiments"
@@ -34,4 +34,4 @@ in the <a href="{{ '/assets/publications/2017_detecting_network_effects/paper.pd
 **(E)** Computing the difference of the estimates from each treatment arm: $$\Delta = \hat \mu_{cr} - \hat \mu_{cbr}$$, and the total variance: $$\hat \sigma^2 = \hat \sigma^2_{cr} + \hat \sigma^2_{cbr}$$. <br/>
 
 **Short video describing the work. Recorded for KDD'17.** <br/>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/E3yiKJCgLE4" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/E3yiKJCgLE4" frameborder="0" allowfullscreen></iframe> -->
