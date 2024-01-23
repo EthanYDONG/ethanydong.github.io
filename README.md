@@ -1,5 +1,5 @@
-# Martin Saveski's Website
-
+# Yiwei DONG's Website
+<!-- 
 ## Updates guide
 Change one of the files in `_data`, unless you are changing the look of the website.
 
@@ -33,4 +33,4 @@ More info on the [Media Lab wiki](http://wiki.media.mit.edu/view/Necsys/WebPageP
   - Experience: [Timeline](https://codepen.io/NilsWe/pen/FemfK)
   - Icons: [Font Awesome](http://fontawesome.io/)
 - JS
-  - [Jquery (3.1.1)](https://jquery.com/)
+  - [Jquery (3.1.1)](https://jquery.com/) -->
