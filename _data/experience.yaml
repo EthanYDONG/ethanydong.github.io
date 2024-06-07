@@ -35,6 +35,11 @@ experiences:
 #   title: "Machine Learning Scientist, Intern"
 #   subtitle: "Scalable Machine Learning Group"
 #   category: "work"
+- place: "Renmin University of China, Beijing"
+  time: "Sep 2022 – June 2025"
+  title: "M.Sc. Student"
+  subtitle: "Master's in Statistics (Research-based)"
+  category: "school"
 
 - place: "Carnegie Mellon University, US"
   time: "May 2024 - Sep 2024"
@@ -42,11 +47,6 @@ experiences:
   # subtitle: "Heinz College"
   category: "work"
 
-- place: "Renmin University of China, Beijing"
-  time: "Sep 2022 – June 2025"
-  title: "M.Sc. Student"
-  subtitle: "Master's in Statistics (Research-based)"
-  category: "school"
 
 - place: "University of Notre Dame, US"
   time: "Jan 2020 - May 2020"
