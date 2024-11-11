@@ -30,7 +30,7 @@ papers:
 
   - title: "Meta-Adaptive Stock Movement Prediction with Two-Stage Representation Learning"
     authors: "Donglin Zhan<sup>‡</sup>, Yusheng Dai<sup>‡</sup>, <b>Yiwei Dong<sup>‡</sup></b>, Jinghai He, Zhenyi Wang, James Anderson"
-    venue: "Proceedings of the 2024 SIAM International Conference on Data Mining (SDM). Society for Industrial and Applied Mathematics, 2024."
+    venue: "Proceedings of the 2024 SIAM International Conference on Data Mining (SDM). Society for Industrial and Applied Mathematics, 2024."
     paper_pdf: "https://epubs.siam.org/doi/epdf/10.1137/1.9781611978032.59"
     selected: y
 
