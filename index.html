@@ -3,84 +3,70 @@ layout: default
 title: Home
 ---
 
-<!-- ========== Content with left sidebar ========== -->
 <div class="row content-with-sidebar">
 
-  <!-- 左侧：信息栏（照片 + 联系方式/链接） -->
+  <!-- 左侧：信息栏 -->
   <aside class="four columns side-col">
     <div class="sidepanel">
       <img class="portrait" src="{{ site.baseurl }}{{ site.data.main_info.profile_pic }}" alt="profile">
 
+      <div class="kicker">Profile</div>
+      <ul><li><strong>{{ site.data.main_info.name }}</strong></li></ul>
+
       <div class="kicker">Email</div>
       <ul>
-        <li>
-          <a href="mailto:{{ site.data.main_info.email | strip }}">
-            {{ site.data.main_info.email }}
-          </a>
-        </li>
+        <li><a href="mailto:{{ site.data.main_info.email | strip }}">{{ site.data.main_info.email }}</a></li>
       </ul>
 
       <div class="kicker">Website</div>
-      <ul>
-        <li><a href="{{ site.baseurl }}/">ethanydong.github.io</a></li>
-      </ul>
+      <ul><li><a href="{{ site.baseurl }}/">ethanydong.github.io</a></li></ul>
 
       <div class="kicker">Links</div>
       <ul>
-        {% if site.data.main_info.google_scholar %}
-        <li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>
-        {% endif %}
-        {% if site.data.main_info.github %}
-        <li><a href="{{ site.data.main_info.github }}">GitHub</a></li>
-        {% endif %}
-        {% if site.data.main_info.linkedin %}
-        <li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>
-        {% endif %}
-        {% if site.data.main_info.twitter %}
-        <li><a href="{{ site.data.main_info.twitter }}">Twitter / X</a></li>
-        {% endif %}
+        {% if site.data.main_info.google_scholar %}<li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>{% endif %}
+        {% if site.data.main_info.github %}<li><a href="{{ site.data.main_info.github }}">GitHub</a></li>{% endif %}
+        {% if site.data.main_info.linkedin %}<li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>{% endif %}
+        {% if site.data.main_info.twitter %}<li><a href="{{ site.data.main_info.twitter }}">Twitter / X</a></li>{% endif %}
       </ul>
     </div>
   </aside>
 
-  <!-- 右侧：正文（Bio / News / Publications / CV） -->
+  <!-- 右侧正文 -->
   <div class="eight columns main-col">
 
     <!-- Bio -->
     <section id="bio" class="docs-section">
       <h3 class="section-header">Bio</h3>
-      {% if site.data.main_info.title %}
-      <p><strong>{{ site.data.main_info.name }}</strong> — {{ site.data.main_info.title }}</p>
-      {% endif %}
-
-      {% comment %}
-        你可以把下面这段改成你的自我介绍；如果你在 _data/main_info.yaml
-        里有 bio 字段，也可以用 {{ site.data.main_info.bio }} 来渲染。
-      {% endcomment %}
-      {% if site.data.main_info.bio %}
-        <p>{{ site.data.main_info.bio }}</p>
-      {% else %}
-        <p>
-          I am {{ site.data.main_info.name }}. Welcome to my page. 
-          This site shares my research interests, publications, and updates.
-        </p>
-      {% endif %}
+      <p>
+        Hello! I'm a Master's student at 
+        <a href="http://stat.ruc.edu.cn/Home/About/Overview/index.htm" target="_blank" rel="noopener noreferrer">School of Statistics</a>, 
+        <a href="https://en.ruc.edu.cn/" target="_blank" rel="noopener noreferrer">Renmin University of China</a> 
+        under the guidance of 
+        <a href="https://hongtengxu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongteng Xu</a> 
+        and <a href="https://hollywiberg.com/" target="_blank" rel="noopener noreferrer">Prof. Holly Wiberg</a>. 
+        My research interests include Bayesian methods, sequential data modeling, and machine learning theory.
+      </p>
     </section>
 
-    <!-- News（锚点与导航一致：#prospective-students 在原主题里用于“News”） -->
+    <!-- Meta -->
+    <section id="meta" class="docs-section">
+      <h4>Meta</h4>
+      <p>
+        This website was built with <a href="https://jekyllrb.com">jekyll</a> based on this 
+        <a href="http://web.media.mit.edu/~msaveski/">prototype</a>.
+      </p>
+    </section>
+
+    <!-- News -->
     <section id="prospective-students" class="docs-section">
       <h3 class="section-header">News</h3>
-      {% comment %}
-        如果你有 _data/experience.yaml 或单独的 news 数据源，也可在此循环渲染。
-        下面给出一个可手动编辑的示例列表；没有内容时保持空白也没问题。
-      {% endcomment %}
       <ul>
         <li>[{{ "now" | date: "%Y-%m" }}] Website refreshed with NYU theme.</li>
         <!-- <li>[2025-01] Our paper "XXXX" was accepted to XXXX.</li> -->
       </ul>
     </section>
 
-    <!-- Publications（从 _data/publications.yaml 读取） -->
+    <!-- Publications -->
     <section id="publications" class="docs-section">
       <h3 class="section-header">Publications</h3>
 
@@ -107,7 +93,6 @@ title: Home
               </p>
             {% endif %}
 
-            <!-- 可选按钮区：paper/code/slides -->
             <div class="paper-buttons">
               {% if p.url %}
                 <a class="button button-primary" href="{{ p.url }}">Paper</a>
@@ -129,12 +114,8 @@ title: Home
     <!-- CV -->
     <section id="resume" class="docs-section">
       <h3 class="section-header">CV</h3>
-      {% comment %}
-       
-        /assets/cv/yiwei_dong_cv.pdf
-      {% endcomment %}
       <p>
-        <a class="button button-primary" href="{{ site.baseurl }}/assets/cv/cv.pdf" target="_blank" rel="noopener">
+        <a class="button button-primary" href="{{ site.baseurl }}/assets/cv/yiwei_dong_cv.pdf" target="_blank" rel="noopener">
           Download CV (PDF)
         </a>
       </p>
