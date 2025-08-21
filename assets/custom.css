@@ -27,3 +27,18 @@
     <!-- 这里放你原来的内容（Bio / Publications 等） -->
   </div>
 </div>
+
+/* 1) 防止任何地方再显示默认 header */
+.header{ display:none !important; }
+
+
+.sidepanel .portrait{
+  display:block;
+  width:100%;
+  height:auto;           /* 不强行拉伸 */
+  object-fit:cover;      /* 如果你以后设定固定高度，也不会变形 */
+  border-radius:6px;
+}
+
+/* 3) 保证内容区没有奇怪的背景 */
+.docs-section{ background:none !important; }
