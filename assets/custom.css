@@ -1,164 +1,29 @@
-/* ===============================
-   NYU Pages – site overrides
-   =============================== */
+<div class="row content-with-sidebar">
+  <!-- 左侧：信息栏 -->
+  <aside class="four columns side-col">
+    <div class="sidepanel">
+      <img class="portrait" src="{{ site.baseurl }}{{ site.data.main_info.profile_pic }}" alt="profile">
+      <div class="kicker">Email</div>
+      <ul>
+        <li><a href="mailto:{{ site.data.main_info.email | strip }}">{{ site.data.main_info.email }}</a></li>
+      </ul>
 
-/* ---- Theme tokens ---- */
-:root{
-  /* NYU Violet palette */
-  --nyu: #57068C;
-  --nyu-dark: #43056c;
-  --nyu-light: #7f2db6;
+      <div class="kicker">Website</div>
+      <ul>
+        <li><a href="{{ site.baseurl }}/">ethanydong.github.io</a></li>
+      </ul>
 
-  /* Base colors */
-  --bg:#ffffff;
-  --text:#222222;
-  --muted:#666666;
-  --border:#e5e7eb;
+      <div class="kicker">Links</div>
+      <ul>
+        <li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>
+        <li><a href="{{ site.data.main_info.github }}">GitHub</a></li>
+        <li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>
+      </ul>
+    </div>
+  </aside>
 
-  /* Links (统一站内链接配色) */
-  --link: var(--nyu);
-  --link-hover: var(--nyu-dark);
-}
-
-/* ---- Global typography ---- */
-html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-body{
-  background:var(--bg);
-  color:var(--text);
-  /* 继续沿用你 head 里已经引入的 Raleway；后备系统字体 */
-  font-family:"Raleway","Helvetica Neue",Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  font-size:16px;
-  line-height:1.75;
-  letter-spacing:.2px;
-}
-
-h1,h2,h3,h4,h5{
-  color:#111827;
-  line-height:1.2;
-  margin-top:1.2em;
-  margin-bottom:.5em;
-}
-h1{font-size:2rem}
-h2{font-size:1.6rem}
-h3{font-size:1.25rem}
-
-p{margin:0 0 1em}
-ul,ol{margin:0 0 1.2em 1.2em}
-small,.muted,.post-meta,time{color:var(--muted)}
-
-a{color:var(--link);text-decoration:none}
-a:hover,a:focus{color:var(--link-hover);text-decoration:underline}
-
-/* ---- Container width (Skeleton 兜底) ---- */
-.container, main, .page-content{
-  max-width: 980px;     /* 可调：840–1024 */
-  padding: 0 20px;
-  margin: 0 auto;
-}
-
-/* ===============================
-   NAVBAR → 顶部固定 + NYU 紫
-   （沿用你现有的 .navbar 结构）
-   =============================== */
-
-/* 去掉旧的占位条 */
-.navbar-spacer{ display:none; }
-
-/* 顶部固定、全宽紫色背景 */
-.navbar{
-  position: sticky;      /* 滚动时吸顶 */
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-  background: var(--nyu);
-  border-bottom: 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,.06);
-}
-
-/* 内部容器：左右分布 */
-.navbar .container{
-  display:flex;
-  align-items:center;
-  justify-content: center;   /* 你的导航只有一组链接，居中更稳 */
-  min-height: 56px;
-  padding: 8px 16px;
-}
-
-/* 列表横向排列 */
-.navbar-list{
-  list-style:none;
-  display:flex;
-  gap:24px;
-  margin:0; padding:0;
-}
-
-/* 链接样式（白字、悬停加深） */
-.navbar-link{
-  display:inline-block;
-  color:#fff !important;
-  text-decoration:none;
-  padding:8px 6px;
-  border-radius:6px;
-  font-weight:600;
-}
-.navbar-link:hover,
-.navbar-link:focus{
-  background: var(--nyu-dark);
-  text-decoration:none;
-}
-
-/* 小屏换行/居中 */
-@media (max-width: 640px){
-  .navbar .container{ flex-wrap:wrap; gap:6px 12px; }
-  .navbar-list{ flex-wrap:wrap; justify-content:center; gap:12px 16px; }
-}
-
-/* ===============================
-   Header & footer tweaks
-   =============================== */
-
-/* 顶栏在最上方，给下面头像区域一点空隙 */
-.header{ margin-top: 18px; }
-.header .main-description p{ margin:.25em 0; }
-.header img{ border-radius:12px; } /* 头像圆角，可按需删 */
-
-.footer{
-  border-top:1px solid var(--border);
-  padding:18px 0; margin-top:32px;
-  color:var(--muted); font-size:.95rem;
-}
-.footer i{ margin-right:10px; cursor:pointer; }
-.footer i:hover{ color:var(--link); }
-
-/* ===============================
-   Code & blockquote (阅读友好)
-   =============================== */
-pre,code{
-  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
-}
-pre{
-  background:#f6f8fa;border:1px solid var(--border);
-  border-radius:8px;padding:12px;overflow:auto;
-}
-blockquote{
-  border-left:4px solid var(--link);
-  background:#fafbfc;color:var(--muted);
-  padding:.6em 1em;margin:1em 0;
-}
-
-/* ===============================
-   (可选) 暗色模式
-   =============================== */
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0b0f14;
-    --text:#e6e6e6;
-    --muted:#a1a1a1;
-    --border:#1f2937;
-    --link:#7ab8ff;
-    --link-hover:#b7d7ff;
-  }
-  .navbar{ background: var(--nyu-dark); box-shadow:0 2px 12px rgba(0,0,0,.35); }
-  pre{ background:#0f1720; }
-  blockquote{ background:#0f1720; }
-}
+  <!-- 右侧：你的正文（Bio/News/Publs/…） -->
+  <div class="eight columns main-col">
+    <!-- 这里放你原来的内容（Bio / Publications 等） -->
+  </div>
+</div>
