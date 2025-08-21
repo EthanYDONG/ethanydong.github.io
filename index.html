@@ -5,7 +5,7 @@ title: Home
 
 <div class="row content-with-sidebar">
 
-  <!-- 左侧：信息栏 -->
+  <!-- 左侧信息卡 -->
   <aside class="four columns side-col">
     <div class="sidepanel">
       <img class="portrait" src="{{ site.baseurl }}{{ site.data.main_info.profile_pic }}" alt="profile">
@@ -23,50 +23,51 @@ title: Home
 
       <div class="kicker">Links</div>
       <ul>
-        {% if site.data.main_info.google_scholar %}<li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>{% endif %}
         {% if site.data.main_info.github %}<li><a href="{{ site.data.main_info.github }}">GitHub</a></li>{% endif %}
+        {% if site.data.main_info.google_scholar %}<li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>{% endif %}
         {% if site.data.main_info.linkedin %}<li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>{% endif %}
         {% if site.data.main_info.twitter %}<li><a href="{{ site.data.main_info.twitter }}">Twitter / X</a></li>{% endif %}
       </ul>
     </div>
   </aside>
 
-  <!-- 右侧正文 -->
+  <!-- 右侧正文（保留你的内容） -->
   <div class="eight columns main-col">
 
-    <!-- Bio -->
+    <!-- Bio（你的自我介绍原样保留） -->
     <section id="bio" class="docs-section">
       <h3 class="section-header">Bio</h3>
       <p>
-        Hello! I'm a Master's student at 
-        <a href="http://stat.ruc.edu.cn/Home/About/Overview/index.htm" target="_blank" rel="noopener noreferrer">School of Statistics</a>, 
-        <a href="https://en.ruc.edu.cn/" target="_blank" rel="noopener noreferrer">Renmin University of China</a> 
-        under the guidance of 
-        <a href="https://hongtengxu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongteng Xu</a> 
-        and <a href="https://hollywiberg.com/" target="_blank" rel="noopener noreferrer">Prof. Holly Wiberg</a>. 
+        Hello! I'm a Master's student at
+        <a href="http://stat.ruc.edu.cn/Home/About/Overview/index.htm" target="_blank" rel="noopener noreferrer">School of Statistics</a>,
+        <a href="https://en.ruc.edu.cn/" target="_blank" rel="noopener noreferrer">Renmin University of China</a>
+        under the guidance of
+        <a href="https://hongtengxu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongteng Xu</a>
+        and
+        <a href="https://hollywiberg.com/" target="_blank" rel="noopener noreferrer">Prof. Holly Wiberg</a>.
         My research interests include Bayesian methods, sequential data modeling, and machine learning theory.
       </p>
     </section>
 
-    <!-- Meta -->
+    <!-- Meta（原文不变） -->
     <section id="meta" class="docs-section">
       <h4>Meta</h4>
       <p>
-        This website was built with <a href="https://jekyllrb.com">jekyll</a> based on this 
+        This website was built with <a href="https://jekyllrb.com">jekyll</a> based on this
         <a href="http://web.media.mit.edu/~msaveski/">prototype</a>.
       </p>
     </section>
 
-    <!-- News -->
+    <!-- News（锚点与导航一致） -->
     <section id="prospective-students" class="docs-section">
       <h3 class="section-header">News</h3>
       <ul>
         <li>[{{ "now" | date: "%Y-%m" }}] Website refreshed with NYU theme.</li>
-        <!-- <li>[2025-01] Our paper "XXXX" was accepted to XXXX.</li> -->
+        <!-- 你的更多新闻条目按需补充 -->
       </ul>
     </section>
 
-    <!-- Publications -->
+    <!-- Publications（保留你之前的渲染逻辑） -->
     <section id="publications" class="docs-section">
       <h3 class="section-header">Publications</h3>
 
@@ -75,34 +76,16 @@ title: Home
         {% for p in pubs %}
           <div class="paper">
             <p class="title">
-              {% if p.url %}
-                <a href="{{ p.url }}">{{ p.title }}</a>
-              {% else %}
-                {{ p.title }}
-              {% endif %}
+              {% if p.url %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}
             </p>
-
-            {% if p.authors %}
-              <p class="authors">{{ p.authors }}</p>
-            {% endif %}
-
+            {% if p.authors %}<p class="authors">{{ p.authors }}</p>{% endif %}
             {% if p.venue or p.year %}
-              <p class="venue">
-                {% if p.venue %}{{ p.venue }}{% endif %}
-                {% if p.year %} ({{ p.year }}){% endif %}
-              </p>
+              <p class="venue">{% if p.venue %}{{ p.venue }}{% endif %}{% if p.year %} ({{ p.year }}){% endif %}</p>
             {% endif %}
-
             <div class="paper-buttons">
-              {% if p.url %}
-                <a class="button button-primary" href="{{ p.url }}">Paper</a>
-              {% endif %}
-              {% if p.code %}
-                <a class="button" href="{{ p.code }}">Code</a>
-              {% endif %}
-              {% if p.slides %}
-                <a class="button" href="{{ p.slides }}">Slides</a>
-              {% endif %}
+              {% if p.url %}<a class="button button-primary" href="{{ p.url }}">Paper</a>{% endif %}
+              {% if p.code %}<a class="button" href="{{ p.code }}">Code</a>{% endif %}
+              {% if p.slides %}<a class="button" href="{{ p.slides }}">Slides</a>{% endif %}
             </div>
           </div>
         {% endfor %}
@@ -111,7 +94,7 @@ title: Home
       {% endif %}
     </section>
 
-    <!-- CV -->
+    <!-- CV（原路径可自行改成你的 PDF） -->
     <section id="resume" class="docs-section">
       <h3 class="section-header">CV</h3>
       <p>
