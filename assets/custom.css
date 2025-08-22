@@ -271,4 +271,10 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 
+/* 左侧信息卡里的姓名字号更大 */
+.sidepanel .profile-name{
+  font-size: 26px;   /* 24 -> 28 或 30，按你喜好 */
+  line-height: 1.2;
+}
+
 
