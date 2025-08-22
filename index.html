@@ -5,7 +5,7 @@ title: Home
 
 <div class="row content-with-sidebar">
 
-  <!-- 左侧信息卡 -->
+  <!-- 左侧：信息卡 -->
   <aside class="four columns side-col">
     <div class="sidepanel">
       <img class="portrait" src="{{ site.baseurl }}{{ site.data.main_info.profile_pic }}" alt="profile">
@@ -14,45 +14,63 @@ title: Home
       <ul><li><span class="profile-name">{{ site.data.main_info.name }}</span></li></ul>
 
       <div class="kicker">Email</div>
-      <ul><li><a href="mailto:{{ site.data.main_info.email | strip }}">{{ site.data.main_info.email }}</a></li></ul>
+      <ul>
+        <li><a href="mailto:{{ site.data.main_info.email | strip }}">{{ site.data.main_info.email }}</a></li>
+      </ul>
 
       <div class="kicker">Website</div>
-      <ul><li><a href="{{ site.baseurl }}/">ethanydong.github.io</a></li></ul>
+      <ul>
+        <li><a href="{{ site.baseurl }}/">ethanydong.github.io</a></li>
+      </ul>
 
       <div class="kicker">Links</div>
       <ul>
-        {% if site.data.main_info.github %}<li><a href="{{ site.data.main_info.github }}">GitHub</a></li>{% endif %}
         {% if site.data.main_info.google_scholar %}<li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>{% endif %}
+        {% if site.data.main_info.github %}<li><a href="{{ site.data.main_info.github }}">GitHub</a></li>{% endif %}
         {% if site.data.main_info.linkedin %}<li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>{% endif %}
-        {% if site.data.main_info.twitter %}<li><a href="{{ site.data.main_info.twitter }}">Twitter / X</a></li>{% endif %}
       </ul>
     </div>
   </aside>
 
-  <!-- 右侧正文（保留你的原始内容，不做结构修改） -->
+  <!-- 右侧：你的正文（原样保留） -->
   <div class="eight columns main-col">
 
     <!-- ========== BIO ========== -->
     <div class="docs-section" id="bio">
       <h4>Bio</h4>
       <p>
-        Hello! I'm a Master's student at <a href="http://stat.ruc.edu.cn/Home/About/Overview/index.htm" target="_blank" rel="noopener noreferrer">School of Statistics</a>,  <a href="https://en.ruc.edu.cn/" target="_blank" rel="noopener noreferrer">Renmin University of China</a> under the guidance of <a href="https://hongtengxu.github.io/" target="_blank" rel="noopener noreferrer"> Prof. Hongteng Xu</a> and <a href="http://stat.ruc.edu.cn/Home/People/Faculty/b3a208a052844c1e90df60c6e3f2f3d9.htm" target="_blank" rel="noopener noreferrer"> Prof. Hanfang Yang</a>. I'm also a visiting research intern at Carnegie Mellon University, co-advised by  <a href="https://sites.google.com/view/woodyzhu/home?authuser=0" target="_blank" rel="noopener noreferrer"> Prof. Shixiang (Woody) Zhu</a> and  <a href="https://hwiberg.github.io/" target="_blank" rel="noopener noreferrer"> Prof. Holly Wiberg</a>.
-        My research interests lie in <b>machine learning</b> and <b>statistical theories</b> for <b>sequential data modeling and sequential decision making</b>. Specifically, I focus on  <b>Bayesian methods</b>, <b>point processes</b>, and <b> learning theory</b>.    
-      </p> 
+        Hello! I'm a Master's student at
+        <a href="http://stat.ruc.edu.cn/Home/About/Overview/index.htm" target="_blank" rel="noopener noreferrer">School of Statistics</a>,
+        <a href="https://en.ruc.edu.cn/" target="_blank" rel="noopener noreferrer">Renmin University of China</a>
+        under the guidance of
+        <a href="https://hongtengxu.github.io/" target="_blank" rel="noopener noreferrer"> Prof. Hongteng Xu</a>
+        and
+        <a href="http://stat.ruc.edu.cn/Home/People/Faculty/b3a208a052844c1e90df60c6e3f2f3d9.htm" target="_blank" rel="noopener noreferrer"> Prof. Hanfang Yang</a>.
+        I'm also a visiting research intern at Carnegie Mellon University, co-advised by
+        <a href="https://sites.google.com/view/woodyzhu/home?authuser=0" target="_blank" rel="noopener noreferrer"> Prof. Shixiang (Woody) Zhu</a>
+        and
+        <a href="https://hwiberg.github.io/" target="_blank" rel="noopener noreferrer"> Prof. Holly Wiberg</a>.
+        My research interests lie in <b>machine learning</b> and <b>statistical theories</b> for
+        <b>sequential data modeling and sequential decision making</b>. Specifically, I focus on
+        <b>Bayesian methods</b>, <b>point processes</b>, and <b> learning theory</b>.
+      </p>
     </div>
 
-    <div class="docs-section" id="News">  
+    <div class="docs-section" id="News">
       <h4>News</h4>
       <p><b>I will begin my PhD journey in the fall of 2025! </b></p>
-      <p>I am very willing to discuss intriguing research ideas with fellow researchers and look forward to engaging in in-depth collaboration, particularly in the areas of sequential data modeling and sequential decision making.</p> 
+      <p>
+        I am very willing to discuss intriguing research ideas with fellow researchers and look forward to engaging in in-depth collaboration,
+        particularly in the areas of sequential data modeling and sequential decision making.
+      </p>
     </div>
 
-    <!-- ========== PUBLICATIONS（你的原版 Tab） ========== -->
+    <!-- ========== PUBLICATIONS（保留你原有 Tab 渲染） ========== -->
     <div class="docs-section" id="publications">
       <h4>Publications</h4>
-
-      <!-- <p>Most recent publications on <a href="{{ site.data.main_info.google_scholar }}" target="_blank">Google Scholar</a>.<br/> -->
-      <p>Most recent publications on <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">CV</a>.<br/>
+      <p>
+        Most recent publications on
+        <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">CV</a>.<br/>
         <sup>‡</sup> indicates equal contribution.
       </p>
 
@@ -101,18 +119,19 @@ title: Home
       </div>
     </div>
 
-    <!-- ========== RESUME ========== -->
+    <!-- ========== CV ========== -->
     <div class="docs-section" id="resume">
       <h4>CV</h4>
       <p>Full Resume in <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">PDF</a>.</p>
     </div>
 
+    <!-- ========== Meta ========== -->
     <div class="docs-section" id="template">
       <h4>Meta</h4>
       <p>This website was built with <a href="https://jekyllrb.com">jekyll</a> based on this <a href="http://web.media.mit.edu/~msaveski/">prototype</a>.</p>
     </div>
 
-    <!-- 与顶部索引一致的 News 锚点（保持就近渲染；可留或删，当前有上面的 News 块了） -->
+    <!-- 与顶部导航一致的“News”锚点（保留占位避免链接失效；正文已在上方） -->
     <section id="prospective-students" class="docs-section" style="display:none;"></section>
 
   </div><!-- /.main-col -->
