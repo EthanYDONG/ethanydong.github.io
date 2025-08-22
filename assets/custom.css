@@ -359,3 +359,62 @@ a:hover{ color:#6c2ca2; }
 
 /* 容器宽度兜底 */
 .container, main, .page-content{ max-width:980px; margin:0 auto; padding:0 20px; }
+
+
+/* ===== Patch: full-width footer + fixed sidebar + name styling ===== */
+
+/* 1) 底部紫色条 100% 全屏贯穿（打破 .container 的限制） */
+.footer{
+  background: var(--nyu) !important;
+  color:#fff !important;
+  border-top:none !important;
+  padding:18px 0 26px 0 !important;
+  /* 关键：从居中容器“溢出”到全屏 */
+  width:100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+.footer a, .footer i{ color:#fff !important; text-decoration:none; }
+.footer i:hover{ opacity:.85; }
+.footer .row, .footer .container{ max-width:1280px; margin:0 auto; padding:0 40px; }
+
+/* 2) 顶部紫色条与正文分离一点 */
+.content-with-sidebar{ margin-top: 24px; } /* 需要再大就改成 32px */
+
+/* 3) 左侧信息卡：桌面端固定在视口内，可单独滚动，始终可见 */
+@media (min-width: 960px){
+  .content-with-sidebar{ display:flex; gap:24px; align-items:flex-start; }
+  .side-col{ width:320px; flex:0 0 320px; }
+  .main-col{ flex:1; min-width:0; }
+  .sidepanel{
+    position: sticky;           /* 固定在视口内 */
+    top: 80px;                  /* 距离顶部（避开导航） */
+    height: calc(100vh - 100px);/* 始终占满视口高度（减去顶部间距） */
+    overflow: auto;             /* 内容多时只在卡片内滚动 */
+  }
+}
+/* 卡片基础（若你已有，这里是兜底不会冲突） */
+.sidepanel{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+}
+
+/* 4) 头像尺寸保持稳定 */
+.sidepanel .portrait{
+  display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px;
+}
+
+/* 5) 名字更大、黑色（不使用 NYU 紫） */
+.profile-name{
+  font-size: 24px;       /* 想更大就 26–28px */
+  font-weight: 800;
+  color: #111 !important;
+  line-height: 1.2;
+}
+
+/* 6) 正文里的粗体恢复黑色 */
+.main-col b, .main-col strong{ color:#111 !important; font-weight:700; }
+
