@@ -227,3 +227,46 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   .side-col{ position: sticky !important; top: calc(var(--nav-h) + 12px) !important; }
 }
 
+/* —— 统一把间距调小一点 —— */
+:root{
+  --gap: 24px;  /* 原来是 32px；想再紧一点改 20px 即可 */
+}
+
+/* 768–1023px：两栏（sticky）时，用 gap 控制间距 */
+@media (min-width: 768px) and (max-width: 1023px){
+  .content-with-sidebar{
+    display:flex; justify-content:center; align-items:flex-start;
+    gap: var(--gap);                 /* 用 gap 控制两栏间距 */
+  }
+  .main-col{
+    margin-left: 0 !important;       /* sticky 阶段不额外右移 */
+    max-width: 860px;
+  }
+}
+
+/* ≥1024px：左栏 fixed 时，用 padding-left 预留空间；正文不再右移 */
+@media (min-width: 1024px){
+  .content-with-sidebar{
+    display:block;                   /* 不用 flex，避免居中偏移 */
+    position: relative;
+    padding-left: calc(var(--sidebar) + var(--gap));  /* 预留侧栏+间距 */
+  }
+  .side-col{
+    position: fixed !important;
+    top:  calc(var(--nav-h) + 16px) !important;
+    left: calc(50vw - (var(--wrap) / 2) + var(--gutter)) !important;
+    width: var(--sidebar) !important;
+    z-index: 15;
+  }
+  .main-col{
+    margin-left: 0 !important;       /* 关键：不再叠加右移 */
+    /* 正文最大宽度 = 版心 - 侧栏 - 间距 - 两侧内边距 */
+    max-width: calc(var(--wrap) - var(--sidebar) - var(--gap) - 2*var(--gutter));
+  }
+}
+
+/* 可选：再收窄一点间距的更紧凑版（桌面大屏） */
+@media (min-width: 1440px){
+  :root{ --gap: 20px; }              /* 想更紧凑可以降到 16–20px */
+}
+
