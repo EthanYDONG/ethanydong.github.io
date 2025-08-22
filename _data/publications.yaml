@@ -11,7 +11,7 @@ papers:
     authors: "<b>Yiwei Dong</b>, Tingjin Chu, Lele Zhang, Hadi Ghaderi, Hanfang Yang"
     venue: "Journal of Agricultural, Biological, and Environmental Statistics, 2025. "
     paper_pdf: "https://link.springer.com/article/10.1007/s13253-025-00696-4"
-    code: "https://github.com/EthanYDONG/MelbournePedestrianForecasting"
+    code: "https://link.springer.com/article/10.1007/s13253-025-00696-4"
     selected: y
 
   - title: "Extrapolated Random Tree for Regression"
@@ -32,6 +32,7 @@ papers:
     authors: "Donglin Zhan<sup>‡</sup>, Yusheng Dai<sup>‡</sup>, <b>Yiwei Dong<sup>‡</sup></b>, Jinghai He, Zhenyi Wang, James Anderson"
     venue: "Proceedings of the 2024 SIAM International Conference on Data Mining (SDM). Society for Industrial and Applied Mathematics, 2024."
     paper_pdf: "https://epubs.siam.org/doi/epdf/10.1137/1.9781611978032.59"
+    code: "https://epubs.siam.org/doi/epdf/10.1137/1.9781611978032.59"
     selected: y
 
   - title: "Blind Source Separation-based IVA-Xception Model for Bird Sound Recognition in Complex Acoustic Environments"
