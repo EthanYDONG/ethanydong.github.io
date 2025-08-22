@@ -121,7 +121,6 @@ title: Home
       <p>Full Resume in <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">PDF</a>.</p>
     </div>
 
-    
   <!-- The Timeline -->
   <ul class="timeline">
     {% for exp in site.data.experience.experiences %}
@@ -140,13 +139,16 @@ title: Home
     </li>
     {% endfor %}
   </ul>
-</div>
+  <!-- 注意：这里不要再多一个 </div>，否则会把 .main-col 提前关掉 -->
   
-    <!-- ========== Misc ========== -->
-    <div class="docs-section" id="template">
-      <h4>Misc</h4>
-      <p> I enjoy citywalk and photography:D Looking forward to meeting you in NYC!</p>
-    </div>
+  <!-- ========== Misc ========== -->
+  <div class="docs-section" id="misc">
+    <h4>Misc</h4>
+    <p>I enjoy citywalk and photography:D <br> Looking forward to meeting you in NYC!</p>
+  </div>
+
+
+
 
     <!-- 与顶部导航一致的“News”锚点（保留占位避免链接失效；正文已在上方） -->
     <section id="prospective-students" class="docs-section" style="display:none;"></section>
