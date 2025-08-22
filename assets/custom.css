@@ -148,36 +148,75 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
   .sidepanel{ height:auto; }
 }
 
-/* ===== 固定侧栏：永远可见（桌面宽屏） ===== */
+/* ================== 固定参数（和你当前布局一致） ================== */
+:root{
+  --wrap: 1200px;     /* 版心最大宽度：你现在 container 的 max-width */
+  --gutter: 20px;     /* container 左右内边距 */
+  --nav-h: 64px;      /* 顶部紫条高度（你现在的值） */
+  --sidebar: 340px;   /* 左侧信息卡宽度（你现在的宽） */
+  --gap: 32px;        /* 侧栏与正文的间距 */
+}
 
-/* 说明：
-   - 你的版心 max-width:1200px，左右 padding 20px；
-   - 侧栏宽度 340px，两栏间 gap 32px（和你现在一致）。
-   - 因此 fixed 侧栏的 left = 屏幕中线 - 版心半宽 + 左 padding。
-*/
+/* ================== 桌面端：侧栏固定，始终可见 ================== */
+/* 只在宽屏生效（≥1200px）。中等屏继续走你原来的 sticky，小屏单栏 */
 @media (min-width: 1200px){
-  /* 用 fixed 把侧栏“钉”在屏幕上 */
+
+  /* 把侧栏“钉”在屏幕左侧：不会跟着正文滚动而消失 */
   .side-col{
     position: fixed !important;
-    top: calc(var(--nav-h) + 16px);   /* 避开顶部紫条，保留 16px 呼吸 */
-    left: calc(50% - 600px + 20px);  /* 600=1200/2；20=container 左内边距 */
-    width: 340px;                     /* 和原来一致 */
-    z-index: 15;                      /* 保证在正文之上 */
+    top: calc(var(--nav-h) + 16px);                        /* 避开顶部紫条，再留 16px 呼吸 */
+    left: calc(50vw - (var(--wrap) / 2) + var(--gutter));  /* 居中版心的左边缘 + 左内边距 */
+    width: var(--sidebar);
+    z-index: 15;
   }
-  /* 侧栏固定后，正文让出空间：侧栏宽度(340) + 两栏间距(32) */
-  .main-col{
-    margin-left: calc(340px + 32px) !important;
-    max-width: 800px;                 /* 你原来的正文宽度 */
-  }
-  /* 固定侧栏时，卡片内部可独立滚动；高度=视口高-顶部留白 */
+
+  /* 卡片本身占满视口高度并允许内部滚动（“贯穿”效果） */
   .sidepanel{
+    position: static !important;   /* 由 .side-col 固定，不再 sticky */
     height: calc(100vh - var(--nav-h) - 32px);
     overflow: auto;
   }
+
+  /* 正文整体向右挪出侧栏+间距的宽度 */
+  .main-col{
+    margin-left: calc(var(--sidebar) + var(--gap)) !important;
+    max-width: 800px;              /* 你当前正文阅读宽度 */
+  }
 }
 
-/* 960–1199px：仍用 sticky（你已有的样式即可），这里兜底确保祖先没截断 */
+/* 960–1199px：仍使用你原来的 sticky，确保祖先不截断 */
 @media (min-width:960px) and (max-width:1199px){
   .content-with-sidebar{ overflow: visible !important; }
 }
+
+/* ================== 底部紫色条：始终水平全宽 + 文本垂直居中 ================== */
+/* 保持你已设置的 fixed，如果你还没 fixed，可取消下一行注释 */
+// .footer{ position: fixed; bottom:0; left:0; right:0; }
+
+.footer{
+  height: 64px;                         /* 和顶部一致的高度，便于对齐 */
+  display: flex; align-items: center;   /* 让条内的内容垂直居中 */
+  background: #57068C !important;
+  color:#fff !important;
+  border-top: none !important;
+  z-index: 999;
+}
+
+/* 让 footer 内层容器填满高度并居中分布 */
+.footer .container, .footer .row{
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;                  /* 关键：子元素垂直居中 */
+  justify-content: space-between;       /* 左右分散 */
+  padding: 0 40px;
+}
+
+/* 防止文字基线造成看起来“靠上” */
+.footer *{ line-height: 1; }
+
+/* 如果你的正文被固定 footer 遮住，给页面底部留出空间 */
+body{ padding-bottom: 64px; }
 
