@@ -167,3 +167,22 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     flex: 0 0 var(--sidebar) !important;
   }
 }
+
+/* === 全局右移微调量（正数 = 向右；负数 = 向左） === */
+:root{
+  --x-nudge: 16px;   /* 自己改：8/12/16/20px 都可以 */
+}
+
+/* ≥900px 生效（你的两栏断点） */
+@media (min-width: 900px){
+  /* 1) 固定侧栏整体右移一点 */
+  .side-col{
+    left: calc(50vw - (var(--wrap) / 2) + var(--gutter) + var(--x-nudge)) !important;
+  }
+
+  /* 2) 右侧正文容器也右移同样的量（用内边距更稳） */
+  .content-with-sidebar{
+    padding-left: var(--x-nudge) !important;
+  }
+}
+
