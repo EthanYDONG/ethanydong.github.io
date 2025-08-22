@@ -1,51 +1,4 @@
-<div class="row content-with-sidebar">
-  <!-- 左侧：信息栏 -->
-  <aside class="four columns side-col">
-    <div class="sidepanel">
-      <img class="portrait" src="{{ site.baseurl }}{{ site.data.main_info.profile_pic }}" alt="profile">
-      <div class="kicker">Email</div>
-      <ul>
-        <li><a href="mailto:{{ site.data.main_info.email | strip }}">{{ site.data.main_info.email }}</a></li>
-      </ul>
-
-      <div class="kicker">Website</div>
-      <ul>
-        <li><a href="{{ site.baseurl }}/">ethanydong.github.io</a></li>
-      </ul>
-
-      <div class="kicker">Links</div>
-      <ul>
-        <li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>
-        <li><a href="{{ site.data.main_info.github }}">GitHub</a></li>
-        <li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>
-      </ul>
-    </div>
-  </aside>
-
-  <!-- 右侧：你的正文（Bio/News/Publs/…） -->
-  <div class="eight columns main-col">
-    <!-- 这里放你原来的内容（Bio / Publications 等） -->
-  </div>
-</div>
-
-/* 1) 防止任何地方再显示默认 header */
-.header{ display:none !important; }
-
-
-.sidepanel .portrait{
-  display:block;
-  width:100%;
-  height:auto;           /* 不强行拉伸 */
-  object-fit:cover;      /* 如果你以后设定固定高度，也不会变形 */
-  border-radius:6px;
-}
-
-/* 3) 保证内容区没有奇怪的背景 */
-.docs-section{ background:none !important; }
-
-/* ================= NYU top bar + sidebar layout (FINAL) ================ */
-
-/* 主题色 */
+/* =================== Global & Resets =================== */
 :root{
   --nyu:#57068C;
   --nyu-dark:#43056c;
@@ -53,7 +6,24 @@
   --border:#e5e7eb;
 }
 
-/* ---- 顶部导航（强制紫色 + 吸顶 + 白字） ---- */
+/* 关闭主题自带头像 Header，避免重复/顶到正文 */
+.header{ display:none !important; }
+
+/* 不要任何背景图干扰正文 */
+.docs-section{ background:none !important; }
+
+/* 统一容器宽度（skeleton 会在 .container 上限制宽度） */
+.container, main, .page-content{
+  max-width:980px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* 链接默认使用 NYU 紫 */
+a{ color:var(--nyu); }
+a:hover{ color:#6c2ca2; }
+
+/* =================== Top Navbar =================== */
 body .navbar{
   display:block !important;
   position:sticky;
@@ -66,44 +36,36 @@ body .navbar{
   box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 body .navbar-spacer{ display:none !important; }
-
 body .navbar > .container{
   width:100% !important;
   min-height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:center;  /* 你的导航只有一组链接，居中就好 */
+  display:flex; align-items:center; justify-content:center;
   padding:0 16px;
 }
-
-/* skeleton 原来用 float；我们统一成 flex */
 body .navbar-list{
-  list-style:none;
-  display:flex;
-  gap:24px;
+  list-style:none; display:flex; gap:24px;
   margin:0; padding:0;
 }
 body .navbar-item{ float:none !important; margin:0; }
 body .navbar-link{
-  color:#fff !important;
-  font-weight:600;
-  text-decoration:none;
-  padding:8px 6px;
-  line-height:1;
-  letter-spacing:.12rem;
-  text-transform:uppercase;
-  border-radius:6px;
+  color:#fff !important; font-weight:600;
+  text-decoration:none; padding:8px 6px; line-height:1;
+  letter-spacing:.12rem; text-transform:uppercase; border-radius:6px;
 }
-body .navbar-link:hover,
-body .navbar-link:focus{ background:var(--nyu-dark); color:#fff !important; }
+body .navbar-link:hover, body .navbar-link:focus{
+  background:var(--nyu-dark); color:#fff !important;
+}
 
-/* 小屏自适应 */
+/* 顶栏与正文留出距离 */
+.content-with-sidebar{ margin-top:24px; }
+
+/* 小屏导航换行 */
 @media (max-width:749px){
   body .navbar > .container{ flex-wrap:wrap; gap:6px 12px; }
   body .navbar-list{ flex-wrap:wrap; justify-content:center; gap:12px 16px; }
 }
 
-/* ---- 两栏布局：左侧信息卡 + 右侧正文 ---- */
+/* =================== Two-Column Layout =================== */
 .content-with-sidebar{ display:block; }
 @media (min-width:960px){
   .content-with-sidebar{ display:flex; gap:24px; align-items:flex-start; }
@@ -111,7 +73,7 @@ body .navbar-link:focus{ background:var(--nyu-dark); color:#fff !important; }
   .main-col{ flex:1; min-width:0; }
 }
 
-/* 信息卡（浅灰底 + 细边框 + 阴影） */
+/* 信息卡（贯穿视口高度 + 粘顶 + 内部可滚动） */
 .sidepanel{
   background:var(--panel);
   border:1px solid var(--border);
@@ -120,22 +82,27 @@ body .navbar-link:focus{ background:var(--nyu-dark); color:#fff !important; }
   box-shadow:0 6px 18px rgba(0,0,0,.06);
 }
 @media (min-width:960px){
-  .sidepanel{ position:sticky; top:96px; }
+  .sidepanel{
+    position:sticky;       /* 固定在视口 */
+    top:80px;              /* 顶部预留给紫条 */
+    height:calc(100vh - 100px); /* 贯穿视口高度 */
+    overflow:auto;         /* 内容多时卡片内滚动 */
+  }
 }
 
-/* 头像：固定高度，避免像背景那样铺满 */
+/* 头像尺寸与裁切 */
 .sidepanel .portrait{
   display:block;
   width:100%;
-  height:220px;
+  height:220px;           /* 固定高度避免被当做背景铺满 */
   object-fit:cover;
-  border-radius:6px;
+  border-radius:8px;
   margin-bottom:12px;
 }
 
-/* 信息卡里的小标题与列表 */
+/* 卡片内标题与列表 */
 .kicker{
-  margin-top:24px; margin-bottom:10px;
+  margin-top:20px; margin-bottom:8px;
   font-size:12px; font-weight:700;
   letter-spacing:.12rem; text-transform:uppercase;
   color:#111827;
@@ -145,276 +112,56 @@ body .navbar-link:focus{ background:var(--nyu-dark); color:#fff !important; }
 .sidepanel a{ text-decoration:none; }
 .sidepanel a:hover{ text-decoration:underline; }
 
-/* 正文区分隔与标题风格（接近图二） */
-.section-header{
-  text-transform:uppercase;
-  letter-spacing:.18rem;
-  font-size:1.1rem;
+/* 名字更大、黑色醒目 */
+.profile-name{
+  font-size:24px;
+  font-weight:800;
+  color:#111 !important;
+  line-height:1.2;
+}
+
+/* =================== Main Content =================== */
+/* 小节标题（让 News / Publications / CV 与 Meta 一致） */
+.docs-section > h4, .section-header{
+  font-size:2rem;
+  font-weight:700;
+  letter-spacing:.02rem;
+  text-transform:none;
+  margin:0 0 .8rem;
+}
+
+/* 正文粗体统一黑色 */
+.main-col b, .main-col strong{
+  color:#111 !important;
   font-weight:700;
 }
+
+/* 各小节分隔线与内边距 */
 .docs-section{
   padding:2rem 0;
   border-top:1px solid var(--border);
-  background:none !important;   /* 防止任何背景图 */
 }
 
-/* 基础链接配色用 NYU 紫 */
-a{ color:var(--nyu); }
-a:hover{ color:#6c2ca2; }
+/* =================== Publications（按钮保持原主题样式即可） =================== */
+/* 如需 Tab 激活态紫色，可取消注释：
+.tab-nav .button.active{ background:var(--nyu); color:#fff; border-color:var(--nyu); }
+*/
 
-/* 兜底隐藏旧 header（若 default.html 未注释也不再显示） */
-.header{ display:none !important; }
-
-/* 容器宽度兜底 */
-.container, main, .page-content{
-  max-width:980px; margin:0 auto; padding:0 20px;
-}
-
-/* ================= NYU Tweaks (final) ================= */
-:root{
-  --nyu:#57068C;
-  --nyu-dark:#43056c;
-  --panel:#f2f2f4;
-  --border:#e5e7eb;
-}
-
-/* 顶部索引条：始终 NYU 紫 + 吸顶 + 白字 */
-body .navbar{
-  display:block !important;
-  position:sticky;
-  top:0;
-  z-index:1000;
-  width:100%;
-  height:64px;
-  background:var(--nyu) !important;
-  border:none !important;
-  box-shadow:0 2px 10px rgba(0,0,0,.06);
-}
-body .navbar-spacer{display:none !important;}
-body .navbar > .container{
-  width:100% !important;
-  min-height:64px;
-  display:flex; align-items:center; justify-content:center;
-  padding:0 16px;
-}
-body .navbar-list{list-style:none; display:flex; gap:24px; margin:0; padding:0;}
-body .navbar-item{float:none !important; margin:0;}
-body .navbar-link{
-  color:#fff !important; font-weight:600; letter-spacing:.12rem;
-  text-transform:uppercase; text-decoration:none; padding:8px 6px; line-height:1; border-radius:6px;
-}
-body .navbar-link:hover{background:var(--nyu-dark); color:#fff !important;}
-@media (max-width:749px){
-  body .navbar > .container{flex-wrap:wrap; gap:6px 12px;}
-  body .navbar-list{flex-wrap:wrap; justify-content:center; gap:12px 16px;}
-}
-
-/* 左侧信息卡：贯穿页面（初始就占满视口高度），滚动时吸顶 */
-.content-with-sidebar{display:block;}
-@media (min-width:960px){
-  .content-with-sidebar{display:flex; gap:24px; align-items:flex-start;}
-  .side-col{width:320px; flex:0 0 320px;}
-  .main-col{flex:1; min-width:0;}
-}
-.sidepanel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,.06);
-  min-height:calc(100vh - 140px);   /* 贯穿视口高度 */
-}
-@media (min-width:960px){
-  .sidepanel{ position:sticky; top:96px; }
-}
-.sidepanel .portrait{
-  display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px;
-}
-.kicker{
-  margin-top:24px; margin-bottom:6px;
-  font-size:12px; font-weight:700; letter-spacing:.12rem; text-transform:uppercase; color:#111827;
-}
-.sidepanel ul{list-style:none; padding:0; margin:4px 0 10px;}
-.sidepanel li{margin:6px 0;}
-.sidepanel a{text-decoration:none;}
-.sidepanel a:hover{text-decoration:underline;}
-
-/* 正文小节与标题（保持原结构，细化样式） */
-.docs-section{padding:2rem 0; border-top:1px solid var(--border); background:none !important;}
-.section-header, .docs-section > h4{
-  text-transform:uppercase; letter-spacing:.18rem; font-weight:700;
-}
-/* 正文粗体字使用 NYU 紫 */
-.main-col b, .main-col strong{ color:var(--nyu); font-weight:700; }
-
-/* 链接默认用 NYU 紫 */
-a{color:var(--nyu);}
-a:hover{color:#6c2ca2;}
-
-/* 兜底隐藏旧 header（防重复头像） */
-.header{display:none !important;}
-
-/* 容器宽度兜底 */
-.container, main, .page-content{max-width:980px; margin:0 auto; padding:0 20px;}
-
-/* 底部紫色条（覆盖原 footer） */
+/* =================== Full-width Footer =================== */
 .footer{
   background:var(--nyu) !important;
   color:#fff !important;
   border-top:none !important;
   padding:18px 0 26px 0 !important;
-}
-.footer a{color:#fff !important; text-decoration:underline;}
-.footer i{color:#fff !important;}
-.footer i:hover{opacity:.85;}
 
-
-/* ====== Final fixes & polish ====== */
-:root{ --nyu:#57068C; --nyu-dark:#43056c; --panel:#f2f2f4; --border:#e5e7eb; }
-
-/* 顶栏与正文别挤在一起：给内容一个顶部外边距 */
-.content-with-sidebar{ margin-top: 36px; }
-
-/* 顶部导航保持 NYU 紫 + 吸顶（若你已加过，下面是兜底并不会冲突） */
-body .navbar{
-  display:block !important; position:sticky; top:0; z-index:1000;
-  width:100%; height:64px; background:var(--nyu) !important; border:none !important;
-  box-shadow:0 2px 10px rgba(0,0,0,.06);
-}
-body .navbar-spacer{display:none !important;}
-body .navbar > .container{ width:100% !important; min-height:64px;
-  display:flex; align-items:center; justify-content:center; padding:0 16px; }
-body .navbar-list{list-style:none; display:flex; gap:24px; margin:0; padding:0;}
-body .navbar-item{float:none !important; margin:0;}
-body .navbar-link{color:#fff !important; font-weight:600; letter-spacing:.12rem;
-  text-transform:uppercase; text-decoration:none; padding:8px 6px; line-height:1; border-radius:6px;}
-body .navbar-link:hover{background:var(--nyu-dark); color:#fff !important;}
-@media (max-width:749px){
-  body .navbar > .container{flex-wrap:wrap; gap:6px 12px;}
-  body .navbar-list{flex-wrap:wrap; justify-content:center; gap:12px 16px;}
-}
-
-/* 左侧信息卡：贯穿视口高度 + 粘顶 */
-@media (min-width:960px){
-  .content-with-sidebar{display:flex; gap:24px; align-items:flex-start;}
-  .side-col{width:320px; flex:0 0 320px;}
-  .main-col{flex:1; min-width:0;}
-}
-.sidepanel{ background:var(--panel); border:1px solid var(--border); border-radius:12px;
-  padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.06); min-height:calc(100vh - 140px); }
-@media (min-width:960px){ .sidepanel{ position:sticky; top:96px; } }
-.sidepanel .portrait{ display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px; }
-.kicker{ margin-top:36px; margin-bottom:6px; font-size:12px; font-weight:700; letter-spacing:.12rem; text-transform:uppercase; color:#111827; }
-.sidepanel ul{ list-style:none; padding:0; margin:4px 0 10px; }
-.sidepanel li{ margin:6px 0; }
-.sidepanel a{ text-decoration:none; }
-.sidepanel a:hover{ text-decoration:underline; }
-/* 名字更大更醒目 */
-.profile-name{ font-size:20px; font-weight:800; }
-
-/* 正文标题——让 News/ Publica­tions/ CV 看起来与 Meta 一样（更大，不全大写） */
-.docs-section > h4, .section-header{
-  font-size:2rem; font-weight:700; letter-spacing:.02rem; text-transform:none; margin:0 0 .8rem;
-}
-
-/* 粗体字统一 NYU 紫 */
-.main-col b, .main-col strong{ color:var(--nyu); font-weight:700; }
-
-/* Link 颜色 */
-a{ color:var(--nyu); }
-a:hover{ color:#6c2ca2; }
-
-
-/* Footer 全宽紫色条 */
-.footer{
-  width:100%;                  /* 占满整行 */
-  background:var(--nyu) !important;
-  color:#fff !important;
-  border-top:none !important;
-  padding:18px 0 26px 0 !important;
-  margin-top:40px;             /* 和正文稍微分开一点 */
-}
-
-.footer .row,
-.footer .container{
-  max-width:100% !important;   /* 覆盖 skeleton 的 container 限制 */
-  margin:0 auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 40px;              /* 左右内边距 */
-}
-
-.footer a,
-.footer i{
-  color:#fff !important;
-  text-decoration:none;
-}
-
-.footer i:hover{ opacity:.85; }
-
-
-/* 隐藏旧 header（防止又顶一块头像） */
-.header{ display:none !important; }
-
-/* 容器宽度兜底 */
-.container, main, .page-content{ max-width:980px; margin:0 auto; padding:0 20px; }
-
-
-/* ===== Patch: full-width footer + fixed sidebar + name styling ===== */
-
-/* 1) 底部紫色条 100% 全屏贯穿（打破 .container 的限制） */
-.footer{
-  background: var(--nyu) !important;
-  color:#fff !important;
-  border-top:none !important;
-  padding:18px 0 26px 0 !important;
-  /* 关键：从居中容器“溢出”到全屏 */
+  /* 关键：从 .container 溢出到全屏（与顶部宽度一致） */
   width:100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
 }
 .footer a, .footer i{ color:#fff !important; text-decoration:none; }
 .footer i:hover{ opacity:.85; }
-.footer .row, .footer .container{ max-width:1280px; margin:0 auto; padding:0 40px; }
-
-/* 2) 顶部紫色条与正文分离一点 */
-.content-with-sidebar{ margin-top: 24px; } /* 需要再大就改成 32px */
-
-/* 3) 左侧信息卡：桌面端固定在视口内，可单独滚动，始终可见 */
-@media (min-width: 960px){
-  .content-with-sidebar{ display:flex; gap:24px; align-items:flex-start; }
-  .side-col{ width:320px; flex:0 0 320px; }
-  .main-col{ flex:1; min-width:0; }
-  .sidepanel{
-    position: sticky;           /* 固定在视口内 */
-    top: 80px;                  /* 距离顶部（避开导航） */
-    height: calc(100vh - 100px);/* 始终占满视口高度（减去顶部间距） */
-    overflow: auto;             /* 内容多时只在卡片内滚动 */
-  }
+.footer .row, .footer .container{
+  max-width:1280px; margin:0 auto; padding:0 40px;
+  display:flex; justify-content:space-between; align-items:center;
 }
-/* 卡片基础（若你已有，这里是兜底不会冲突） */
-.sidepanel{
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.06);
-}
-
-/* 4) 头像尺寸保持稳定 */
-.sidepanel .portrait{
-  display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px;
-}
-
-/* 5) 名字更大、黑色（不使用 NYU 紫） */
-.profile-name{
-  font-size: 24px;       /* 想更大就 26–28px */
-  font-weight: 800;
-  color: #111 !important;
-  line-height: 1.2;
-}
-
-/* 6) 正文里的粗体恢复黑色 */
-.main-col b, .main-col strong{ color:#111 !important; font-weight:700; }
-
