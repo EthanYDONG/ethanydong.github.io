@@ -1,16 +1,24 @@
 /* =================== Global & Resets =================== */
 *{ box-sizing: border-box; }
+html,body{ margin:0; padding:0; overflow-x:hidden; }
+/* 预留滚动条槽，防止出现/消失时宽度抖动 */
+html{ scrollbar-gutter: stable both-edges; }
+
+/* 主题色 & 布局变量 */
 :root{
   --nyu:#57068C;
   --nyu-dark:#43056c;
   --panel:#f2f2f4;
   --border:#e5e7eb;
-  --nav-h:64px;
-  --footer-h:64px;
+
+  --wrap: 1200px;      /* 版心最大宽度 */
+  --gutter: 20px;      /* container 左右内边距 */
+  --nav-h: 64px;       /* 顶部紫条高度 */
+  --footer-h: 64px;    /* 底部紫条高度 */
+
+  --sidebar: 280px;    /* 左侧信息卡宽度（调窄，避免压缩正文） */
+  --gap: 32px;         /* 侧栏与正文间距 */
 }
-html,body{ margin:0; padding:0; overflow-x:hidden; }
-/* 预留滚动条槽，防止出现/消失时宽度抖动 */
-html{ scrollbar-gutter: stable both-edges; }
 
 /* 彻底清掉任何可能画紫条的伪元素或旧饰条 */
 body::before, body::after,
@@ -19,26 +27,26 @@ body::before, body::after,
   display:none !important;
 }
 
-/* 主题自带头像头部隐藏，避免占位 */
+/* 主题自带头像头部隐藏，避免占位/重复 */
 .header{ display:none !important; }
 
-/* 链接颜色 */
+/* 链接配色 */
 a{ color:var(--nyu); }
 a:hover{ color:#6c2ca2; }
 
-/* 正文不要背景图 */
-.docs-section{ background:none !important; }
-
-/* 版心：让右侧正文居中 */
+/* 版心（右侧正文居中） */
 .container, main, .page-content{
-  max-width:1200px;
+  max-width:var(--wrap);
   margin:0 auto;
-  padding:0 20px;
+  padding:0 var(--gutter);
 }
+
+/* 正文不允许任何背景干扰 */
+.docs-section{ background:none !important; }
 
 /* =================== Top Navbar（贴顶 & 横穿全屏） =================== */
 .navbar{
-  position:fixed !important;  /* 确保覆盖任何 position:static */
+  position:fixed !important;
   top:0; left:0; right:0;
   height:var(--nav-h);
   background:var(--nyu) !important;
@@ -46,7 +54,7 @@ a:hover{ color:#6c2ca2; }
   border:none !important;
   box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
-.navbar-spacer{ display:none !important; } /* 不再用 spacer */
+.navbar-spacer{ display:none !important; }
 
 /* 导航内部居中排列 */
 .navbar > .container{
@@ -67,24 +75,23 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
 
 /* =================== 左侧信息卡 + 右侧正文 =================== */
 .content-with-sidebar{ margin-top:16px; }
+
+/* 中屏：两栏 + 粘顶侧栏 */
 @media (min-width:960px){
   .content-with-sidebar{
     display:flex; justify-content:center; gap:32px; align-items:flex-start;
   }
-  /* 让整列粘在视口里：始终可见 */
   .side-col{
-    flex:0 0 340px;
+    flex:0 0 var(--sidebar);
     position:sticky;
     top:calc(var(--nav-h) + 16px);
     align-self:flex-start;
     z-index:10;
   }
   .main-col{
-    flex:1; max-width:800px; min-width:0;
+    flex:1; max-width:860px; min-width:0; /* 给正文足够空间 */
   }
-  /* 信息卡内部可滚动（内容再多也不会“掉出视口”） */
   .sidepanel{
-    position:static;
     height:calc(100vh - var(--nav-h) - 32px);
     overflow:auto;
     background:var(--panel);
@@ -95,13 +102,27 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
   }
 }
 
-/* 头像稳定尺寸 */
+/* 宽屏：侧栏固定在视口（始终可见），正文右移 */
+@media (min-width:1200px){
+  .side-col{
+    position: fixed !important;
+    top: calc(var(--nav-h) + 16px);
+    left: calc(50vw - (var(--wrap) / 2) + var(--gutter));
+    width: var(--sidebar);
+    z-index: 15;
+  }
+  .sidepanel{ position: static !important; } /* 固定交给 .side-col 处理 */
+  .main-col{
+    margin-left: calc(var(--sidebar) + var(--gap)) !important;
+    max-width: 860px;
+  }
+}
+
+/* 左栏头像与内容样式 */
 .sidepanel .portrait{
   display:block; width:100%; height:220px; object-fit:cover;
   border-radius:10px; margin-bottom:12px;
 }
-
-/* 卡片小标题与列表 */
 .kicker{
   margin:20px 0 8px; font-size:12px; font-weight:700;
   letter-spacing:.12rem; text-transform:uppercase; color:#111827;
@@ -110,8 +131,6 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
 .sidepanel li{ margin:6px 0; }
 .sidepanel a{ text-decoration:none; }
 .sidepanel a:hover{ text-decoration:underline; }
-
-/* 名字更大、黑色醒目 */
 .profile-name{ font-size:24px; font-weight:800; color:#111 !important; line-height:1.2; }
 
 /* =================== 正文样式 =================== */
@@ -124,99 +143,32 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
 
 /* =================== Bottom Footer（贴底 & 横穿全屏） =================== */
 .footer{
-  position:fixed !important; /* 覆盖任何 static 规则 */
+  position:fixed !important;
   bottom:0; left:0; right:0;
   height:var(--footer-h);
   background:var(--nyu) !important;
   color:#fff !important;
   border-top:none !important;
   z-index:999;
-  display:flex; align-items:center;
+  display:flex; align-items:center;  /* 垂直居中 */
 }
 .footer .container, .footer .row{
-  max-width:1200px; margin:0 auto; width:100%;
-  display:flex; justify-content:space-between; align-items:center;
-  padding:0 20px;
+  width:100%;
+  max-width:var(--wrap);
+  margin:0 auto;
+  height:100%;
+  display:flex;
+  align-items:center;               /* 关键：子元素垂直居中 */
+  justify-content:space-between;
+  padding:0 var(--gutter);
 }
 .footer a, .footer i{ color:#fff !important; text-decoration:none; }
 .footer i:hover{ opacity:.85; }
+.footer *{ line-height:1; }         /* 防止基线导致看起来“靠上” */
 
 /* =================== 小屏优化 =================== */
 @media (max-width:749px){
   .navbar > .container{ flex-wrap:wrap; gap:12px; }
   .navbar-list{ flex-wrap:wrap; justify-content:center; gap:12px 16px; }
-  .sidepanel{ height:auto; }
+  .sidepanel{ height:auto; }  /* 小屏单栏自然流动 */
 }
-
-/* ================== 固定参数（和你当前布局一致） ================== */
-:root{
-  --wrap: 1200px;     /* 版心最大宽度：你现在 container 的 max-width */
-  --gutter: 20px;     /* container 左右内边距 */
-  --nav-h: 64px;      /* 顶部紫条高度（你现在的值） */
-  --sidebar: 340px;   /* 左侧信息卡宽度（你现在的宽） */
-  --gap: 32px;        /* 侧栏与正文的间距 */
-}
-
-/* ================== 桌面端：侧栏固定，始终可见 ================== */
-/* 只在宽屏生效（≥1200px）。中等屏继续走你原来的 sticky，小屏单栏 */
-@media (min-width: 1200px){
-
-  /* 把侧栏“钉”在屏幕左侧：不会跟着正文滚动而消失 */
-  .side-col{
-    position: fixed !important;
-    top: calc(var(--nav-h) + 16px);                        /* 避开顶部紫条，再留 16px 呼吸 */
-    left: calc(50vw - (var(--wrap) / 2) + var(--gutter));  /* 居中版心的左边缘 + 左内边距 */
-    width: var(--sidebar);
-    z-index: 15;
-  }
-
-  /* 卡片本身占满视口高度并允许内部滚动（“贯穿”效果） */
-  .sidepanel{
-    position: static !important;   /* 由 .side-col 固定，不再 sticky */
-    height: calc(100vh - var(--nav-h) - 32px);
-    overflow: auto;
-  }
-
-  /* 正文整体向右挪出侧栏+间距的宽度 */
-  .main-col{
-    margin-left: calc(var(--sidebar) + var(--gap)) !important;
-    max-width: 800px;              /* 你当前正文阅读宽度 */
-  }
-}
-
-/* 960–1199px：仍使用你原来的 sticky，确保祖先不截断 */
-@media (min-width:960px) and (max-width:1199px){
-  .content-with-sidebar{ overflow: visible !important; }
-}
-
-/* ================== 底部紫色条：始终水平全宽 + 文本垂直居中 ================== */
-/* 保持你已设置的 fixed，如果你还没 fixed，可取消下一行注释 */
-// .footer{ position: fixed; bottom:0; left:0; right:0; }
-
-.footer{
-  height: 64px;                         /* 和顶部一致的高度，便于对齐 */
-  display: flex; align-items: center;   /* 让条内的内容垂直居中 */
-  background: #57068C !important;
-  color:#fff !important;
-  border-top: none !important;
-  z-index: 999;
-}
-
-/* 让 footer 内层容器填满高度并居中分布 */
-.footer .container, .footer .row{
-  width: 100%;
-  max-width: var(--wrap);
-  margin: 0 auto;
-  height: 100%;
-  display: flex;
-  align-items: center;                  /* 关键：子元素垂直居中 */
-  justify-content: space-between;       /* 左右分散 */
-  padding: 0 40px;
-}
-
-/* 防止文字基线造成看起来“靠上” */
-.footer *{ line-height: 1; }
-
-/* 如果你的正文被固定 footer 遮住，给页面底部留出空间 */
-body{ padding-bottom: 64px; }
-
