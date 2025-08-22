@@ -13,7 +13,7 @@ html { scrollbar-gutter: stable both-edges; }
   --wrap: 1200px;     /* 版心最大宽度（正文居中用） */
   --gutter: 20px;     /* container 左右内边距 */
   --nav-h: 64px;      /* 顶部紫条高度 */
-  --footer-h: 70px;   /* 底部紫条高度（略大，便于居中） */
+  --footer-h: 68px;   /* 底部紫条高度（略大，便于居中） */
 
   --sidebar: 240px;   /* 侧栏固定宽度（觉得宽就改 220px） */
   --gap: 28px;        /* 侧栏与正文间距 */
@@ -250,7 +250,7 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   top: -6px; white-space: nowrap;
 }
 .timeline .direction-r .time-wrapper { 
-  left: calc(var(--line-x) + 20px);   /* 中线右侧 24px */
+  left: calc(var(--line-x) + 16px);   /* 中线右侧 24px */
   right: auto !important;
 }
 .timeline .direction-l .time-wrapper { 
@@ -273,7 +273,7 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 }
 
 .navbar-link {
-  font-size: 16px !important;   /* 默认可能是14px，这里调大 */
+  font-size: 15px !important;   /* 默认可能是14px，这里调大 */
   font-weight: 600;
   letter-spacing: .12rem;
 }
