@@ -281,7 +281,7 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 /* ===== Timeline gap & alignment fine-tuning ===== */
 
 /* 统一一个“离中线的间距”变量，左右一致 */
-.timeline{ --gap: 44.7px; }  /* 想更近就减小这个数，想更远就增大 */
+.timeline{ --gap: 44.77px; }  /* 想更近就减小这个数，想更远就增大 */
 
 /* 两侧都只用 padding 控制到中线的距离（覆盖模板里的旧 margin） */
 .timeline .direction-l{ padding-right: var(--gap) !important; }
@@ -307,6 +307,6 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 
 /* —— 如果右侧仍然“看着更远”，用一个极小的 nudge 微调 —— */
 /* 负值往中线靠，正值远离中线；一般 -4px ～ -8px 就够了 */
-.timeline .direction-r{ transform: translateX(-8px); }
+.timeline .direction-r{ transform: translateX(-7px); }
 
 
