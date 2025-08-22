@@ -186,90 +186,7 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 
-/* === 时间线：中轴恒定在正中、圆点对齐、内容不再撑歪 === */
 
-/* 外层容器 */
-.timeline{
-  position: relative;
-  margin: 0 auto;
-  padding: 12px 0;
-}
-
-/* 中轴线固定在正中（不受内容宽度影响） */
-.timeline::before{
-  content:"";
-  position:absolute;
-  top:0; bottom:0;
-  left:50%;
-  transform: translateX(-50%);
-  width:4px;
-  background:#444;           /* 轴线颜色 */
-  border-radius:2px;
-}
-
-/* 每个节点用 3 列的 Grid：左列 / 中间轴列 / 右列 */
-.timeline-item{
-  position:relative;
-  display:grid;
-  grid-template-columns: 1fr 36px 1fr; /* 中间 36px 作为“轴&圆点”的专用列 */
-  align-items:center;
-  gap:18px;                  /* 左右与中间的间距 */
-  margin: 18px 0;
-}
-
-/* 中间列：圆点 */
-.timeline-axis{
-  grid-column:2;
-  position:relative;
-  height:100%;
-  display:flex;
-  align-items:center;        /* 垂直居中圆点 */
-  justify-content:center;    /* 水平居中圆点（贴轴心） */
-  pointer-events:none;
-}
-.timeline-dot{
-  width:14px; height:14px;
-  background:#fff;
-  border:4px solid var(--nyu, #57068C);
-  border-radius:50%;
-  box-shadow:0 0 0 4px #fff; /* 让点和轴线之间有“白边”更清晰，可去掉 */
-  z-index:2;
-}
-
-/* 文字容器：根据左右方向放在 1 或 3 列 */
-.timeline-left  { grid-column:1; justify-self:end;  max-width:420px; min-width:0; }
-.timeline-right { grid-column:3; justify-self:start; max-width:420px; min-width:0; }
-
-/* 若你的“日期小标签”在另一侧，给它一个统一最大宽度并允许换行 */
-.timeline-date{
-  font-size:0.9rem;
-  color:#6b7280;
-  max-width:220px;
-  overflow-wrap:break-word;
-  white-space:normal;
-}
-
-/* 防止任意长文本/链接把容器撑爆 */
-.timeline-left, .timeline-right{
-  overflow-wrap:break-word;
-  white-space:normal;
-  min-width:0;
-}
-
-/* 小屏时改为单列：内容在轴线右侧，轴线&圆点仍居中 */
-@media (max-width: 700px){
-  .timeline-item{
-    grid-template-columns: 36px 1fr;   /* 轴列在左，内容在右 */
-    gap:14px;
-  }
-  .timeline::before{
-    left:18px; transform:none;         /* 轴线移到左侧 18px */
-  }
-  .timeline-axis{ grid-column:1; }
-  .timeline-left, .timeline-right{
-    grid-column:2; justify-self:start; max-width:100%;
-  }
-}
 
 /* 左侧信息卡里的姓名字号更大 */
 .sidepanel .profile-name{
@@ -277,4 +194,81 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   line-height: 1.2;
 }
 
+/* ===== Timeline hard-fix: center line, nodes, and right-side overflow ===== */
+
+/* 统一中线基准 */
+.timeline {
+  --line-x: 50%;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: var(--line-x);
+  width: 6px;                   /* 你的线宽 */
+  background: #3b3b3b;          /* 线的颜色 */
+  transform: translateX(-50%);  /* 居中 */
+}
+
+/* 圆点始终落在中线正中 */
+.timeline .timeline-icon,
+.timeline .node,
+.timeline .dot {
+  position: absolute;
+  left: var(--line-x) !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* 左右两栏各占一半；给中线两侧留出内边距 */
+.timeline .direction-l,
+.timeline .direction-r {
+  width: 50%;
+  position: relative;
+}
+.timeline .direction-l { padding-right: 48px; text-align: right; }
+.timeline .direction-r { padding-left: 48px;  text-align: left;  }
+
+/* 气泡样式统一，并限制最大宽度避免和日期互顶 */
+.timeline .flag {
+  display: inline-block;
+  max-width: 520px;             /* 可按需要调小/调大 */
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  margin: 0;                    /* 清掉主题里可能的 margin-left/right 偏移 */
+}
+
+/* 移除右侧额外“位移”，防止像 Renmin 那条被二次推出去 */
+.timeline .direction-r .flag { margin-left: 0 !important; }
+.timeline .direction-l .flag { margin-right: 0 !important; }
+
+/* 日期标签贴近中线两侧，避免把气泡挤出布局 */
+.timeline .time-wrapper {
+  position: absolute;
+  top: -6px; white-space: nowrap;
+}
+.timeline .direction-r .time-wrapper { 
+  left: calc(var(--line-x) + 24px);   /* 中线右侧 24px */
+  right: auto !important;
+}
+.timeline .direction-l .time-wrapper { 
+  right: calc(100% - var(--line-x) + 24px); /* 中线左侧 24px */
+  left: auto !important;
+}
+
+/* 小屏：堆叠为单栏时，全部左对齐；中线与圆点继续居中 */
+@media (max-width: 768px) {
+  .timeline .direction-l,
+  .timeline .direction-r {
+    width: 100%;
+    padding: 0 0 0 48px;        /* 统一左侧内边距 */
+    text-align: left;
+  }
+  .timeline .time-wrapper {
+    left: calc(var(--line-x) + 24px);
+    right: auto !important;
+  }
+}
 
