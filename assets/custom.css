@@ -172,3 +172,58 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
   .navbar-list{ flex-wrap:wrap; justify-content:center; gap:12px 16px; }
   .sidepanel{ height:auto; }  /* 小屏单栏自然流动 */
 }
+
+/* ================= FORCE NARROW SIDEBAR ================= */
+
+/* 统一参数：想再窄，改 220→200 即可 */
+:root { --sidebar: 260px; }
+
+/* 960px 以上：无论栅格怎么写，都把左列锁成固定像素宽 */
+@media (min-width:960px){
+  /* 覆盖 skeleton 的 ".four.columns" 百分比宽度 */
+  .content-with-sidebar .side-col{
+    width: var(--sidebar) !important;
+    max-width: var(--sidebar) !important;
+    min-width: var(--sidebar) !important;
+    flex: 0 0 var(--sidebar) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  /* 卡片本体也锁死宽度，避免 100% 导致继续“吃满” */
+  .content-with-sidebar .side-col .sidepanel{
+    width: var(--sidebar) !important;
+    max-width: var(--sidebar) !important;
+  }
+  /* 头像相应缩小一点，避免挤压 */
+  .content-with-sidebar .side-col .sidepanel .portrait{
+    height: 199px !important;
+  }
+
+  /* 右列占其余空间；加上与侧栏的间距 */
+  .content-with-sidebar .main-col{
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    margin-left: 28px !important;   /* 侧栏与正文的间隔 */
+  }
+
+  /* “粘顶”：用列容器 sticky，卡片内部滚动，不会遮住右侧 */
+  .content-with-sidebar .side-col{
+    position: sticky !important;
+    top: calc(var(--nav-h) + 16px) !important;
+    align-self: flex-start !important;
+    z-index: 10;
+  }
+  .content-with-sidebar .side-col .sidepanel{
+    position: static !important;
+    height: calc(100vh - var(--nav-h) - 32px) !important;
+    overflow: auto !important;
+  }
+}
+
+/* 1200px 以上也沿用同一套（防止旧规则把它设成 fixed 并放大） */
+@media (min-width:1200px){
+  .content-with-sidebar .side-col{
+    position: sticky !important;   /* 不再 fixed，避免覆盖正文 */
+    left: auto !important;
+  }
+}
