@@ -278,4 +278,35 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   letter-spacing: .12rem;
 }
 
+/* ===== Timeline gap & alignment fine-tuning ===== */
+
+/* 统一一个“离中线的间距”变量，左右一致 */
+.timeline{ --gap: 44px; }  /* 想更近就减小这个数，想更远就增大 */
+
+/* 两侧都只用 padding 控制到中线的距离（覆盖模板里的旧 margin） */
+.timeline .direction-l{ padding-right: var(--gap) !important; }
+.timeline .direction-r{ padding-left:  var(--gap) !important; }
+
+/* 杀掉主题里可能残留的“把右侧再推开”的 margin */
+.timeline .direction-r .flag,
+.timeline .direction-l .flag{
+  margin: 0 !important;
+}
+
+/* 圆点永远压在中线正中（有些模板会有几像素偏差） */
+.timeline .timeline-icon,
+.timeline .node,
+.timeline .dot{
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* 日期贴近中线（可选） */
+.timeline .direction-r .time-wrapper{ left: calc(50% + 12px) !important; right: auto !important; }
+.timeline .direction-l .time-wrapper{ right: calc(50% + 12px) !important; left: auto !important; }
+
+/* —— 如果右侧仍然“看着更远”，用一个极小的 nudge 微调 —— */
+/* 负值往中线靠，正值远离中线；一般 -4px ～ -8px 就够了 */
+.timeline .direction-r{ transform: translateX(-6px); }
+
 
