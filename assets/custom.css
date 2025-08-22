@@ -268,3 +268,72 @@ a:hover{color:#6c2ca2;}
 .footer i{color:#fff !important;}
 .footer i:hover{opacity:.85;}
 
+
+/* ====== Final fixes & polish ====== */
+:root{ --nyu:#57068C; --nyu-dark:#43056c; --panel:#f2f2f4; --border:#e5e7eb; }
+
+/* 顶栏与正文别挤在一起：给内容一个顶部外边距 */
+.content-with-sidebar{ margin-top: 18px; }
+
+/* 顶部导航保持 NYU 紫 + 吸顶（若你已加过，下面是兜底并不会冲突） */
+body .navbar{
+  display:block !important; position:sticky; top:0; z-index:1000;
+  width:100%; height:64px; background:var(--nyu) !important; border:none !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+body .navbar-spacer{display:none !important;}
+body .navbar > .container{ width:100% !important; min-height:64px;
+  display:flex; align-items:center; justify-content:center; padding:0 16px; }
+body .navbar-list{list-style:none; display:flex; gap:24px; margin:0; padding:0;}
+body .navbar-item{float:none !important; margin:0;}
+body .navbar-link{color:#fff !important; font-weight:600; letter-spacing:.12rem;
+  text-transform:uppercase; text-decoration:none; padding:8px 6px; line-height:1; border-radius:6px;}
+body .navbar-link:hover{background:var(--nyu-dark); color:#fff !important;}
+@media (max-width:749px){
+  body .navbar > .container{flex-wrap:wrap; gap:6px 12px;}
+  body .navbar-list{flex-wrap:wrap; justify-content:center; gap:12px 16px;}
+}
+
+/* 左侧信息卡：贯穿视口高度 + 粘顶 */
+@media (min-width:960px){
+  .content-with-sidebar{display:flex; gap:24px; align-items:flex-start;}
+  .side-col{width:320px; flex:0 0 320px;}
+  .main-col{flex:1; min-width:0;}
+}
+.sidepanel{ background:var(--panel); border:1px solid var(--border); border-radius:12px;
+  padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.06); min-height:calc(100vh - 140px); }
+@media (min-width:960px){ .sidepanel{ position:sticky; top:96px; } }
+.sidepanel .portrait{ display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px; }
+.kicker{ margin-top:10px; margin-bottom:6px; font-size:12px; font-weight:700; letter-spacing:.12rem; text-transform:uppercase; color:#111827; }
+.sidepanel ul{ list-style:none; padding:0; margin:4px 0 10px; }
+.sidepanel li{ margin:6px 0; }
+.sidepanel a{ text-decoration:none; }
+.sidepanel a:hover{ text-decoration:underline; }
+/* 名字更大更醒目 */
+.profile-name{ font-size:20px; font-weight:800; }
+
+/* 正文标题——让 News/ Publica­tions/ CV 看起来与 Meta 一样（更大，不全大写） */
+.docs-section > h4, .section-header{
+  font-size:2rem; font-weight:700; letter-spacing:.02rem; text-transform:none; margin:0 0 .8rem;
+}
+
+/* 粗体字统一 NYU 紫 */
+.main-col b, .main-col strong{ color:var(--nyu); font-weight:700; }
+
+/* Link 颜色 */
+a{ color:var(--nyu); }
+a:hover{ color:#6c2ca2; }
+
+/* 底部紫色条 */
+.footer{
+  background:var(--nyu) !important; color:#fff !important; border-top:none !important;
+  padding:18px 0 26px 0 !important;
+}
+.footer a, .footer i{ color:#fff !important; }
+.footer i:hover{ opacity:.85; }
+
+/* 隐藏旧 header（防止又顶一块头像） */
+.header{ display:none !important; }
+
+/* 容器宽度兜底 */
+.container, main, .page-content{ max-width:980px; margin:0 auto; padding:0 20px; }
