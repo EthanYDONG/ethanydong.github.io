@@ -264,4 +264,73 @@ body{ padding-bottom: var(--footer-h); }
 .sidepanel .portrait{
   display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px;
 }
+/* ===== Top purple bar: full-bleed from first paint ===== */
+
+/* 变量（若已声明可忽略） */
+:root{ --nyu:#57068C; --nav-h:64px; --footer-h:64px; }
+
+/* 清掉浏览器默认外边距，避免两侧白缝 */
+html, body { margin:0; padding:0; }
+
+/* 关键：用 body::before 画一条固定在顶部、全屏宽的紫条 */
+body::before{
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100vw; height:var(--nav-h);
+  background:var(--nyu);
+  z-index:900;               /* 在内容之上，但在导航文本之下（见下一条） */
+  pointer-events:none;       /* 不挡点击 */
+}
+
+/* 导航自身透明，只负责排布 & 吸顶 */
+.navbar{
+  background:transparent !important;   /* 让紫色来自 body::before */
+  height:var(--nav-h);
+  position:sticky; top:0;
+  z-index:1001;                        /* 保证链接在紫条之上可点击 */
+  border:none !important;
+  box-shadow:none !important;
+}
+
+/* 导航里的内容层级抬高以压住伪元素 */
+.navbar > .container{ position:relative; z-index:1002; }
+
+/* 顶栏与正文稍微拉开距离（根据需要调节） */
+.content-with-sidebar{ margin-top:24px; }
+
+/* ===== Bottom purple bar: full-bleed and always visible ===== */
+.footer{
+  position:fixed;
+  bottom:0; left:0; right:0;
+  height:var(--footer-h);
+  display:flex; align-items:center;
+  background:var(--nyu) !important; color:#fff !important;
+  border-top:none !important; padding:0 40px !important;
+  z-index:950;
+}
+body{ padding-bottom:var(--footer-h); }  /* 防止正文被固定底栏遮挡 */
+.footer .row, .footer .container{
+  max-width:1280px; margin:0 auto; width:100%;
+  display:flex; justify-content:space-between; align-items:center; padding:0;
+}
+.footer a, .footer i{ color:#fff !important; text-decoration:none; }
+.footer i:hover{ opacity:.85; }
+
+/* ===== Sticky sidebar stays visible while scrolling ===== */
+@media (min-width:960px){
+  .content-with-sidebar{ display:flex; gap:24px; align-items:flex-start; }
+  .side-col{
+    position:sticky; top:calc(var(--nav-h) + 16px);
+    align-self:flex-start; z-index:10;
+  }
+  .sidepanel{
+    position:static; height:calc(100vh - var(--nav-h) - 32px);
+    overflow:auto;   /* 内容超出时在卡片内滚动 */
+  }
+}
+/* 头像尺寸稳定 */
+.sidepanel .portrait{
+  display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px;
+}
 
