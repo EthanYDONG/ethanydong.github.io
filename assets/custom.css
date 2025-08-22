@@ -147,3 +147,37 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
   .navbar-list{ flex-wrap:wrap; justify-content:center; gap:12px 16px; }
   .sidepanel{ height:auto; }
 }
+
+/* ===== 固定侧栏：永远可见（桌面宽屏） ===== */
+
+/* 说明：
+   - 你的版心 max-width:1200px，左右 padding 20px；
+   - 侧栏宽度 340px，两栏间 gap 32px（和你现在一致）。
+   - 因此 fixed 侧栏的 left = 屏幕中线 - 版心半宽 + 左 padding。
+*/
+@media (min-width: 1200px){
+  /* 用 fixed 把侧栏“钉”在屏幕上 */
+  .side-col{
+    position: fixed !important;
+    top: calc(var(--nav-h) + 16px);   /* 避开顶部紫条，保留 16px 呼吸 */
+    left: calc(50% - 600px + 20px);  /* 600=1200/2；20=container 左内边距 */
+    width: 340px;                     /* 和原来一致 */
+    z-index: 15;                      /* 保证在正文之上 */
+  }
+  /* 侧栏固定后，正文让出空间：侧栏宽度(340) + 两栏间距(32) */
+  .main-col{
+    margin-left: calc(340px + 32px) !important;
+    max-width: 800px;                 /* 你原来的正文宽度 */
+  }
+  /* 固定侧栏时，卡片内部可独立滚动；高度=视口高-顶部留白 */
+  .sidepanel{
+    height: calc(100vh - var(--nav-h) - 32px);
+    overflow: auto;
+  }
+}
+
+/* 960–1199px：仍用 sticky（你已有的样式即可），这里兜底确保祖先没截断 */
+@media (min-width:960px) and (max-width:1199px){
+  .content-with-sidebar{ overflow: visible !important; }
+}
+
