@@ -186,10 +186,89 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 
-.timeline-content {
-  max-width: 280px;   /* 根据需要调整，比如 260 / 300px */
-  word-wrap: break-word;
-  white-space: normal; /* 避免长单词/链接不换行 */
+/* === 时间线：中轴恒定在正中、圆点对齐、内容不再撑歪 === */
+
+/* 外层容器 */
+.timeline{
+  position: relative;
+  margin: 0 auto;
+  padding: 12px 0;
+}
+
+/* 中轴线固定在正中（不受内容宽度影响） */
+.timeline::before{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
+  left:50%;
+  transform: translateX(-50%);
+  width:4px;
+  background:#444;           /* 轴线颜色 */
+  border-radius:2px;
+}
+
+/* 每个节点用 3 列的 Grid：左列 / 中间轴列 / 右列 */
+.timeline-item{
+  position:relative;
+  display:grid;
+  grid-template-columns: 1fr 36px 1fr; /* 中间 36px 作为“轴&圆点”的专用列 */
+  align-items:center;
+  gap:18px;                  /* 左右与中间的间距 */
+  margin: 18px 0;
+}
+
+/* 中间列：圆点 */
+.timeline-axis{
+  grid-column:2;
+  position:relative;
+  height:100%;
+  display:flex;
+  align-items:center;        /* 垂直居中圆点 */
+  justify-content:center;    /* 水平居中圆点（贴轴心） */
+  pointer-events:none;
+}
+.timeline-dot{
+  width:14px; height:14px;
+  background:#fff;
+  border:4px solid var(--nyu, #57068C);
+  border-radius:50%;
+  box-shadow:0 0 0 4px #fff; /* 让点和轴线之间有“白边”更清晰，可去掉 */
+  z-index:2;
+}
+
+/* 文字容器：根据左右方向放在 1 或 3 列 */
+.timeline-left  { grid-column:1; justify-self:end;  max-width:420px; min-width:0; }
+.timeline-right { grid-column:3; justify-self:start; max-width:420px; min-width:0; }
+
+/* 若你的“日期小标签”在另一侧，给它一个统一最大宽度并允许换行 */
+.timeline-date{
+  font-size:0.9rem;
+  color:#6b7280;
+  max-width:220px;
+  overflow-wrap:break-word;
+  white-space:normal;
+}
+
+/* 防止任意长文本/链接把容器撑爆 */
+.timeline-left, .timeline-right{
+  overflow-wrap:break-word;
+  white-space:normal;
+  min-width:0;
+}
+
+/* 小屏时改为单列：内容在轴线右侧，轴线&圆点仍居中 */
+@media (max-width: 700px){
+  .timeline-item{
+    grid-template-columns: 36px 1fr;   /* 轴列在左，内容在右 */
+    gap:14px;
+  }
+  .timeline::before{
+    left:18px; transform:none;         /* 轴线移到左侧 18px */
+  }
+  .timeline-axis{ grid-column:1; }
+  .timeline-left, .timeline-right{
+    grid-column:2; justify-self:start; max-width:100%;
+  }
 }
 
 
