@@ -1,5 +1,5 @@
 /* =================== Global & Resets =================== */
-* { box-sizing: border-box; }
+*{ box-sizing: border-box; }
 :root{
   --nyu:#57068C;
   --nyu-dark:#43056c;
@@ -8,39 +8,47 @@
   --nav-h:64px;
   --footer-h:64px;
 }
-
-html, body{ margin:0; padding:0; overflow-x:hidden; }
-/* 预留滚动条槽，防止出现/消失导致宽度抖动 */
+html,body{ margin:0; padding:0; overflow-x:hidden; }
+/* 预留滚动条槽，防止出现/消失时宽度抖动 */
 html{ scrollbar-gutter: stable both-edges; }
 
-/* 关闭主题自带头像 Header，避免重复/顶到正文 */
+/* 彻底清掉任何可能画紫条的伪元素或旧饰条 */
+body::before, body::after,
+.navbar::before, .navbar::after{
+  content:none !important;
+  display:none !important;
+}
+
+/* 主题自带头像头部隐藏，避免占位 */
 .header{ display:none !important; }
 
-/* 链接默认使用 NYU 紫 */
+/* 链接颜色 */
 a{ color:var(--nyu); }
 a:hover{ color:#6c2ca2; }
 
-/* 不要任何背景图干扰正文 */
+/* 正文不要背景图 */
 .docs-section{ background:none !important; }
 
-/* 统一容器宽度（用于正文和页脚内部排版） */
+/* 版心：让右侧正文居中 */
 .container, main, .page-content{
   max-width:1200px;
   margin:0 auto;
   padding:0 20px;
 }
 
-/* =================== Top Navbar（贴顶 & 全屏） =================== */
+/* =================== Top Navbar（贴顶 & 横穿全屏） =================== */
 .navbar{
-  position:fixed; top:0; left:0; right:0;   /* 关键：不使用100vw，也不加calc偏移 */
+  position:fixed !important;  /* 确保覆盖任何 position:static */
+  top:0; left:0; right:0;
   height:var(--nav-h);
   background:var(--nyu) !important;
   z-index:1000;
   border:none !important;
   box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
-.navbar-spacer{ display:none !important; }  /* skeleton 的占位条禁用 */
+.navbar-spacer{ display:none !important; } /* 不再用 spacer */
 
+/* 导航内部居中排列 */
 .navbar > .container{
   min-height:var(--nav-h);
   display:flex; align-items:center; justify-content:center;
@@ -54,30 +62,31 @@ a:hover{ color:#6c2ca2; }
 }
 .navbar-link:hover{ background:var(--nyu-dark); color:#fff !important; }
 
-/* 正文让出固定顶/底栏的空间 */
+/* 给正文让出固定顶/底栏空间，避免遮挡 */
 body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
 
-/* =================== Two-Column Layout =================== */
+/* =================== 左侧信息卡 + 右侧正文 =================== */
 .content-with-sidebar{ margin-top:16px; }
 @media (min-width:960px){
   .content-with-sidebar{
     display:flex; justify-content:center; gap:32px; align-items:flex-start;
   }
-  /* 把“粘滞”放在列容器上，保证整卡片始终可见 */
+  /* 让整列粘在视口里：始终可见 */
   .side-col{
     flex:0 0 340px;
     position:sticky;
-    top:calc(var(--nav-h) + 16px);  /* 避开固定顶栏 */
+    top:calc(var(--nav-h) + 16px);
     align-self:flex-start;
     z-index:10;
   }
   .main-col{
-    flex:1; max-width:800px; min-width:0;  /* 右侧正文居中且易读 */
+    flex:1; max-width:800px; min-width:0;
   }
+  /* 信息卡内部可滚动（内容再多也不会“掉出视口”） */
   .sidepanel{
-    position:static;                       /* 由 .side-col 负责粘滞 */
+    position:static;
     height:calc(100vh - var(--nav-h) - 32px);
-    overflow:auto;                         /* 超出只在卡片内滚动 */
+    overflow:auto;
     background:var(--panel);
     border:1px solid var(--border);
     border-radius:12px;
@@ -86,13 +95,13 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
   }
 }
 
-/* 头像尺寸稳定（不会当背景拉伸） */
+/* 头像稳定尺寸 */
 .sidepanel .portrait{
   display:block; width:100%; height:220px; object-fit:cover;
   border-radius:10px; margin-bottom:12px;
 }
 
-/* 卡片内小标题与列表 */
+/* 卡片小标题与列表 */
 .kicker{
   margin:20px 0 8px; font-size:12px; font-weight:700;
   letter-spacing:.12rem; text-transform:uppercase; color:#111827;
@@ -105,18 +114,18 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
 /* 名字更大、黑色醒目 */
 .profile-name{ font-size:24px; font-weight:800; color:#111 !important; line-height:1.2; }
 
-/* =================== Main Content =================== */
+/* =================== 正文样式 =================== */
 .docs-section{ padding:2rem 0; border-top:1px solid var(--border); }
 .docs-section > h4, .section-header{
   font-size:2rem; font-weight:700; letter-spacing:.02rem;
   text-transform:none; margin:0 0 .8rem;
 }
-/* 正文粗体统一黑色（无需 NYU 紫） */
 .main-col b, .main-col strong{ color:#111 !important; font-weight:700; }
 
-/* =================== Bottom Footer（贴底 & 全屏） =================== */
+/* =================== Bottom Footer（贴底 & 横穿全屏） =================== */
 .footer{
-  position:fixed; bottom:0; left:0; right:0;
+  position:fixed !important; /* 覆盖任何 static 规则 */
+  bottom:0; left:0; right:0;
   height:var(--footer-h);
   background:var(--nyu) !important;
   color:#fff !important;
@@ -132,9 +141,9 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
 .footer a, .footer i{ color:#fff !important; text-decoration:none; }
 .footer i:hover{ opacity:.85; }
 
-/* =================== Responsive tweaks =================== */
+/* =================== 小屏优化 =================== */
 @media (max-width:749px){
   .navbar > .container{ flex-wrap:wrap; gap:12px; }
   .navbar-list{ flex-wrap:wrap; justify-content:center; gap:12px 16px; }
-  .sidepanel{ height:auto; }  /* 移动端让卡片自然流式 */
+  .sidepanel{ height:auto; }
 }
