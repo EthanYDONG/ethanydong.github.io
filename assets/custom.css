@@ -307,7 +307,7 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 
 /* —— 如果右侧仍然“看着更远”，用一个极小的 nudge 微调 —— */
 /* 负值往中线靠，正值远离中线；一般 -4px ～ -8px 就够了 */
-.timeline .direction-r{ transform: translateX(-6.7px); }
+.timeline .direction-r{ transform: translateX(-6.5px); }
 
 
 /* =================== Mobile single-column polish (add at the end) =================== */
@@ -462,16 +462,37 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   .footer{ height: var(--footer-h) !important; }
   .footer .container, .footer .row{ padding: 0 16px !important; }
 }
+/* ===== Mobile portrait hard override (iPhone / 竖屏) ===== */
+@media (max-width: 480px) and (orientation: portrait){
 
-/* 如果你的头像在其它小屏宽度下也会被裁，可以放宽阈值 */
+  /* 更具体的选择器 + !important，强行覆盖任何固定高度 */
+  .sidepanel img.portrait,
+  .sidepanel .portrait {
+    width: min(70vw, 320px) !important;  /* 视口驱动的正方形尺寸 */
+    height: auto !important;             /* 取消固定高度 */
+    aspect-ratio: 1 / 1 !important;      /* 强制正方形 */
+    display: block !important;
+    margin: 0 auto 12px !important;      /* 居中 */
+    object-fit: cover !important;        /* 填满不变形 */
+    object-position: 50% 35% !important; /* 脸稍微上移，可按需改 */
+    border-radius: 14px !important;
+  }
+
+  /* 单栏时信息卡更紧凑一点（可选） */
+  .sidepanel{ padding:12px !important; border-radius:12px !important; }
+  .sidepanel .profile-name{ font-size:20px !important; }
+}
+
+/* 如需兼容更宽的小屏，可以把阈值放宽到 600px */
 @media (max-width: 600px){
-  .sidepanel .portrait{
-    width: 64vw;
-    max-width: 320px;
-    aspect-ratio: 1 / 1;
-    height: auto;
+  .sidepanel img.portrait,
+  .sidepanel .portrait {
+    width: min(64vw, 320px) !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
   }
 }
+
 
 
 
