@@ -324,13 +324,35 @@ body .navbar-link:hover{background:var(--nyu-dark); color:#fff !important;}
 a{ color:var(--nyu); }
 a:hover{ color:#6c2ca2; }
 
-/* 底部紫色条 */
+
+/* Footer 全宽紫色条 */
 .footer{
-  background:var(--nyu) !important; color:#fff !important; border-top:none !important;
+  width:100%;                  /* 占满整行 */
+  background:var(--nyu) !important;
+  color:#fff !important;
+  border-top:none !important;
   padding:18px 0 26px 0 !important;
+  margin-top:40px;             /* 和正文稍微分开一点 */
 }
-.footer a, .footer i{ color:#fff !important; }
+
+.footer .row,
+.footer .container{
+  max-width:100% !important;   /* 覆盖 skeleton 的 container 限制 */
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 40px;              /* 左右内边距 */
+}
+
+.footer a,
+.footer i{
+  color:#fff !important;
+  text-decoration:none;
+}
+
 .footer i:hover{ opacity:.85; }
+
 
 /* 隐藏旧 header（防止又顶一块头像） */
 .header{ display:none !important; }
