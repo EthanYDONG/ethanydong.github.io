@@ -73,22 +73,49 @@ body .navbar-link:hover, body .navbar-link:focus{
   .main-col{ flex:1; min-width:0; }
 }
 
-/* 信息卡（贯穿视口高度 + 粘顶 + 内部可滚动） */
-.sidepanel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,.06);
-}
-@media (min-width:960px){
+/* ==== Sticky sidebar that stays visible all the way down ==== */
+
+/* 桌面端两栏布局 */
+@media (min-width: 960px){
+  .content-with-sidebar{
+    display:flex;
+    gap:24px;
+    align-items:flex-start;    /* 不拉伸列高 */
+    overflow:visible;          /* 确保粘滞可用 */
+  }
+
+  /* 把“粘滞”放在列容器 .side-col 上，而不是 .sidepanel */
+  .side-col{
+    position: sticky;
+    top: 80px;                 /* 顶部预留给导航条 */
+    align-self:flex-start;     /* 防止被拉伸为和右列一样高 */
+    height: auto;              /* 不限定高度，由内层决定 */
+    z-index: 10;               /* 以免被正文浮层覆盖 */
+  }
+
+  /* 内层面板不再 sticky：设置为视口高度并允许内部滚动 */
   .sidepanel{
-    position:sticky;       /* 固定在视口 */
-    top:80px;              /* 顶部预留给紫条 */
-    height:calc(100vh - 100px); /* 贯穿视口高度 */
-    overflow:auto;         /* 内容多时卡片内滚动 */
+    position: static;          /* 取消之前的 sticky */
+    height: calc(100vh - 100px); /* 卡片自身高度≈视口高（减去顶部留白） */
+    overflow: auto;            /* 内容过长时只在卡片内滚动 */
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
   }
 }
+
+/* 头像稳定尺寸（防止被当做背景铺满） */
+.sidepanel .portrait{
+  display:block;
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:8px;
+  margin-bottom:12px;
+}
+
 
 /* 头像尺寸与裁切 */
 .sidepanel .portrait{
