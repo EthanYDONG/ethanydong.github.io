@@ -172,3 +172,62 @@ body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
   .navbar-list{ flex-wrap:wrap; justify-content:center; gap:12px 16px; }
   .sidepanel{ height:auto; }  /* 小屏单栏自然流动 */
 }
+
+/* ==== Patch: narrower sidebar + perfectly centered footer ==== */
+
+/* 更窄的侧栏 */
+:root{
+  --sidebar: 240px;    /* 原来 280px -> 240px */
+}
+
+/* 中/宽屏下都应用更窄侧栏并保持布局 */
+@media (min-width:960px){
+  .side-col{ flex:0 0 var(--sidebar); }
+  .main-col{ max-width:900px; } /* 给正文再多一点空间 */
+  .sidepanel .portrait{ height:180px; } /* 头像降低高度以适配窄卡片 */
+}
+
+/* 宽屏固定侧栏时也使用新宽度 */
+@media (min-width:1200px){
+  .main-col{
+    margin-left: calc(var(--sidebar) + var(--gap)) !important;
+    max-width: 900px;
+  }
+}
+
+/* 底部条高度加大、内容强制垂直居中 */
+:root{
+  --footer-h: 72px;   /* 原 64px -> 72px，视觉更舒展 */
+}
+
+/* 让出新的底部高度 */
+body{ padding-bottom: var(--footer-h); }
+
+.footer{
+  height: var(--footer-h) !important;
+  display: flex !important;
+  align-items: center !important;   /* 垂直居中 */
+  padding: 0 !important;            /* 外补白放到内层 */
+}
+
+/* 内层容器充满高度并居中分布 */
+.footer .container,
+.footer .row{
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;   /* 垂直居中 */
+  justify-content: space-between !important;
+  padding: 0 32px !important;       /* 适度左右留白 */
+}
+
+/* 直接子元素也用 flex 居中；且清掉上下 margin 防“顶到上沿”错觉 */
+.footer .container > * ,
+.footer .row > * {
+  display: flex;
+  align-items: center;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 文本基线统一，避免看起来偏上 */
+.footer * { line-height: 1 !important; }
