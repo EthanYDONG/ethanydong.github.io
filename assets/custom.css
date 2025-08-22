@@ -271,66 +271,76 @@ body{ padding-bottom: var(--footer-h); }
 
 /* 清掉浏览器默认外边距，避免两侧白缝 */
 html, body { margin:0; padding:0; }
+/* ========== Full-bleed fixed top/bottom bars + sticky sidebar (FINAL) ========== */
 
-/* 关键：用 body::before 画一条固定在顶部、全屏宽的紫条 */
-body::before{
-  content:"";
-  position:fixed;
-  top:0; left:0;
-  width:100vw; height:var(--nav-h);
-  background:var(--nyu);
-  z-index:900;               /* 在内容之上，但在导航文本之下（见下一条） */
-  pointer-events:none;       /* 不挡点击 */
-}
+/* 基础：去掉浏览器默认外边距，禁用横向滚动抖动 */
+html, body { margin:0; padding:0; overflow-x:hidden; }
 
-/* 导航自身透明，只负责排布 & 吸顶 */
+/* 统一变量 */
+:root{ --nyu:#57068C; --nav-h:64px; --footer-h:64px; }
+
+/* 顶部紫条：固定且横穿（不受 .container 影响） */
 .navbar{
-  background:transparent !important;   /* 让紫色来自 body::before */
+  position:fixed; top:0; left:0; right:0;
   height:var(--nav-h);
-  position:sticky; top:0;
-  z-index:1001;                        /* 保证链接在紫条之上可点击 */
+  background:var(--nyu) !important;
+  z-index:1000;
   border:none !important;
-  box-shadow:none !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
-/* 导航里的内容层级抬高以压住伪元素 */
-.navbar > .container{ position:relative; z-index:1002; }
-
-/* 顶栏与正文稍微拉开距离（根据需要调节） */
-.content-with-sidebar{ margin-top:24px; }
-
-/* ===== Bottom purple bar: full-bleed and always visible ===== */
-.footer{
-  position:fixed;
-  bottom:0; left:0; right:0;
-  height:var(--footer-h);
-  display:flex; align-items:center;
-  background:var(--nyu) !important; color:#fff !important;
-  border-top:none !important; padding:0 40px !important;
-  z-index:950;
-}
-body{ padding-bottom:var(--footer-h); }  /* 防止正文被固定底栏遮挡 */
-.footer .row, .footer .container{
+/* 导航内部内容：居中排布 */
+.navbar > .container{
   max-width:1280px; margin:0 auto; width:100%;
-  display:flex; justify-content:space-between; align-items:center; padding:0;
+  min-height:var(--nav-h);
+  display:flex; align-items:center; justify-content:center; padding:0 16px;
+}
+.navbar-list{list-style:none; display:flex; gap:24px; margin:0; padding:0;}
+.navbar-item{margin:0;}
+.navbar-link{color:#fff !important; text-transform:uppercase; letter-spacing:.12rem;
+  text-decoration:none; font-weight:600; padding:8px 6px; border-radius:6px; line-height:1;}
+.navbar-link:hover{background:#43056c; color:#fff !important;}
+
+/* 正文让出顶栏和底栏的高度，避免被遮挡 */
+body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
+
+/* 底部紫条：固定且横穿（进入页面立即可见） */
+.footer{
+  position:fixed; bottom:0; left:0; right:0;
+  height:var(--footer-h);
+  background:var(--nyu) !important; color:#fff !important; border-top:none !important;
+  z-index:999;
+  display:flex; align-items:center;
+}
+.footer .container, .footer .row{
+  max-width:1280px; margin:0 auto; width:100%;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 40px;
 }
 .footer a, .footer i{ color:#fff !important; text-decoration:none; }
 .footer i:hover{ opacity:.85; }
 
-/* ===== Sticky sidebar stays visible while scrolling ===== */
+/* 顶栏与正文之间的视觉呼吸（可按需调节） */
+.content-with-sidebar{ margin-top: 16px; }
+
+/* 左侧信息卡“始终可见”：sticky 放在列容器上，卡片内部独立滚动 */
 @media (min-width:960px){
   .content-with-sidebar{ display:flex; gap:24px; align-items:flex-start; }
   .side-col{
-    position:sticky; top:calc(var(--nav-h) + 16px);
-    align-self:flex-start; z-index:10;
+    position:sticky;
+    top: calc(var(--nav-h) + 16px);   /* 避开固定顶栏 */
+    align-self:flex-start;
+    z-index:10;
   }
   .sidepanel{
-    position:static; height:calc(100vh - var(--nav-h) - 32px);
-    overflow:auto;   /* 内容超出时在卡片内滚动 */
+    position:static;                   /* 由列容器负责粘滞 */
+    height: calc(100vh - var(--nav-h) - 32px);
+    overflow:auto;                     /* 内容多时只在卡片里滚动 */
+    background:#f2f2f4; border:1px solid #e5e7eb; border-radius:12px; padding:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
   }
 }
-/* 头像尺寸稳定 */
+/* 头像稳定尺寸 */
 .sidepanel .portrait{
   display:block; width:100%; height:220px; object-fit:cover; border-radius:8px; margin-bottom:12px;
 }
-
