@@ -407,5 +407,72 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 
+/* =================== Mobile Portrait Optimizations =================== */
+/* 竖屏手机：≤480px 可按需把阈值调到 540/600px */
+@media (max-width: 480px) and (orientation: portrait){
+
+  /* 单栏：信息卡外观更紧凑 */
+  .content-with-sidebar{ display:block; margin-top:12px; }
+
+  .sidepanel{
+    padding:12px;
+    border-radius:12px;
+  }
+
+  /* 头像：改为“等比正方形”，不再固定 180px 高 */
+  .sidepanel .portrait{
+    width: 68vw;          /* 用视口宽度控制尺寸 */
+    max-width: 320px;     /* 防止过大 */
+    aspect-ratio: 1 / 1;  /* 关键：强制正方形 */
+    height: auto;         /* 覆盖之前的固定高度 */
+    display:block;
+    margin: 0 auto 12px;  /* 居中 + 底部留白 */
+    object-fit: cover;    /* 等比裁剪填满，形变最少 */
+    object-position: 50% 35%; /* 轻微向上对齐脸部，可按需微调 */
+    border-radius: 14px;
+  }
+
+  /* 姓名字号稍微小一点，避免换行太多 */
+  .sidepanel .profile-name{ font-size: 20px; }
+
+  /* 内容区两侧留白收紧一点 */
+  .container, main, .page-content{ padding: 0 14px; }
+
+  /* 顶部导航：允许换行、按钮更紧凑一点 */
+  .navbar > .container{ gap:8px; padding:0 10px; }
+  .navbar-list{ flex-wrap: wrap; gap:8px 10px; }
+  .navbar-link{
+    font-size: 13px !important;
+    letter-spacing: .08rem;
+    padding: 6px 6px;
+  }
+
+  /* 时间线：单列左对齐，避免与中线/日期挤撞 */
+  .timeline .direction-l,
+  .timeline .direction-r{
+    width:100%;
+    padding: 0 0 0 40px;  /* 统一给中线留出左内边距 */
+    text-align:left;
+  }
+  .timeline .time-wrapper{ left: calc(50% + 18px); right:auto !important; }
+
+  /* 底部固定条高度略降，正文预留空间同步缩小 */
+  :root{ --footer-h: 58px; }     /* 原来 66px */
+  body{  padding-bottom: var(--footer-h); }
+  .footer{ height: var(--footer-h) !important; }
+  .footer .container, .footer .row{ padding: 0 16px !important; }
+}
+
+/* 如果你的头像在其它小屏宽度下也会被裁，可以放宽阈值 */
+@media (max-width: 600px){
+  .sidepanel .portrait{
+    width: 64vw;
+    max-width: 320px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+}
+
+
 
 
