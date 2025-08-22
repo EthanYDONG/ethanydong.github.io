@@ -307,6 +307,6 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 
 /* —— 如果右侧仍然“看着更远”，用一个极小的 nudge 微调 —— */
 /* 负值往中线靠，正值远离中线；一般 -4px ～ -8px 就够了 */
-.timeline .direction-r{ transform: translateX(-6px); }
+.timeline .direction-r{ transform: translateX(-10px); }
 
 
