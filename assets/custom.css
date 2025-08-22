@@ -167,3 +167,63 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     flex: 0 0 var(--sidebar) !important;
   }
 }
+
+/* 调整断点：768px 起就两栏 */
+@media (min-width: 768px){
+  .content-with-sidebar{ display:flex; justify-content:center; gap:28px; align-items:flex-start; }
+
+  /* 先用 sticky（在较窄屏幕更稳） */
+  .side-col{
+    position: sticky !important;
+    top: calc(var(--nav-h) + 12px) !important;
+    width: var(--sidebar) !important;
+    max-width: var(--sidebar) !important;
+    min-width: var(--sidebar) !important;
+    flex: 0 0 var(--sidebar) !important;
+    z-index: 10;
+  }
+  .sidepanel{
+    height: calc(100vh - var(--nav-h) - var(--footer-h) - 24px) !important;
+    overflow: auto !important;
+    background: var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
+  }
+
+  .main-col{
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    margin-left: 0 !important;      /* sticky 时不需要额外右移 */
+    max-width: 860px;
+  }
+}
+
+/* 1024px 起改成 fixed（桌面体验） */
+@media (min-width: 1024px){
+  .content-with-sidebar{ display:block; } /* 固定侧栏与正文分流 */
+
+  .side-col{
+    position: fixed !important;
+    left: calc(50vw - (var(--wrap) / 2) + var(--gutter)) !important;
+    top:  calc(var(--nav-h) + 16px) !important;
+    width: var(--sidebar) !important;
+    max-width: var(--sidebar) !important;
+    min-width: var(--sidebar) !important;
+    z-index: 15;
+  }
+  .sidepanel{
+    height: calc(100vh - var(--nav-h) - var(--footer-h) - 32px) !important;
+  }
+  .main-col{
+    margin-left: calc(var(--sidebar) + var(--gap)) !important;
+  }
+}
+
+/* 可选：在横屏时更早启用两栏（iPhone 横屏） */
+@media (orientation: landscape) and (min-width: 640px){
+  .content-with-sidebar{ display:flex; justify-content:center; gap:24px; }
+  .side-col{ position: sticky !important; top: calc(var(--nav-h) + 12px) !important; }
+}
+
