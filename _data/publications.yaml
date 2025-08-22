@@ -2,21 +2,21 @@ papers:
 
   - title: "A Bayesian Mixture Model of Temporal Point Processes with Determinantal Point Process Prior"
     authors: "<b>Yiwei Dong</b>, Shaoxin Ye, Yuwen Cao, Qiyu Han, Hongteng Xu, Hanfang Yang"
-    venue: "Under Review. A short version is accepted by NeurIPS 2024 workshop on Bayesian Decision-making and Uncertainty."
-    paper_pdf: "https://arxiv.org/pdf/2411.04397"
+    venue: "IEEE Transactions on Signal Processing, vol 73, 2216-2226, 2025. A short version is accepted by NeurIPS 2024 workshop on Bayesian Decision-making and Uncertainty."
+    paper_pdf: "https://ieeexplore.ieee.org/document/11018473"
     code: "https://github.com/EthanYDONG/TP2DP2"
     selected: y
 
   - title: "Pedestrian Volume Prediction Using a Diffusion Convolutional Gated Recurrent Unit Model"
     authors: "<b>Yiwei Dong</b>, Tingjin Chu, Lele Zhang, Hadi Ghaderi, Hanfang Yang"
-    venue: "Under Review. "
-    paper_pdf: "https://arxiv.org/pdf/2411.03360"
+    venue: "Journal of Agricultural, Biological, and Environmental Statistics, 2025. "
+    paper_pdf: "https://link.springer.com/article/10.1007/s13253-025-00696-4"
     code: "https://github.com/EthanYDONG/MelbournePedestrianForecasting"
     selected: y
 
   - title: "Extrapolated Random Tree for Regression"
     authors: "Yuchao Cai, Yuheng Ma, <b>Yiwei Dong</b>, Hanfang Yang"
-    venue: "Proceedings of the 40th International Conference on Machine Learning, PMLR 202:3442-3468, 2023."
+    venue: "Proceedings of the 40th International Conference on Machine Learning (ICML), PMLR 202:3442-3468, 2023."
     paper_pdf: "/assets/publications/2023_icml/ertr_paper.pdf"
     code: "https://github.com/Karlmyh/ERTR"
     selected: y
