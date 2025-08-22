@@ -281,7 +281,7 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 /* ===== Timeline gap & alignment fine-tuning ===== */
 
 /* 统一一个“离中线的间距”变量，左右一致 */
-.timeline{ --gap: 44.84px; }  /* 想更近就减小这个数，想更远就增大 */
+.timeline{ --gap: 44.944px; }  /* 想更近就减小这个数，想更远就增大 */
 
 /* 两侧都只用 padding 控制到中线的距离（覆盖模板里的旧 margin） */
 .timeline .direction-l{ padding-right: var(--gap) !important; }
@@ -308,5 +308,104 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 /* —— 如果右侧仍然“看着更远”，用一个极小的 nudge 微调 —— */
 /* 负值往中线靠，正值远离中线；一般 -4px ～ -8px 就够了 */
 .timeline .direction-r{ transform: translateX(-6.7px); }
+
+
+/* =================== Mobile single-column polish (add at the end) =================== */
+@media (max-width: 899.98px){
+
+  /* 适度收紧全局间距与高度 */
+  :root{
+    --gutter: 16px;              /* 手机边距小一点 */
+    --nav-h: 56px;               /* 手机导航条略低 */
+    --footer-h: 62px;            /* 底栏高度略低 */
+  }
+
+  /* 顶部导航：靠左 + 可横向滑动（保留居中风格会太拥挤） */
+  .navbar > .container{
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 18px;
+    padding: 0 12px;
+  }
+  .navbar-list{
+    flex-wrap: nowrap;
+    gap: 18px;
+  }
+  .navbar-link{
+    font-size: 14px !important;
+    padding: 10px 4px;           /* 点击更舒服 */
+  }
+
+  /* 页面顶/底留白与模块间距 */
+  body{
+    padding-top: var(--nav-h);
+    padding-bottom: var(--footer-h);
+  }
+  .content-with-sidebar{ margin-top: 12px; }
+  .docs-section{
+    padding: 1.25rem 0;
+    scroll-margin-top: calc(var(--nav-h) + 10px);  /* 修复锚点被固定导航挡住 */
+  }
+  .docs-section > h4, .section-header{
+    font-size: 1.6rem;
+    margin: 0 0 .6rem;
+  }
+
+  /* 侧栏：变成普通卡片，自动高度 */
+  .side-col{ width: 100% !important; margin-bottom: 14px; position: static !important; }
+  .sidepanel{
+    height: auto !important;
+    max-height: none !important;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+  .sidepanel .portrait{ height: 140px; }
+  .sidepanel .profile-name{ font-size: 24px; }
+
+  /* 正文：铺满宽度 */
+  .main-col{ margin-left: 0 !important; max-width: 100% !important; }
+
+  /* 出版/按钮点击区大一点（可选） */
+  .button, .tab-nav .button{
+    min-height: 44px;
+  }
+
+  /* 时间线：移动端改成左侧竖线样式（更易读也更省宽度） */
+  .timeline{ --line-x: 24px; --gap: 18px; }
+  .timeline::before{
+    left: var(--line-x);
+    width: 4px;
+    transform: translateX(0);
+  }
+  .timeline .direction-l,
+  .timeline .direction-r{
+    width: 100%;
+    padding: 0 0 0 calc(var(--line-x) + 24px);  /* 竖线右侧留出内容区 */
+    text-align: left;
+    transform: none;                             /* 取消你桌面端的微调 */
+  }
+  .timeline .flag{
+    max-width: 100%;
+    margin: 0 !important;
+    display: block;
+  }
+  .timeline .timeline-icon,
+  .timeline .node,
+  .timeline .dot{
+    left: var(--line-x) !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  .timeline .time-wrapper{
+    left: calc(var(--line-x) + 12px) !important;
+    right: auto !important;
+    top: -6px;
+    white-space: nowrap;
+  }
+}
+
 
 
