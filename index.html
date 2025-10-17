@@ -1,157 +1,147 @@
----
-layout: default
-title: Home
----
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow-x:hidden}
+html{scrollbar-gutter:stable}
 
-<div class="row content-with-sidebar">
+:root{
+  --nyu:#57068C;
+  --nyu-dark:#43056c;
+  --panel:#f2f2f4;
+  --border:#e5e7eb;
 
-  <!-- 左侧：信息卡 -->
-  <aside class="four columns side-col">
-    <div class="sidepanel">
-      <img class="portrait" src="{{ site.baseurl }}{{ site.data.main_info.profile_pic }}" alt="profile">
+  --wrap:1200px;
+  --gutter:20px;
+  --nav-h:64px;
+  --footer-h:66px;
 
-      <div class="kicker"></div>
-      <ul><li><span class="profile-name">{{ site.data.main_info.name }}</span></li></ul>
+  --sidebar:240px;
+  --gap:44px;
 
-      <div class="kicker">Email</div>
-      <ul>
-        <li><a href="mailto:{{ site.data.main_info.email | strip }}">{{ site.data.main_info.email }}</a></li>
-      </ul>
+  --x-nudge:16px;
+}
 
-      <div class="kicker">Website</div>
-      <ul>
-        <li><a href="{{ site.baseurl }}/">personal website</a></li>
-      </ul>
+body::before,body::after,.navbar::before,.navbar::after{content:none!important;display:none!important}
+.header{display:none!important}
 
-      <div class="kicker">Links</div>
-      <ul>
-        {% if site.data.main_info.google_scholar %}<li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>{% endif %}
-        {% if site.data.main_info.github %}<li><a href="{{ site.data.main_info.github }}">GitHub</a></li>{% endif %}
-        {% if site.data.main_info.linkedin %}<li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>{% endif %}
-      </ul>
-    </div>
-  </aside>
-  <!-- 右侧：正文 -->
-  <div class="eight columns main-col">
+a{color:var(--nyu)}
+a:hover{color:#6c2ca2}
 
-    <!-- ========== BIO ========== -->
-    <div class="docs-section" id="bio">
-      <h4>Bio</h4>
-      <p>
-        Hello! I'm currently a first-year PhD student at <a href="https://www.nyu.edu/" target="_blank" rel="noopener noreferrer">New York University</a>. 
-        I obtained my MSc in Statistics from Renmin University of China, 
-        under the guidance of <a href=" " target="_blank" rel="noopener noreferrer">Prof. Hanfang Yang</a> and
-        <a href="https://hongtengxu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongteng Xu</a>.
-        I was also a visiting research intern at Carnegie Mellon University, co-hosted by
-        <a href="https://www.andrew.cmu.edu/user/shixianz/" target="_blank" rel="noopener noreferrer">Prof. Shixiang (Woody) Zhu</a>
-        and
-        <a href="https://hwiberg.github.io/" target="_blank" rel="noopener noreferrer">Prof. Holly Wiberg</a>.
-        My research interests lie in <b>machine learning</b> for
-        <b>sequential data modeling and sequential decision making</b>. Specifically, I focus on
-        <b>reinforcement learning</b>, <b>stochastic process</b>, <b>control theory</b>, and their applications in <b>cyber-physical energy systems</b>.
-      </p>
-    </div>
+.container,main,.page-content{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
 
-    <div class="docs-section" id="News">
-      <h4>News</h4>
-      <p><b>I am excited to begin my PhD journey at NYU in the fall of 2025!</b> <br>
-        
-        I am eager to explore interesting research ideas with fellow scholars and look forward to engaging in in-depth collaboration,
-        particularly in the areas of machine learning and control, as well as data-driven optimization for sustainable power systems. </p>
-    </div>
+.navbar{
+  position:fixed!important;top:0;left:0;right:0;height:var(--nav-h);
+  background:var(--nyu)!important;border:none!important;box-shadow:0 2px 10px rgba(0,0,0,.06);z-index:1000
+}
+.navbar-spacer{display:none!important}
+.navbar>.container{min-height:var(--nav-h);display:flex;align-items:center;justify-content:center;gap:28px;padding:0 16px}
+.navbar-list{list-style:none;display:flex;gap:28px;margin:0;padding:0}
+.navbar-item{margin:0}
+.navbar-link{color:#fff!important;text-transform:uppercase;letter-spacing:.12rem;text-decoration:none;font-weight:600;padding:8px 6px;line-height:1;border-radius:6px}
+.navbar-link:hover{background:var(--nyu-dark);color:#fff!important}
 
+body{padding-top:var(--nav-h);padding-bottom:var(--footer-h)}
 
-    <!-- ========== PUBLICATIONS） ========== -->
-    <div class="docs-section" id="publications">
-      <h4>Publications</h4>
-      <p>
-        Most recent publications on
-        <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">CV</a>.<br/>
-        <sup>‡</sup> indicates equal contribution.
-      </p>
+.content-with-sidebar{margin-top:16px}
 
-      <ul class="tab-nav">
-        <li><div class="button active" data-ref="#papers-selected">Selected</div></li>
-        <li><div class="button" data-ref="#papers-all">All</div></li>
-      </ul>
+@media (max-width:899.98px){
+  .content-with-sidebar{display:block}
+  .side-col{width:100%!important;margin-bottom:16px;position:static!important}
+  .sidepanel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+}
 
-      <div class="tab-content">
-        <div class="tab-pane active" id="papers-selected">
-          {% assign selected_papers = site.data.publications.papers | where: "selected", "y" %}
-          {% for paper in selected_papers %}
-            <div class="paper">
-              <p class="title"><b>{{ paper.title }}</b></p>
-              <p>{{ paper.authors }}</p>
-              <p><i>{{ paper.venue }}</i></p>
-              <div class="paper-buttons">
-                {% if paper.paper_pdf %}<a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>{% endif %}
-                {% if paper.slides %}<a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>{% endif %}
-                {% if paper.poster %}<a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>{% endif %}
-                {% if paper.video %}<a class="button" href="{{ paper.video }}" target="_blank">Video</a>{% endif %}
-                {% if paper.code %}<a class="button" href="{{ paper.code }}" target="_blank">Code</a>{% endif %}
-                {% if paper.data %}<a class="button" href="{{ paper.data }}" target="_blank">Data</a>{% endif %}
-              </div>
-            </div>
-          {% endfor %}
-        </div>
+@media (min-width:900px){
+  .content-with-sidebar{display:block;padding-left:var(--x-nudge)!important}
+  .side-col{
+    position:fixed!important;
+    left:calc(50vw - (var(--wrap)/2) + var(--gutter) + var(--x-nudge));
+    top:calc(var(--nav-h) + 16px);
+    width:var(--sidebar)!important;max-width:var(--sidebar)!important;min-width:var(--sidebar)!important;z-index:15
+  }
+  .sidepanel{
+    width:100%!important;height:calc(100vh - var(--nav-h) - var(--footer-h) - 32px)!important;overflow:auto!important;
+    background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.06)
+  }
+  .main-col{margin-left:calc(var(--sidebar) + var(--gap))!important;max-width:860px;min-width:0}
+}
 
-        <div class="tab-pane" id="papers-all">
-          {% for paper in site.data.publications.papers %}
-            <div class="paper">
-              <p class="title"><b>{{ paper.title }}</b></p>
-              <p>{{ paper.authors }}</p>
-              <p><i>{{ paper.venue }}</i></p>
-              <div class="paper-buttons">
-                {% if paper.paper_pdf %}<a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>{% endif %}
-                {% if paper.slides %}<a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>{% endif %}
-                {% if paper.poster %}<a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>{% endif %}
-                {% if paper.video %}<a class="button" href="{{ paper.video }}" target="_blank">Video</a>{% endif %}
-                {% if paper.code %}<a class="button" href="{{ paper.code }}" target="_blank">Code</a>{% endif %}
-                {% if paper.data %}<a class="button" href="{{ paper.data }}" target="_blank">Data</a>{% endif %}
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
+.sidepanel .portrait{display:block;width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:12px}
+.kicker{margin:18px 0 8px;font-size:12px;font-weight:700;letter-spacing:.12rem;text-transform:uppercase;color:#111827}
+.sidepanel ul{list-style:none;padding:0;margin:4px 0 10px}
+.sidepanel li{margin:6px 0}
+.sidepanel a{text-decoration:none}
+.sidepanel a:hover{text-decoration:underline}
+.profile-name{font-size:26px;font-weight:800;color:#111!important;line-height:1.2}
 
-    <!-- ========== CV ========== -->
-    <div class="docs-section" id="resume">
-      <h4>CV</h4>
-      <p>Full Resume in <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">PDF</a>.</p>
-    </div>
+.docs-section{padding:2rem 0;border-top:1px solid var(--border)}
+.docs-section>h4,.section-header{font-size:2rem;font-weight:700;letter-spacing:.02rem;text-transform:none;margin:0 0 .8rem}
+.main-col b,.main-col strong{color:#111!important;font-weight:700}
 
-  <!-- The Timeline -->
-  <ul class="timeline">
-    {% for exp in site.data.experience.experiences %}
-    <li>
-      {% if exp.category == "work" %}
-      <div class="direction-l">
-      {% else %}
-      <div class="direction-r">
-      {% endif %}
-        <div class="flag-wrapper">
-          <span class="flag">{{ exp.place }}</span>
-          <span class="time-wrapper"><span class="time">{{ exp.time }}</span></span>
-        </div>
-        <div class="desc"><b>{{ exp.title }}</b> <br/> {{ exp.subtitle }}</div>
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
-  <!-- 注意：这里不要再多一个 </div>，否则会把 .main-col 提前关掉 -->
-  
-  <!-- ========== Misc ========== -->
-  <div class="docs-section" id="misc">
-    <h4>Misc</h4>
-    <p>I enjoy citywalk, musicals, and photography :D <br> See you in New York City, in China, in Antarctica, in the world!</p>
-  </div>
+.footer{
+  position:fixed!important;bottom:0;left:0;right:0;height:var(--footer-h)!important;
+  background:var(--nyu)!important;color:#fff!important;border-top:none!important;z-index:999;
+  display:flex!important;align-items:center!important;padding:0!important
+}
+.footer .container,.footer .row{
+  width:100%;height:100%;max-width:var(--wrap);margin:0 auto;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;padding:0 32px!important
+}
+.footer *{margin-top:0!important;margin-bottom:0!important;line-height:1!important}
 
+@media (min-width:900px){
+  .content-with-sidebar .side-col{
+    width:var(--sidebar)!important;max-width:var(--sidebar)!important;min-width:var(--sidebar)!important;
+    padding-left:0!important;padding-right:0!important;flex:0 0 var(--sidebar)!important
+  }
+}
 
+.timeline{--line-x:50%;position:relative}
+.timeline::before{content:"";position:absolute;top:0;bottom:0;left:var(--line-x);width:6px;background:#3b3b3b;transform:translateX(-50%)}
+.timeline .timeline-icon,.timeline .node,.timeline .dot{position:absolute;left:var(--line-x)!important;transform:translate(-50%,-50%)!important}
+.timeline .direction-l,.timeline .direction-r{width:50%;position:relative}
+.timeline .direction-l{padding-right:48px;text-align:right}
+.timeline .direction-r{padding-left:48px;text-align:left}
+.timeline .flag{display:inline-block;max-width:520px;background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 6px 18px rgba(0,0,0,.06);margin:0}
+.timeline .direction-r .flag{margin-left:0!important}
+.timeline .direction-l .flag{margin-right:0!important}
+.timeline .time-wrapper{position:absolute;top:-6px;white-space:nowrap}
+.timeline .direction-r .time-wrapper{left:calc(var(--line-x) + 12px);right:auto!important}
+.timeline .direction-l .time-wrapper{right:calc(100% - var(--line-x) + 24px);left:auto!important}
+.timeline{--gap:44.944px}
+.timeline .direction-l{padding-right:var(--gap)!important}
+.timeline .direction-r{padding-left:var(--gap)!important}
+.timeline .timeline-icon,.timeline .node,.timeline .dot{left:50%!important;transform:translate(-50%,-50%)!important}
+.timeline .direction-r{transform:translateX(-6.3px)}
+.navbar-link{font-size:15px!important;font-weight:600;letter-spacing:.12rem}
 
+@media (max-width:899.98px){
+  :root{--gutter:16px;--nav-h:56px;--footer-h:62px}
+  .navbar>.container{justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:18px;padding:0 12px}
+  .navbar-list{flex-wrap:nowrap;gap:18px}
+  .navbar-link{font-size:14px!important;padding:10px 4px}
+  .content-with-sidebar{margin-top:12px}
+  .docs-section{padding:1.25rem 0;scroll-margin-top:calc(var(--nav-h) + 10px)}
+  .docs-section>h4,.section-header{font-size:1.6rem;margin:0 0 .6rem}
+  .sidepanel{height:auto!important;max-height:none!important}
+  .sidepanel .portrait{width:70vw;max-width:340px;aspect-ratio:1/1;height:auto;display:block;margin:0 auto 12px;object-fit:cover;object-position:50% 35%;border-radius:14px}
+  .sidepanel .profile-name{font-size:24px}
+  .main-col{margin-left:0!important;max-width:100%!important}
+  .timeline{--line-x:24px;--gap:18px}
+  .timeline::before{left:var(--line-x);width:4px;transform:translateX(0)}
+  .timeline .direction-l,.timeline .direction-r{width:100%;padding:0 0 0 calc(var(--line-x) + 24px);text-align:left;transform:none}
+  .timeline .flag{max-width:100%;margin:0!important;display:block}
+  .timeline .timeline-icon,.timeline .node,.timeline .dot{left:var(--line-x)!important;transform:translate(-50%,-50%)!important}
+  .timeline .time-wrapper{left:calc(var(--line-x) + 12px)!important;right:auto!important;top:-6px}
+}
 
-    <!-- 与顶部导航一致的“News”锚点（保留占位避免链接失效；正文已在上方） -->
-    <section id="prospective-students" class="docs-section" style="display:none;"></section>
-
-  </div><!-- /.main-col -->
-</div><!-- /.content-with-sidebar -->
+@media (max-width:480px) and (orientation:portrait){
+  .sidepanel{padding:12px;border-radius:12px}
+  .sidepanel .portrait{width:68vw;max-width:320px;aspect-ratio:1/1;height:auto;object-fit:cover;object-position:50% 35%}
+  .sidepanel .profile-name{font-size:20px}
+  .container,main,.page-content{padding:0 14px}
+  .navbar>.container{gap:8px;padding:0 10px}
+  .navbar-list{flex-wrap:wrap;gap:8px 10px}
+  .navbar-link{font-size:13px!important;letter-spacing:.08rem;padding:6px 6px}
+  :root{--footer-h:58px}
+  body{padding-bottom:var(--footer-h)}
+  .footer{height:var(--footer-h)!important}
+  .footer .container,.footer .row{padding:0 16px!important}
+}
