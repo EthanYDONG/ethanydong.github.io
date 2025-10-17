@@ -1,121 +1,120 @@
 /* =================== Global & Vars =================== */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; overflow-x: hidden; }
-/* 防止滚动条出现/消失造成宽度抖动 */
 html { scrollbar-gutter: stable both-edges; }
 
 :root{
   --nyu: #57068C;
-  --nyu-dark: #43056c;
-  --panel: #f2f2f4;
+  --nyu-dark:#43056c;
+  --panel:#f2f2f4;
   --border:#e5e7eb;
 
-  --wrap: 1200px;     /* 版心最大宽度（正文居中用） */
-  --gutter: 20px;     /* container 左右内边距 */
-  --nav-h: 64px;      /* 顶部紫条高度 */
-  --footer-h: 66px;   /* 底部紫条高度（略大，便于居中） */
+  --wrap: 1200px;      /* 版心最大宽度 */
+  --gutter: 20px;      /* container 左右内边距 */
+  --nav-h: 64px;       /* 顶部紫条高度 */
+  --footer-h: 66px;    /* 底部紫条高度 */
 
-  --sidebar: 240px;   /* 侧栏固定宽度（觉得宽就改 220px） */
-  --gap: 28px;        /* 侧栏与正文间距 */
+  --sidebar: 240px;    /* 左侧信息栏宽度 */
+  --gap: 36px;         /* 信息栏与正文间距（桌面端更大一点） */
+
+  --x-nudge: 16px;     /* 全局整体向右微移（正数=向右） */
 }
 
-/* 主题里可能画装饰条的伪元素全部关掉 */
+/* 关掉可能的旧装饰 */
 body::before, body::after,
-.navbar::before, .navbar::after { content: none !important; display: none !important; }
+.navbar::before, .navbar::after { content:none !important; display:none !important; }
 
-/* 主题自带头像 Header 隐藏，避免重复 & 顶到正文 */
+/* 隐藏主题自带头像 header */
 .header{ display:none !important; }
 
 /* 链接配色 */
-a{ color: var(--nyu); }
-a:hover{ color: #6c2ca2; }
+a{ color:var(--nyu); }
+a:hover{ color:#6c2ca2; }
 
-/* 版心（右侧正文容器） */
+/* 版心：正文容器 */
 .container, main, .page-content{
-  max-width: var(--wrap);
-  margin: 0 auto;
-  padding: 0 var(--gutter);
+  max-width:var(--wrap);
+  margin:0 auto;
+  padding:0 var(--gutter);
 }
 
-/* =================== Top Navbar（固定 + 全宽） =================== */
+/* =================== Top Navbar（固定 + 真·全宽） =================== */
 .navbar{
-  position: fixed !important;
-  top: 0; left: 0; right: 0;
-  height: var(--nav-h);
-  background: var(--nyu) !important;
-  border: none !important;
-  box-shadow: 0 2px 10px rgba(0,0,0,.06);
-  z-index: 1000;
+  position:fixed !important;
+  top:0;
+  height:var(--nav-h);
+  background:var(--nyu) !important;
+  border:none !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  z-index:1000;
+
+  /* full-bleed：让背景横穿到最左/最右 */
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
 }
 .navbar-spacer{ display:none !important; }
 
 .navbar > .container{
-  min-height: var(--nav-h);
-  display: flex; align-items: center; justify-content: center;
-  gap: 28px; padding: 0 16px;
+  min-height:var(--nav-h);
+  display:flex; align-items:center; justify-content:center;
+  gap:28px; padding:0 16px;
 }
-.navbar-list{ list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
-.navbar-item{ margin: 0; }
+.navbar-list{ list-style:none; display:flex; gap:28px; margin:0; padding:0; }
+.navbar-item{ margin:0; }
 .navbar-link{
-  color:#fff !important; text-transform: uppercase; letter-spacing:.12rem;
-  text-decoration: none; font-weight: 600; padding: 8px 6px; line-height: 1; border-radius: 6px;
+  color:#fff !important; text-transform:uppercase; letter-spacing:.12rem;
+  text-decoration:none; font-weight:600; padding:8px 6px; line-height:1; border-radius:6px;
 }
-.navbar-link:hover{ background: var(--nyu-dark); color:#fff !important; }
+.navbar-link:hover{ background:var(--nyu-dark); color:#fff !important; }
 
-/* 正文整体让出顶/底固定条空间 */
-body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
+/* 正文整体让出固定顶/底栏空间 */
+body{ padding-top:var(--nav-h); padding-bottom:var(--footer-h); }
 
 /* =================== 双栏布局 =================== */
-.content-with-sidebar{ margin-top: 16px; }
+.content-with-sidebar{ margin-top:16px; }
 
-/* —— 小屏（< 900px）：单栏自然流动 —— */
+/* —— 小屏（< 900px）：单栏 —— */
 @media (max-width: 899.98px){
-  .content-with-sidebar{ display: block; }
-  .side-col{ width: 100% !important; margin-bottom: 16px; }
-  .sidepanel{ background: var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px; }
+  .content-with-sidebar{ display:block; }
+  .side-col{ width:100% !important; margin-bottom:16px; position:static !important; }
+  .sidepanel{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:12px; padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.06);
+  }
 }
 
-/* —— 桌面端（≥ 900px）：左侧固定，右侧正文让位 —— */
+/* —— 桌面端（≥ 900px）：左侧固定，右侧正文右移 —— */
 @media (min-width: 900px){
-  /* 整体两栏：右边是版心（居中），左侧是固定侧栏 */
-  .content-with-sidebar{
-    display: block; /* 右列独占版心，侧栏固定在视口，不跟版心同行流 */
-  }
+  .content-with-sidebar{ display:block; padding-left: var(--x-nudge) !important; }
 
-  /* 左侧列：固定，不随滚动，上下贯穿在两条紫条之间 */
   .side-col{
-    position: fixed !important;
-    /* 侧栏锚在版心左侧边缘处： (视口中心 - 版心半宽 + 左内边距) */
-    left: calc(50vw - (var(--wrap) / 2) + var(--gutter));
-    top:  calc(var(--nav-h) + 16px);
-    width: var(--sidebar) !important;
-    max-width: var(--sidebar) !important;
-    min-width: var(--sidebar) !important;
-    z-index: 15;
+    position:fixed !important;
+    left:calc(50vw - (var(--wrap)/2) + var(--gutter) + var(--x-nudge));
+    top:calc(var(--nav-h) + 16px);
+    width:var(--sidebar) !important;
+    max-width:var(--sidebar) !important;
+    min-width:var(--sidebar) !important;
+    z-index:15;
   }
-  /* 卡片本体：填满可视高度（去掉顶/底的 16px 呼吸）并在内部滚动 */
   .sidepanel{
-    width: 100% !important;
-    height: calc(100vh - var(--nav-h) - var(--footer-h) - 32px) !important;
-    overflow: auto !important;
-    background: var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:16px;
-    box-shadow:0 6px 18px rgba(0,0,0,.06);
+    width:100% !important;
+    height:calc(100vh - var(--nav-h) - var(--footer-h) - 32px) !important;
+    overflow:auto !important;
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:12px; padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.06);
   }
 
-  /* 右侧正文：整体右移 = 侧栏宽 + 间距；并限制阅读宽度 */
   .main-col{
-    margin-left: calc(var(--sidebar) + var(--gap)) !important;
-    max-width: 860px;   /* 阅读舒适宽度，可按需调 */
-    min-width: 0;
+    margin-left:calc(var(--sidebar) + var(--gap)) !important;
+    max-width:860px; min-width:0;
   }
 }
 
 /* 侧栏内容细节 */
 .sidepanel .portrait{
-  display:block; width:100%; height:180px; object-fit:cover; border-radius:10px; margin-bottom:12px;
+  display:block; width:100%; height:180px; object-fit:cover;
+  border-radius:10px; margin-bottom:12px;
 }
 .kicker{
   margin:18px 0 8px; font-size:12px; font-weight:700;
@@ -125,340 +124,147 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 .sidepanel li{ margin:6px 0; }
 .sidepanel a{ text-decoration:none; }
 .sidepanel a:hover{ text-decoration:underline; }
-.profile-name{ font-size:22px; font-weight:800; color:#111 !important; line-height:1.2; }
+.profile-name{ font-size:26px; font-weight:800; color:#111 !important; line-height:1.2; }
 
 /* =================== 正文视觉 =================== */
-.docs-section{ padding: 2rem 0; border-top: 1px solid var(--border); }
+.docs-section{ padding:2rem 0; border-top:1px solid var(--border); }
 .docs-section > h4, .section-header{
-  font-size: 2rem; font-weight: 700; letter-spacing:.02rem;
-  text-transform: none; margin: 0 0 .8rem;
+  font-size:2rem; font-weight:700; letter-spacing:.02rem;
+  text-transform:none; margin:0 0 .8rem;
 }
 .main-col b, .main-col strong{ color:#111 !important; font-weight:700; }
 
-/* =================== Bottom Footer（固定 + 全宽） =================== */
+/* =================== Bottom Footer（固定 + 真·全宽） =================== */
 .footer{
-  position: fixed !important;
-  left: 0; right: 0; bottom: 0;
-  height: var(--footer-h) !important;
-  background: var(--nyu) !important;
+  position:fixed !important;
+  bottom:0;
+  height:var(--footer-h) !important;
+  background:var(--nyu) !important;
   color:#fff !important;
   border-top:none !important;
-  z-index: 999;
-  display:flex !important; align-items:center !important;  /* 垂直居中 */
-  padding: 0 !important;
+  z-index:999;
+  display:flex !important; align-items:center !important;
+  padding:0 !important;
+
+  /* full-bleed */
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
 }
 .footer .container, .footer .row{
-  width: 100%; height: 100%;
-  max-width: var(--wrap);
-  margin: 0 auto;
+  width:100%; height:100%;
+  max-width:var(--wrap);
+  margin:0 auto;
   display:flex !important; align-items:center !important; justify-content:space-between !important;
-  padding: 0 32px !important;
+  padding:0 32px !important;
 }
-/* 消除内部元素上下外边距，让文字真正居中 */
 .footer *{ margin-top:0 !important; margin-bottom:0 !important; line-height:1 !important; }
 
 /* =================== 兼容 Skeleton 的列宽（强覆盖） =================== */
 @media (min-width: 900px){
   .content-with-sidebar .side-col{
-    width: var(--sidebar) !important;
-    max-width: var(--sidebar) !important;
-    min-width: var(--sidebar) !important;
-    padding-left: 0 !important; padding-right: 0 !important;
-    flex: 0 0 var(--sidebar) !important;
+    width:var(--sidebar) !important;
+    max-width:var(--sidebar) !important;
+    min-width:var(--sidebar) !important;
+    padding-left:0 !important; padding-right:0 !important;
+    flex:0 0 var(--sidebar) !important;
   }
 }
 
-/* === 全局右移微调量（正数 = 向右；负数 = 向左） === */
-:root{
-  --x-nudge: 16px;   /* 自己改：8/12/16/20px 都可以 */
+/* =================== 时间线对齐（保持你现在的修正） =================== */
+.timeline { --line-x: 50%; position: relative; }
+.timeline::before{
+  content:""; position:absolute; top:0; bottom:0; left:var(--line-x);
+  width:6px; background:#3b3b3b; transform:translateX(-50%);
 }
-
-/* ≥900px 生效（你的两栏断点） */
-@media (min-width: 900px){
-  /* 1) 固定侧栏整体右移一点 */
-  .side-col{
-    left: calc(50vw - (var(--wrap) / 2) + var(--gutter) + var(--x-nudge)) !important;
-  }
-
-  /* 2) 右侧正文容器也右移同样的量（用内边距更稳） */
-  .content-with-sidebar{
-    padding-left: var(--x-nudge) !important;
-  }
+.timeline .timeline-icon, .timeline .node, .timeline .dot{
+  position:absolute; left:var(--line-x) !important; transform:translate(-50%, -50%) !important;
 }
-
-
-
-/* 左侧信息卡里的姓名字号更大 */
-.sidepanel .profile-name{
-  font-size: 26px;   /* 24 -> 28 或 30，按你喜好 */
-  line-height: 1.2;
+.timeline .direction-l, .timeline .direction-r{ width:50%; position:relative; }
+.timeline .direction-l{ padding-right:48px; text-align:right; }
+.timeline .direction-r{ padding-left:48px;  text-align:left;  }
+.timeline .flag{
+  display:inline-block; max-width:520px; background:#fff; border-radius:10px;
+  padding:10px 14px; box-shadow:0 6px 18px rgba(0,0,0,.06); margin:0;
 }
-
-/* ===== Timeline hard-fix: center line, nodes, and right-side overflow ===== */
-
-/* 统一中线基准 */
-.timeline {
-  --line-x: 50%;
-  position: relative;
-}
-.timeline::before {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  left: var(--line-x);
-  width: 6px;                   /* 你的线宽 */
-  background: #3b3b3b;          /* 线的颜色 */
-  transform: translateX(-50%);  /* 居中 */
-}
-
-/* 圆点始终落在中线正中 */
-.timeline .timeline-icon,
-.timeline .node,
-.timeline .dot {
-  position: absolute;
-  left: var(--line-x) !important;
-  transform: translate(-50%, -50%) !important;
-}
-
-/* 左右两栏各占一半；给中线两侧留出内边距 */
-.timeline .direction-l,
-.timeline .direction-r {
-  width: 50%;
-  position: relative;
-}
-.timeline .direction-l { padding-right: 48px; text-align: right; }
-.timeline .direction-r { padding-left: 48px;  text-align: left;  }
-
-/* 气泡样式统一，并限制最大宽度避免和日期互顶 */
-.timeline .flag {
-  display: inline-block;
-  max-width: 520px;             /* 可按需要调小/调大 */
-  background: #fff;
-  border-radius: 10px;
-  padding: 10px 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.06);
-  margin: 0;                    /* 清掉主题里可能的 margin-left/right 偏移 */
-}
-
-/* 移除右侧额外“位移”，防止像 Renmin 那条被二次推出去 */
-.timeline .direction-r .flag { margin-left: 0 !important; }
-.timeline .direction-l .flag { margin-right: 0 !important; }
-
-/* 日期标签贴近中线两侧，避免把气泡挤出布局 */
-.timeline .time-wrapper {
-  position: absolute;
-  top: -6px; white-space: nowrap;
-}
-.timeline .direction-r .time-wrapper { 
-  left: calc(var(--line-x) + 12px);   /* 中线右侧 24px */
-  right: auto !important;
-}
-.timeline .direction-l .time-wrapper { 
-  right: calc(100% - var(--line-x) + 24px); /* 中线左侧 24px */
-  left: auto !important;
-}
-
-/* 小屏：堆叠为单栏时，全部左对齐；中线与圆点继续居中 */
-@media (max-width: 768px) {
-  .timeline .direction-l,
-  .timeline .direction-r {
-    width: 100%;
-    padding: 0 0 0 48px;        /* 统一左侧内边距 */
-    text-align: left;
-  }
-  .timeline .time-wrapper {
-    left: calc(var(--line-x) + 24px);
-    right: auto !important;
-  }
-}
-
-.navbar-link {
-  font-size: 15px !important;   /* 默认可能是14px，这里调大 */
-  font-weight: 600;
-  letter-spacing: .12rem;
-}
-
-/* ===== Timeline gap & alignment fine-tuning ===== */
-
-/* 统一一个“离中线的间距”变量，左右一致 */
-.timeline{ --gap: 44.944px; }  /* 想更近就减小这个数，想更远就增大 */
-
-/* 两侧都只用 padding 控制到中线的距离（覆盖模板里的旧 margin） */
+.timeline .direction-r .flag{ margin-left:0 !important; }
+.timeline .direction-l .flag{ margin-right:0 !important; }
+.timeline .time-wrapper{ position:absolute; top:-6px; white-space:nowrap; }
+.timeline .direction-r .time-wrapper{ left:calc(var(--line-x) + 12px); right:auto !important; }
+.timeline .direction-l .time-wrapper{ right:calc(100% - var(--line-x) + 24px); left:auto !important; }
+.timeline{ --gap: 44.944px; }
 .timeline .direction-l{ padding-right: var(--gap) !important; }
 .timeline .direction-r{ padding-left:  var(--gap) !important; }
-
-/* 杀掉主题里可能残留的“把右侧再推开”的 margin */
-.timeline .direction-r .flag,
-.timeline .direction-l .flag{
-  margin: 0 !important;
-}
-
-/* 圆点永远压在中线正中（有些模板会有几像素偏差） */
-.timeline .timeline-icon,
-.timeline .node,
-.timeline .dot{
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-}
-
-/* 日期贴近中线（可选） */
-.timeline .direction-r .time-wrapper{ left: calc(50% + 12px) !important; right: auto !important; }
-.timeline .direction-l .time-wrapper{ right: calc(50% + 12px) !important; left: auto !important; }
-
-/* —— 如果右侧仍然“看着更远”，用一个极小的 nudge 微调 —— */
-/* 负值往中线靠，正值远离中线；一般 -4px ～ -8px 就够了 */
+.timeline .timeline-icon, .timeline .node, .timeline .dot{ left:50% !important; transform:translate(-50%, -50%) !important; }
 .timeline .direction-r{ transform: translateX(-6.3px); }
+.navbar-link { font-size:15px !important; font-weight:600; letter-spacing:.12rem; }
 
-
-/* =================== Mobile single-column polish (add at the end) =================== */
+/* =================== Mobile 单栏优化（≤900px） =================== */
 @media (max-width: 899.98px){
 
-  /* 适度收紧全局间距与高度 */
   :root{
-    --gutter: 16px;              /* 手机边距小一点 */
-    --nav-h: 56px;               /* 手机导航条略低 */
-    --footer-h: 62px;            /* 底栏高度略低 */
+    --gutter:16px;
+    --nav-h:56px;
+    --footer-h:62px;
   }
 
-  /* 顶部导航：靠左 + 可横向滑动（保留居中风格会太拥挤） */
+  /* 顶部导航可横向滑动，左对齐 */
   .navbar > .container{
-    justify-content: flex-start;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 18px;
-    padding: 0 12px;
+    justify-content:flex-start;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    gap:18px; padding:0 12px;
   }
-  .navbar-list{
-    flex-wrap: nowrap;
-    gap: 18px;
-  }
-  .navbar-link{
-    font-size: 14px !important;
-    padding: 10px 4px;           /* 点击更舒服 */
-  }
+  .navbar-list{ flex-wrap:nowrap; gap:18px; }
+  .navbar-link{ font-size:14px !important; padding:10px 4px; }
 
-  /* 页面顶/底留白与模块间距 */
-  body{
-    padding-top: var(--nav-h);
-    padding-bottom: var(--footer-h);
-  }
-  .content-with-sidebar{ margin-top: 12px; }
-  .docs-section{
-    padding: 1.25rem 0;
-    scroll-margin-top: calc(var(--nav-h) + 10px);  /* 修复锚点被固定导航挡住 */
-  }
-  .docs-section > h4, .section-header{
-    font-size: 1.6rem;
-    margin: 0 0 .6rem;
-  }
+  /* 模块间距与锚点补偿 */
+  .content-with-sidebar{ margin-top:12px; }
+  .docs-section{ padding:1.25rem 0; scroll-margin-top:calc(var(--nav-h) + 10px); }
+  .docs-section > h4, .section-header{ font-size:1.6rem; margin:0 0 .6rem; }
 
-  /* 侧栏：变成普通卡片，自动高度 */
-  .side-col{ width: 100% !important; margin-bottom: 14px; position: static !important; }
-  .sidepanel{
-    height: auto !important;
-    max-height: none !important;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  /* 侧栏卡片化 + 头像正方形（避免被裁成长方形） */
+  .sidepanel{ height:auto !important; max-height:none !important; }
+  .sidepanel .portrait{
+    width:70vw; max-width:340px;
+    aspect-ratio:1 / 1;   /* 关键：强制正方形 */
+    height:auto; display:block;
+    margin:0 auto 12px;   /* 居中 */
+    object-fit:cover; object-position:50% 35%;
+    border-radius:14px;
   }
-  .sidepanel .portrait{ height: 140px; }
-  .sidepanel .profile-name{ font-size: 24px; }
+  .sidepanel .profile-name{ font-size:24px; }
 
-  /* 正文：铺满宽度 */
-  .main-col{ margin-left: 0 !important; max-width: 100% !important; }
+  /* 正文铺满 */
+  .main-col{ margin-left:0 !important; max-width:100% !important; }
 
-  /* 出版/按钮点击区大一点（可选） */
-  .button, .tab-nav .button{
-    min-height: 44px;
+  /* 时间线改为左侧竖线 */
+  .timeline{ --line-x:24px; --gap:18px; }
+  .timeline::before{ left:var(--line-x); width:4px; transform:translateX(0); }
+  .timeline .direction-l, .timeline .direction-r{
+    width:100%; padding:0 0 0 calc(var(--line-x) + 24px); text-align:left; transform:none;
   }
-
-  /* 时间线：移动端改成左侧竖线样式（更易读也更省宽度） */
-  .timeline{ --line-x: 24px; --gap: 18px; }
-  .timeline::before{
-    left: var(--line-x);
-    width: 4px;
-    transform: translateX(0);
+  .timeline .flag{ max-width:100%; margin:0 !important; display:block; }
+  .timeline .timeline-icon, .timeline .node, .timeline .dot{
+    left:var(--line-x) !important; transform:translate(-50%, -50%) !important;
   }
-  .timeline .direction-l,
-  .timeline .direction-r{
-    width: 100%;
-    padding: 0 0 0 calc(var(--line-x) + 24px);  /* 竖线右侧留出内容区 */
-    text-align: left;
-    transform: none;                             /* 取消你桌面端的微调 */
-  }
-  .timeline .flag{
-    max-width: 100%;
-    margin: 0 !important;
-    display: block;
-  }
-  .timeline .timeline-icon,
-  .timeline .node,
-  .timeline .dot{
-    left: var(--line-x) !important;
-    transform: translate(-50%, -50%) !important;
-  }
-  .timeline .time-wrapper{
-    left: calc(var(--line-x) + 12px) !important;
-    right: auto !important;
-    top: -6px;
-    white-space: nowrap;
-  }
+  .timeline .time-wrapper{ left:calc(var(--line-x) + 12px) !important; right:auto !important; top:-6px; }
 }
 
-/* =================== Mobile Portrait Optimizations =================== */
-/* 竖屏手机：≤480px 可按需把阈值调到 540/600px */
+/* =================== Mobile Portrait 进一步收紧（≤480px） =================== */
 @media (max-width: 480px) and (orientation: portrait){
-
-  /* 单栏：信息卡外观更紧凑 */
-  .content-with-sidebar{ display:block; margin-top:12px; }
-
-  .sidepanel{
-    padding:12px;
-    border-radius:12px;
-  }
-
-  /* 头像：改为“等比正方形”，不再固定 180px 高 */
+  .sidepanel{ padding:12px; border-radius:12px; }
   .sidepanel .portrait{
-    width: 68vw;          /* 用视口宽度控制尺寸 */
-    max-width: 320px;     /* 防止过大 */
-    aspect-ratio: 1 / 1;  /* 关键：强制正方形 */
-    height: auto;         /* 覆盖之前的固定高度 */
-    display:block;
-    margin: 0 auto 12px;  /* 居中 + 底部留白 */
-    object-fit: cover;    /* 等比裁剪填满，形变最少 */
-    object-position: 50% 35%; /* 轻微向上对齐脸部，可按需微调 */
-    border-radius: 14px;
+    width:68vw; max-width:320px; aspect-ratio:1/1; height:auto;
+    object-fit:cover; object-position:50% 35%;
   }
-
-  /* 姓名字号稍微小一点，避免换行太多 */
-  .sidepanel .profile-name{ font-size: 20px; }
-
-  /* 内容区两侧留白收紧一点 */
-  .container, main, .page-content{ padding: 0 14px; }
-
-  /* 顶部导航：允许换行、按钮更紧凑一点 */
+  .sidepanel .profile-name{ font-size:20px; }
+  .container, main, .page-content{ padding:0 14px; }
   .navbar > .container{ gap:8px; padding:0 10px; }
-  .navbar-list{ flex-wrap: wrap; gap:8px 10px; }
-  .navbar-link{
-    font-size: 13px !important;
-    letter-spacing: .08rem;
-    padding: 6px 6px;
-  }
-
-  /* 时间线：单列左对齐，避免与中线/日期挤撞 */
-  .timeline .direction-l,
-  .timeline .direction-r{
-    width:100%;
-    padding: 0 0 0 40px;  /* 统一给中线留出左内边距 */
-    text-align:left;
-  }
-  .timeline .time-wrapper{ left: calc(50% + 18px); right:auto !important; }
-
-  /* 底部固定条高度略降，正文预留空间同步缩小 */
-  :root{ --footer-h: 58px; }     /* 原来 66px */
-  body{  padding-bottom: var(--footer-h); }
-  .footer{ height: var(--footer-h) !important; }
-  .footer .container, .footer .row{ padding: 0 16px !important; }
+  .navbar-list{ flex-wrap:wrap; gap:8px 10px; }
+  .navbar-link{ font-size:13px !important; letter-spacing:.08rem; padding:6px 6px; }
+  :root{ --footer-h:58px; }
+  body{ padding-bottom:var(--footer-h); }
+  .footer{ height:var(--footer-h) !important; }
+  .footer .container, .footer .row{ padding:0 16px !important; }
 }
