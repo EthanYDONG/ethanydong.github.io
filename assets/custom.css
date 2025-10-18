@@ -398,89 +398,103 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     margin-left: calc(var(--sidebar) + var(--gap)) !important;
   }
 }
+/* ========== Phone: keep only photo + name in info panel, no gray background ========== */
+@media (max-width: 640px){
 
-
-/* ========== Mobile-first simplification: hide sidebar & timeline, keep sticky index bar ========== */
-/* 触发阈值可按需从 640px 调到 700/768px */
-@media (max-width: 768px){
-
-  /* 1) 隐藏左侧信息栏与时间线（不影响 CV 普通文本块） */
-  .side-col{ display:block !important; position: static !important; }
-  .sidepanel ul, .kicker, .sidepanel a:not(.profile-name){ display:none !important; },
-  .timeline{
+  /* 只保留 portrait 和 profile-name，其他直接隐藏 */
+  .sidepanel > :not(.portrait):not(.profile-name){
     display: none !important;
   }
 
-  /* 2) 单栏正文铺满，左右留合理内边距，锚点不被顶部条遮住 */
-  .main-col{
-    margin: 0 !important;
-    max-width: 100% !important;
-  }
-  .container, main, .page-content{
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .docs-section{
-    padding: 1.1rem 0;
-    scroll-margin-top: calc(var(--nav-h) + 10px);
-  }
-  .docs-section > h4, .section-header{
-    font-size: 1.55rem;
-    margin: 0 0 .5rem;
-  }
-  .main-col p{ line-height: 1.65; }
-
-  /* 3) 顶部紫条（index bar）在手机上更紧凑并可横向滚动 */
-  :root{
-    --nav-h: 56px;    /* 稍矮一点，留出可视空间 */
-    --gutter: 16px;
-  }
-  body{
-    padding-top: var(--nav-h);
-    padding-bottom: var(--footer-h);
-  }
-  .navbar{
-    height: var(--nav-h);
-    background: var(--nyu) !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,.08);
-  }
-  .navbar > .container{
-    justify-content: flex-start;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 18px;
-    padding: 0 12px;
-  }
-  .navbar-list{ flex-wrap: nowrap; gap: 18px; }
-  .navbar-link{
-    font-size: 14px !important;
-    padding: 9px 6px;
+  /* 去背景、去边框、去阴影，收紧内边距 */
+  .sidepanel{
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 8px 0 !important;
   }
 
-  /* 4) 链接/按钮触控尺寸 */
-  a, .button{
-    min-height: 40px;
-  }
-
-  /* 5) 底部条与正文预留 */
-  :root{ --footer-h: 60px; }
-  .footer{ height: var(--footer-h) !important; }
-  .footer .container, .footer .row{ padding: 0 16px !important; }
-}
-
-/* ========== Very-small portrait polish (极小竖屏，保证头像不被裁坏时的兜底) ========== */
-@media (max-width: 480px) and (orientation: portrait){
-  /* 如果未来你决定在手机上保留头像卡片，把它做成等比正方形 */
+  /* 照片更醒目，保持正方形不变形并居中 */
   .sidepanel .portrait{
     width: 72vw;
     max-width: 320px;
     aspect-ratio: 1 / 1;
     height: auto;
     display: block;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
     object-fit: cover;
     object-position: 50% 35%;
     border-radius: 14px;
   }
-  .sidepanel .profile-name{ font-size: 20px; }
+
+  /* 姓名放大加粗并居中 */
+  .sidepanel .profile-name{
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    line-height: 1.15;
+    text-align: center;
+    margin: 0 0 6px;
+    color: #111 !important;
+  }
+}
+
+/* ========== Phone landscape: keep full sidebar, avatar not squished/cropped ========== */
+@media (max-width: 640px) and (orientation: landscape){
+
+  /* 两栏回归：左侧信息栏 + 右侧正文 */
+  .content-with-sidebar{
+    display: flex !important;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .side-col{
+    position: sticky !important;
+    top: calc(var(--nav-h) + 12px);
+    flex: 0 0 240px;              /* 你也可以调成 220/260 */
+    width: 240px !important;
+    max-width: 240px !important;
+    min-width: 220px !important;
+    z-index: 10;
+  }
+
+  .main-col{
+    margin-left: 0 !important;    /* 两栏并排时不需要额外左外边距 */
+    max-width: none !important;
+    flex: 1 1 auto;
+  }
+
+  /* 取消“竖屏手机只保留头像+姓名”的隐藏规则 */
+  .sidepanel > *{
+    display: revert !important;   /* 恢复默认展示（块/行内由浏览器决定） */
+  }
+
+  /* 横屏时信息卡恢复卡片外观 */
+  .sidepanel{
+    background: var(--panel) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06) !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+  }
+
+  /* 头像：等比、不压扁、不裁切（contain），给个柔和底色以免留白突兀 */
+  .sidepanel .portrait{
+    width: 100% !important;
+    height: auto !important;
+    max-height: 38vh;             /* 避免过高 */
+    object-fit: contain !important;/* 不裁切、不拉伸 */
+    aspect-ratio: auto !important; /* 由图片原始比例决定 */
+    background: #fff2;            /* 很淡的底，以免四周留白太突兀 */
+    border-radius: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* 姓名正常字号（之前竖屏把它放大了，这里回归稍大即可） */
+  .sidepanel .profile-name{
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    text-align: left !important;
+    margin-bottom: 8px !important;
+  }
 }
