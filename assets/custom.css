@@ -441,26 +441,26 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   :root { --gap: 56px; } 
 }
 
-/* Hide portrait on all screens narrower than 1024px:
-   - all phones (portrait & landscape)
-   - iPad portrait */
+/* Phones (portrait/landscape) + iPad portrait: hide photo, show name */
 @media (max-width: 1023.99999px) {
+  /* 隐藏头像 */
   .sidepanel .portrait {
     display: none !important;
   }
-}
-  .sidepanel .profile-name{
-    margin-top: 4px !important;
+
+  /* 只保留姓名；防止被早前的“通配隐藏”规则盖掉 */
+  .sidepanel > * {
+    display: none !important;
   }
-}
-
-
-/* Show portrait on iPad landscape and desktop (>=1024px) */
-@media (min-width: 1024px) {
-  .sidepanel .portrait {
+  .sidepanel .profile-name {
     display: block !important;
-    height: auto !important;      /* 保持比例 */
-    object-fit: cover;            /* 你的现有样式可保留 */
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+    margin: 8px 0 10px !important;
+    color: #111 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
-
