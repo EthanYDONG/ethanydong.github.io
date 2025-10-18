@@ -432,21 +432,10 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 }
 /* === Desktop-only: widen space between sidebar and main === */
 @media (min-width: 900px){
-  :root { --gap: 44px; }   
+  :root { --gap: 43px; }   
 }
 
-
-/* 关闭主题为外部链接自动追加的 ::after 图标/圆点 */
-a[target="_blank"]::after,
-a[rel~="noopener"]::after,
-a[href^="http"]::after,
-a.external::after,
-a.external-link::after {
-  content: none !important;
-  display: none !important;
-  background: none !important;
-}
 
 @media (min-width: 1200px){
-  :root { --gap: 56px; } 
+  :root { --gap: 52px; } 
 }
