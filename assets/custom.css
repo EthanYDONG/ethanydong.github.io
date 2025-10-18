@@ -399,34 +399,34 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 /* ========== Phone: keep only photo + name in info panel, no gray background ========== */
-/* ========== Phone portrait (≤640px): photo + name only, no gray card ========== */
+/* ========== Phone portrait (≤640px): show only photo + name, no gray card ========== */
 @media (max-width: 640px){
 
-  /* 1) 先隐藏 sidepanel 内部所有元素 */
+  /* 先把 sidepanel 里所有后代隐藏 */
   .sidepanel *{
     display: none !important;
   }
 
-  /* 2) 只显示头像和姓名（无论是否为直接子元素） */
-  .sidepanel .portrait,
+  /* 只显示头像与姓名；并且确保姓名里的任何子元素也可见 */
+  .sidepanel .portrait{
+    display: block !important;
+  }
   .sidepanel .profile-name{
     display: block !important;
   }
+  .sidepanel .profile-name *{
+    display: inline !important;   /* 若姓名里包了 <span> 等，避免被一并隐藏 */
+  }
 
-  /* 3) 去掉灰底、边框、阴影；缩小内边距 */
+  /* 去除灰底/边框/阴影，收紧内边距 */
   .sidepanel{
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     padding: 8px 0 !important;
   }
-  /* 某些主题把背景给到列容器上，顺手清理一下 */
-  .side-col{
-    background: transparent !important;
-    border: 0 !important;
-  }
 
-  /* 4) 头像：正方形、居中、不变形 */
+  /* 头像：正方形、居中、不变形 */
   .sidepanel .portrait{
     width: 72vw;
     max-width: 320px;
@@ -438,7 +438,7 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     border-radius: 14px;
   }
 
-  /* 5) 姓名：放大加粗并居中显示 */
+  /* 姓名：放大加粗并居中 */
   .sidepanel .profile-name{
     font-size: 28px !important;
     font-weight: 800 !important;
@@ -449,39 +449,15 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 
-
-/* ========== Phone landscape: keep full sidebar, avatar not squished/cropped ========== */
+/* ========== Phone landscape (≤640px): keep full sidebar, image not cropped ========== */
 @media (max-width: 640px) and (orientation: landscape){
 
-  /* 两栏回归：左侧信息栏 + 右侧正文 */
-  .content-with-sidebar{
-    display: flex !important;
-    align-items: flex-start;
-    gap: 20px;
+  /* 恢复完整信息栏（不隐藏其他元素） */
+  .sidepanel *{
+    display: revert !important;        /* 恢复默认展示 */
   }
 
-  .side-col{
-    position: sticky !important;
-    top: calc(var(--nav-h) + 12px);
-    flex: 0 0 240px;              /* 你也可以调成 220/260 */
-    width: 240px !important;
-    max-width: 240px !important;
-    min-width: 220px !important;
-    z-index: 10;
-  }
-
-  .main-col{
-    margin-left: 0 !important;    /* 两栏并排时不需要额外左外边距 */
-    max-width: none !important;
-    flex: 1 1 auto;
-  }
-
-  /* 取消“竖屏手机只保留头像+姓名”的隐藏规则 */
-  .sidepanel > *{
-    display: revert !important;   /* 恢复默认展示（块/行内由浏览器决定） */
-  }
-
-  /* 横屏时信息卡恢复卡片外观 */
+  /* 信息卡回到卡片样式 */
   .sidepanel{
     background: var(--panel) !important;
     border: 1px solid var(--border) !important;
@@ -490,19 +466,40 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     padding: 14px !important;
   }
 
-  /* 头像：等比、不压扁、不裁切（contain），给个柔和底色以免留白突兀 */
+  /* 头像：等比例缩放，不裁切、不拉伸（强力覆盖任何既有规则） */
   .sidepanel .portrait{
     width: 100% !important;
     height: auto !important;
-    max-height: 38vh;             /* 避免过高 */
-    object-fit: contain !important;/* 不裁切、不拉伸 */
-    aspect-ratio: auto !important; /* 由图片原始比例决定 */
-    background: #fff2;            /* 很淡的底，以免四周留白太突兀 */
+    max-height: 38vh !important;
+    object-fit: contain !important;    /* 关键：不裁切 */
+    aspect-ratio: auto !important;
+    background: transparent !important;
     border-radius: 10px !important;
     margin-bottom: 10px !important;
   }
 
-  /* 姓名正常字号（之前竖屏把它放大了，这里回归稍大即可） */
+  /* 两栏并排布局（横屏时空间足够） */
+  .content-with-sidebar{
+    display: flex !important;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .side-col{
+    position: sticky !important;
+    top: calc(var(--nav-h) + 12px);
+    flex: 0 0 240px;
+    width: 240px !important;
+    max-width: 240px !important;
+    min-width: 220px !important;
+    z-index: 10;
+  }
+  .main-col{
+    margin-left: 0 !important;
+    max-width: none !important;
+    flex: 1 1 auto;
+  }
+
+  /* 横屏里姓名回到正常字号（竖屏里我们放大了） */
   .sidepanel .profile-name{
     font-size: 22px !important;
     font-weight: 800 !important;
@@ -510,3 +507,4 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     margin-bottom: 8px !important;
   }
 }
+
