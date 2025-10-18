@@ -398,3 +398,89 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     margin-left: calc(var(--sidebar) + var(--gap)) !important;
   }
 }
+
+
+/* ========== Mobile-first simplification: hide sidebar & timeline, keep sticky index bar ========== */
+/* 触发阈值可按需从 640px 调到 700/768px */
+@media (max-width: 768px){
+
+  /* 1) 隐藏左侧信息栏与时间线（不影响 CV 普通文本块） */
+  .side-col{ display:block !important; position: static !important; }
+  .sidepanel ul, .kicker, .sidepanel a:not(.profile-name){ display:none !important; },
+  .timeline{
+    display: none !important;
+  }
+
+  /* 2) 单栏正文铺满，左右留合理内边距，锚点不被顶部条遮住 */
+  .main-col{
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .container, main, .page-content{
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .docs-section{
+    padding: 1.1rem 0;
+    scroll-margin-top: calc(var(--nav-h) + 10px);
+  }
+  .docs-section > h4, .section-header{
+    font-size: 1.55rem;
+    margin: 0 0 .5rem;
+  }
+  .main-col p{ line-height: 1.65; }
+
+  /* 3) 顶部紫条（index bar）在手机上更紧凑并可横向滚动 */
+  :root{
+    --nav-h: 56px;    /* 稍矮一点，留出可视空间 */
+    --gutter: 16px;
+  }
+  body{
+    padding-top: var(--nav-h);
+    padding-bottom: var(--footer-h);
+  }
+  .navbar{
+    height: var(--nav-h);
+    background: var(--nyu) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  }
+  .navbar > .container{
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 18px;
+    padding: 0 12px;
+  }
+  .navbar-list{ flex-wrap: nowrap; gap: 18px; }
+  .navbar-link{
+    font-size: 14px !important;
+    padding: 9px 6px;
+  }
+
+  /* 4) 链接/按钮触控尺寸 */
+  a, .button{
+    min-height: 40px;
+  }
+
+  /* 5) 底部条与正文预留 */
+  :root{ --footer-h: 60px; }
+  .footer{ height: var(--footer-h) !important; }
+  .footer .container, .footer .row{ padding: 0 16px !important; }
+}
+
+/* ========== Very-small portrait polish (极小竖屏，保证头像不被裁坏时的兜底) ========== */
+@media (max-width: 480px) and (orientation: portrait){
+  /* 如果未来你决定在手机上保留头像卡片，把它做成等比正方形 */
+  .sidepanel .portrait{
+    width: 72vw;
+    max-width: 320px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    display: block;
+    margin: 0 auto 12px;
+    object-fit: cover;
+    object-position: 50% 35%;
+    border-radius: 14px;
+  }
+  .sidepanel .profile-name{ font-size: 20px; }
+}
