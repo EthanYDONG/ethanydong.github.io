@@ -478,3 +478,16 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 
+
+/* ===== FINAL OVERRIDE: phones (any orientation) + iPad portrait ===== */
+@media (max-width: 1023.9999px){
+  /* 恢复 info 栏中除了头像以外的所有内容 */
+  .sidepanel > *{
+    display: revert !important;
+  }
+  /* 仅隐藏头像（无论横竖屏都隐藏） */
+  .sidepanel .portrait{
+    display: none !important;
+  }
+}
+
