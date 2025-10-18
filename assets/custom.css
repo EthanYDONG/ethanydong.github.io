@@ -432,10 +432,24 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 }
 /* === Desktop-only: widen space between sidebar and main === */
 @media (min-width: 900px){
-  :root { --gap: 43px; }   
+  :root { --gap: 40px; }   
 }
+
 
 
 @media (min-width: 1200px){
   :root { --gap: 52px; } 
+}
+
+
+/* Phone landscape or iPad portrait: hide the photo */
+@media (max-width: 640px) and (orientation: landscape),
+       (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .sidepanel .portrait { 
+    display: none !important; 
+  }
+
+  .sidepanel .profile-name{
+    margin-top: 4px !important;
+  }
 }
