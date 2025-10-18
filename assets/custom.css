@@ -1,51 +1,400 @@
-/* ===== Full-bleed navbar (incl. iOS safe areas) ===== */
+/* =================== Global & Vars =================== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
+html { scrollbar-gutter: stable both-edges; }
+
+:root{
+  --nyu: #57068C;
+  --nyu-dark: #43056c;
+  --panel: #f2f2f4;
+  --border:#e5e7eb;
+
+  --wrap: 1200px;
+  --gutter: 20px;
+  --nav-h: 64px;
+  --footer-h: 66px;
+
+  --sidebar: 240px;
+  --gap: 28px;
+}
+
+body::before, body::after,
+.navbar::before, .navbar::after { content: none !important; display: none !important; }
+
+.header{ display:none !important; }
+
+a{ color: var(--nyu); }
+a:hover{ color: #6c2ca2; }
+
+.container, main, .page-content{
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* =================== Top Navbar =================== */
 .navbar{
-  left: 0;
-  right: 0;
-  width: 100vw;                     /* force edge-to-edge background */
-  padding-left: env(safe-area-inset-left, 0);
-  padding-right: env(safe-area-inset-right, 0);
+  position: fixed !important;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: var(--nyu) !important;
+  border: none !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  z-index: 1000;
 }
+.navbar-spacer{ display:none !important; }
 
-/* 防止 100vw 在部分浏览器造成横向微滚动 */
-html, body { overflow-x: clip; }
-
-/* ===== Desktop: enlarge gap between sidebar & content ===== */
-@media (min-width: 900px){
-  :root{ --gap: 36px; }             /* was 28px */
-  .main-col{
-    margin-left: calc(var(--sidebar) + var(--gap)) !important;
-  }
+.navbar > .container{
+  min-height: var(--nav-h);
+  display: flex; align-items: center; justify-content: center;
+  gap: 28px; padding: 0 16px;
 }
-
-/* ===== Tablet: 保持更舒服的间距（可选） ===== */
-@media (min-width: 900px) and (max-width: 1200px){
-  .main-col{
-    margin-left: calc(var(--sidebar) + var(--gap)) !important;
-  }
+.navbar-list{ list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+.navbar-item{ margin: 0; }
+.navbar-link{
+  color:#fff !important; text-transform: uppercase; letter-spacing:.12rem;
+  text-decoration: none; font-weight: 600; padding: 8px 6px; line-height: 1; border-radius: 6px;
 }
+.navbar-link:hover{ background: var(--nyu-dark); color:#fff !important; }
 
-/* ===== Mobile: avatar never cropped, single-column polish ===== */
+body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
+
+/* =================== Two-column Layout =================== */
+.content-with-sidebar{ margin-top: 16px; }
+
 @media (max-width: 899.98px){
-  /* 侧栏与正文更通透一点 */
-  .content-with-sidebar{ gap: 20px; }
+  .content-with-sidebar{ display: block; }
+  .side-col{ width: 100% !important; margin-bottom: 16px; }
+  .sidepanel{ background: var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px; }
+}
 
-  /* 头像：等比完整显示，不裁切 */
-  .sidepanel .portrait{
-    width: min(72vw, 320px);
-    height: auto;                   /* cancel the fixed 140/180px */
-    aspect-ratio: auto;             /* no forced square here */
-    object-fit: contain;            /* see whole photo */
-    background: var(--panel);       /* reveal margins around image */
+@media (min-width: 900px){
+  .content-with-sidebar{
     display: block;
+  }
+  .side-col{
+    position: fixed !important;
+    left: calc(50vw - (var(--wrap) / 2) + var(--gutter));
+    top:  calc(var(--nav-h) + 16px);
+    width: var(--sidebar) !important;
+    max-width: var(--sidebar) !important;
+    min-width: var(--sidebar) !important;
+    z-index: 15;
+  }
+  .sidepanel{
+    width: 100% !important;
+    height: calc(100vh - var(--nav-h) - var(--footer-h) - 32px) !important;
+    overflow: auto !important;
+    background: var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
+  }
+  .main-col{
+    margin-left: calc(var(--sidebar) + var(--gap)) !important;
+    max-width: 860px;
+    min-width: 0;
+  }
+}
+
+/* Sidebar details */
+.sidepanel .portrait{
+  display:block; width:100%; height:180px; object-fit:cover; border-radius:10px; margin-bottom:12px;
+}
+.kicker{
+  margin:18px 0 8px; font-size:12px; font-weight:700;
+  letter-spacing:.12rem; text-transform:uppercase; color:#111827;
+}
+.sidepanel ul{ list-style:none; padding:0; margin:4px 0 10px; }
+.sidepanel li{ margin:6px 0; }
+.sidepanel a{ text-decoration:none; }
+.sidepanel a:hover{ text-decoration:underline; }
+.profile-name{ font-size:22px; font-weight:800; color:#111 !important; line-height:1.2; }
+
+/* =================== Main =================== */
+.docs-section{ padding: 2rem 0; border-top: 1px solid var(--border); }
+.docs-section > h4, .section-header{
+  font-size: 2rem; font-weight: 700; letter-spacing:.02rem;
+  text-transform: none; margin: 0 0 .8rem;
+}
+.main-col b, .main-col strong{ color:#111 !important; font-weight:700; }
+
+/* =================== Footer =================== */
+.footer{
+  position: fixed !important;
+  left: 0; right: 0; bottom: 0;
+  height: var(--footer-h) !important;
+  background: var(--nyu) !important;
+  color:#fff !important;
+  border-top:none !important;
+  z-index: 999;
+  display:flex !important; align-items:center !important;
+  padding: 0 !important;
+}
+.footer .container, .footer .row{
+  width: 100%; height: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  display:flex !important; align-items:center !important; justify-content:space-between !important;
+  padding: 0 32px !important;
+}
+.footer *{ margin-top:0 !important; margin-bottom:0 !important; line-height:1 !important; }
+
+/* =================== Skeleton Overrides =================== */
+@media (min-width: 900px){
+  .content-with-sidebar .side-col{
+    width: var(--sidebar) !important;
+    max-width: var(--sidebar) !important;
+    min-width: var(--sidebar) !important;
+    padding-left: 0 !important; padding-right: 0 !important;
+    flex: 0 0 var(--sidebar) !important;
+  }
+}
+
+/* Horizontal nudge */
+:root{
+  --x-nudge: 16px;
+}
+@media (min-width: 900px){
+  .side-col{
+    left: calc(50vw - (var(--wrap) / 2) + var(--gutter) + var(--x-nudge)) !important;
+  }
+  .content-with-sidebar{
+    padding-left: var(--x-nudge) !important;
+  }
+}
+
+/* Larger name */
+.sidepanel .profile-name{
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+/* =================== Timeline Base Fixes =================== */
+.timeline {
+  --line-x: 50%;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: var(--line-x);
+  width: 6px;
+  background: #3b3b3b;
+  transform: translateX(-50%);
+}
+.timeline .timeline-icon,
+.timeline .node,
+.timeline .dot {
+  position: absolute;
+  left: var(--line-x) !important;
+  transform: translate(-50%, -50%) !important;
+}
+.timeline .direction-l,
+.timeline .direction-r {
+  width: 50%;
+  position: relative;
+}
+.timeline .direction-l { padding-right: 48px; text-align: right; }
+.timeline .direction-r { padding-left: 48px;  text-align: left;  }
+.timeline .flag {
+  display: inline-block;
+  max-width: 520px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  margin: 0;
+}
+.timeline .direction-r .flag { margin-left: 0 !important; }
+.timeline .direction-l .flag { margin-right: 0 !important; }
+.timeline .time-wrapper {
+  position: absolute;
+  top: -6px; white-space: nowrap;
+}
+.timeline .direction-r .time-wrapper { 
+  left: calc(var(--line-x) + 12px);
+  right: auto !important;
+}
+.timeline .direction-l .time-wrapper { 
+  right: calc(100% - var(--line-x) + 24px);
+  left: auto !important;
+}
+
+@media (max-width: 768px) {
+  .timeline .direction-l,
+  .timeline .direction-r {
+    width: 100%;
+    padding: 0 0 0 48px;
+    text-align: left;
+  }
+  .timeline .time-wrapper {
+    left: calc(var(--line-x) + 24px);
+    right: auto !important;
+  }
+}
+
+.navbar-link {
+  font-size: 15px !important;
+  font-weight: 600;
+  letter-spacing: .12rem;
+}
+
+/* =================== Timeline gap & alignment =================== */
+.timeline{ --gap: 44.944px; }
+.timeline .direction-l{ padding-right: var(--gap) !important; }
+.timeline .direction-r{ padding-left:  var(--gap) !important; }
+.timeline .direction-r .flag,
+.timeline .direction-l .flag{
+  margin: 0 !important;
+}
+.timeline .timeline-icon,
+.timeline .node,
+.timeline .dot{
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+.timeline .direction-r .time-wrapper{ left: calc(50% + 12px) !important; right: auto !important; }
+.timeline .direction-l .time-wrapper{ right: calc(50% + 12px) !important; left: auto !important; }
+.timeline .direction-r{ transform: translateX(-6.3px); }
+
+/* =================== Mobile single-column polish =================== */
+@media (max-width: 899.98px){
+  :root{
+    --gutter: 16px;
+    --nav-h: 56px;
+    --footer-h: 62px;
+  }
+  .navbar > .container{
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 18px;
+    padding: 0 12px;
+  }
+  .navbar-list{
+    flex-wrap: nowrap;
+    gap: 18px;
+  }
+  .navbar-link{
+    font-size: 14px !important;
+    padding: 10px 4px;
+  }
+  body{
+    padding-top: var(--nav-h);
+    padding-bottom: var(--footer-h);
+  }
+  .content-with-sidebar{ margin-top: 12px; }
+  .docs-section{
+    padding: 1.25rem 0;
+    scroll-margin-top: calc(var(--nav-h) + 10px);
+  }
+  .docs-section > h4, .section-header{
+    font-size: 1.6rem;
+    margin: 0 0 .6rem;
+  }
+  .side-col{ width: 100% !important; margin-bottom: 14px; position: static !important; }
+  .sidepanel{
+    height: auto !important;
+    max-height: none !important;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+  .sidepanel .portrait{ height: 140px; }
+  .sidepanel .profile-name{ font-size: 24px; }
+  .main-col{ margin-left: 0 !important; max-width: 100% !important; }
+  .button, .tab-nav .button{
+    min-height: 44px;
+  }
+  .timeline{ --line-x: 24px; --gap: 18px; }
+  .timeline::before{
+    left: var(--line-x);
+    width: 4px;
+    transform: translateX(0);
+  }
+  .timeline .direction-l,
+  .timeline .direction-r{
+    width: 100%;
+    padding: 0 0 0 calc(var(--line-x) + 24px);
+    text-align: left;
+    transform: none;
+  }
+  .timeline .flag{
+    max-width: 100%;
+    margin: 0 !important;
+    display: block;
+  }
+  .timeline .timeline-icon,
+  .timeline .node,
+  .timeline .dot{
+    left: var(--line-x) !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  .timeline .time-wrapper{
+    left: calc(var(--line-x) + 12px) !important;
+    right: auto !important;
+    top: -6px;
+    white-space: nowrap;
+  }
+}
+
+/* =================== Mobile Portrait Optimizations =================== */
+@media (max-width: 480px) and (orientation: portrait){
+  .content-with-sidebar{ display:block; margin-top:12px; }
+  .sidepanel{
+    padding:12px;
+    border-radius:12px;
+  }
+  .sidepanel .portrait{
+    width: 68vw;
+    max-width: 320px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    display:block;
     margin: 0 auto 12px;
+    object-fit: cover;
+    object-position: 50% 35%;
     border-radius: 14px;
   }
+  .sidepanel .profile-name{ font-size: 20px; }
+  .container, main, .page-content{ padding: 0 14px; }
+  .navbar > .container{ gap:8px; padding:0 10px; }
+  .navbar-list{ flex-wrap: wrap; gap:8px 10px; }
+  .navbar-link{
+    font-size: 13px !important;
+    letter-spacing: .08rem;
+    padding: 6px 6px;
+  }
+  .timeline .direction-l,
+  .timeline .direction-r{
+    width:100%;
+    padding: 0 0 0 40px;
+    text-align:left;
+  }
+  .timeline .time-wrapper{ left: calc(50% + 18px); right:auto !important; }
+  :root{ --footer-h: 58px; }
+  body{  padding-bottom: var(--footer-h); }
+  .footer{ height: var(--footer-h) !important; }
+  .footer .container, .footer .row{ padding: 0 16px !important; }
+}  
+/* ===== More space between sidebar and main (no changes to CV/Timeline) ===== */
+
+/* 大屏默认把间距从 28px 提到 44px */
+:root { --gap: 44px; }
+
+/* 特大屏再稍微大一点（可按需调 52→56） */
+@media (min-width: 1200px){
+  :root { --gap: 52px; }
 }
 
-/* ===== Mobile Portrait: 再收紧一些（可选） ===== */
-@media (max-width: 480px) and (orientation: portrait){
-  .sidepanel .portrait{
-    width: min(78vw, 320px);        /* a bit larger on very small screens */
+/* 应用到正文左侧外边距 —— 仅桌面端，两栏时生效 */
+@media (min-width: 900px){
+  .main-col{
+    margin-left: calc(var(--sidebar) + var(--gap)) !important;
   }
 }
