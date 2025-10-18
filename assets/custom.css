@@ -464,3 +464,17 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     opacity: 1 !important;
   }
 }
+
+/* Phone portrait: keep the whole info panel, only hide the photo */
+@media (max-width: 640px) and (orientation: portrait){
+  /* 之前有规则把 sidepanel 的子元素全隐藏了，这里恢复除头像外的所有内容 */
+  .sidepanel > *:not(.portrait){
+    display: revert !important;
+  }
+
+  /* 仅隐藏头像 */
+  .sidepanel .portrait{
+    display: none !important;
+  }
+}
+
