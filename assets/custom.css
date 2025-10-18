@@ -260,30 +260,99 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 .timeline .direction-l .time-wrapper{ right: calc(50% + 12px) !important; left: auto !important; }
 .timeline .direction-r{ transform: translateX(-6.3px); }
 
-/* ================================================================== */
-/* =================== iPhone-specific mobile optimizations ========= */
-/* ================================================================== */
+/* =================== Mobile single-column polish =================== */
+@media (max-width: 899.98px){
+  :root{
+    --gutter: 16px;
+    --nav-h: 56px;
+    --footer-h: 62px;
+  }
+  .navbar > .container{
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 18px;
+    padding: 0 12px;
+  }
+  .navbar-list{
+    flex-wrap: nowrap;
+    gap: 18px;
+  }
+  .navbar-link{
+    font-size: 14px !important;
+    padding: 10px 4px;
+  }
+  body{
+    padding-top: var(--nav-h);
+    padding-bottom: var(--footer-h);
+  }
+  .content-with-sidebar{ margin-top: 12px; }
+  .docs-section{
+    padding: 1.25rem 0;
+    scroll-margin-top: calc(var(--nav-h) + 10px);
+  }
+  .docs-section > h4, .section-header{
+    font-size: 1.6rem;
+    margin: 0 0 .6rem;
+  }
+  .side-col{ width: 100% !important; margin-bottom: 14px; position: static !important; }
+  .sidepanel{
+    height: auto !important;
+    max-height: none !important;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  }
+  .sidepanel .portrait{ height: 140px; }
+  .sidepanel .profile-name{ font-size: 24px; }
+  .main-col{ margin-left: 0 !important; max-width: 100% !important; }
+  .button, .tab-nav .button{
+    min-height: 44px;
+  }
+  .timeline{ --line-x: 24px; --gap: 18px; }
+  .timeline::before{
+    left: var(--line-x);
+    width: 4px;
+    transform: translateX(0);
+  }
+  .timeline .direction-l,
+  .timeline .direction-r{
+    width: 100%;
+    padding: 0 0 0 calc(var(--line-x) + 24px);
+    text-align: left;
+    transform: none;
+  }
+  .timeline .flag{
+    max-width: 100%;
+    margin: 0 !important;
+    display: block;
+  }
+  .timeline .timeline-icon,
+  .timeline .node,
+  .timeline .dot{
+    left: var(--line-x) !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  .timeline .time-wrapper{
+    left: calc(var(--line-x) + 12px) !important;
+    right: auto !important;
+    top: -6px;
+    white-space: nowrap;
+  }
+}
 
-/* ---------- iPhone 竖屏（典型宽度 ≤ 430px）：只保留头像 + 姓名 ---------- */
-@media screen and (max-width: 430px) and (orientation: portrait){
+/* =================== Mobile single-column polish (iPhone portrait) =================== */
+/* iPhone 竖屏（≤640px）：信息栏只保留头像 + 姓名，去灰底；确保姓名可见 */
+@media (max-width: 640px) and (orientation: portrait){
 
-  /* 先隐藏 sidepanel 所有后代，避免被祖先 display 影响（强覆盖） */
-  .sidepanel *{
+  /* 只隐藏 .sidepanel 的“直系”子元素里，除头像与姓名以外的部分 */
+  .sidepanel > :not(.portrait):not(.profile-name){
     display: none !important;
   }
 
-  /* 强制让头像与姓名重新可见 */
-  .sidepanel .portrait{
-    display: block !important;
-  }
-  .sidepanel .profile-name{
-    display: block !important;
-  }
-  .sidepanel .profile-name *{
-    display: inline !important; /* 若姓名内还有 span 等，确保不被隐藏 */
-  }
-
-  /* 去灰底/边框/阴影，收紧内边距 */
+  /* 去掉灰背景、边框、阴影，收紧内边距 */
   .sidepanel{
     background: transparent !important;
     border: none !important;
@@ -291,8 +360,9 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     padding: 8px 0 !important;
   }
 
-  /* 头像：正方形、居中、不变形 */
+  /* 头像：居中、正方形、不变形 */
   .sidepanel .portrait{
+    display: block !important;
     width: 72vw !important;
     max-width: 320px !important;
     aspect-ratio: 1 / 1 !important;
@@ -303,8 +373,9 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     border-radius: 14px !important;
   }
 
-  /* 姓名：放大加粗并居中 */
+  /* 姓名：放大加粗并居中，确保不会被隐藏 */
   .sidepanel .profile-name{
+    display: block !important;
     font-size: 28px !important;
     font-weight: 800 !important;
     line-height: 1.15 !important;
@@ -315,71 +386,72 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     opacity: 1 !important;
   }
 
-  /* 正文不右移，铺满 */
+  /* 正文满宽 */
   .main-col{
     margin-left: 0 !important;
     max-width: 100% !important;
   }
 }
 
-/* ---------- iPhone 横屏（典型高度 ≤ 430px）：全宽信息卡 + 等比例头像 ---------- */
-@media screen and (max-height: 430px) and (orientation: landscape){
+/* =================== Mobile landscape polish (iPhone landscape) =================== */
+/* iPhone 横屏（≤640px）：恢复完整信息栏；头像等比例缩放不裁切 */
+@media (max-width: 640px) and (orientation: landscape){
 
-  /* 切回单列堆叠，避免侧栏“顶到最上方占位” */
-  .content-with-sidebar{
-    display: block !important;
+  /* 取消竖屏时对“直系子元素”的隐藏规则 */
+  .sidepanel > *{
+    display: revert !important;   /* 恢复元素自身的默认显示类型 */
   }
 
-  /* 取消固定/粘滞，侧栏作为一张全宽卡片显示在正文上方 */
-  .side-col{
-    position: static !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    margin-bottom: 12px !important;
-  }
-
+  /* 信息卡恢复卡片外观 */
   .sidepanel{
     background: var(--panel) !important;
     border: 1px solid var(--border) !important;
     box-shadow: 0 6px 18px rgba(0,0,0,.06) !important;
     border-radius: 12px !important;
-    padding: 12px !important;
+    padding: 14px !important;
   }
 
-  /* 头像：等比例缩放，不裁切 */
+  /* 头像：等比例缩小，不裁切、不拉伸（强覆盖任何固定高/cover） */
   .sidepanel .portrait{
     width: 100% !important;
     height: auto !important;
-    max-height: 40vh !important;
-    object-fit: contain !important;   /* 关键：不裁切 */
+    max-height: 38vh !important;
+    object-fit: contain !important;     /* 关键：不裁切 */
     aspect-ratio: auto !important;
+    background: transparent !important;
     border-radius: 10px !important;
     margin-bottom: 10px !important;
   }
 
-  /* 姓名：正常阅读字号 */
+  /* 两栏并排布局，空间允许 */
+  .content-with-sidebar{
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+  }
+  .side-col{
+    position: sticky !important;
+    top: calc(var(--nav-h) + 12px) !important;
+    flex: 0 0 240px !important;
+    width: 240px !important;
+    max-width: 240px !important;
+    min-width: 220px !important;
+    z-index: 10 !important;
+  }
+  .main-col{
+    margin-left: 0 !important;
+    max-width: none !important;
+    flex: 1 1 auto !important;
+  }
+
+  /* 横屏里姓名回到正常阅读字号 */
   .sidepanel .profile-name{
     font-size: 22px !important;
     font-weight: 800 !important;
     text-align: left !important;
-    margin-bottom: 6px !important;
-  }
-
-  /* 正文回归满宽 */
-  .main-col{
-    margin-left: 0 !important;
-    max-width: 100% !important;
+    margin-bottom: 8px !important;
   }
 }
 
-/* ===== More space between sidebar and main (no changes to CV/Timeline) ===== */
-:root { --gap: 44px; }
-@media (min-width: 1200px){
-  :root { --gap: 52px; }
-}
-@media (min-width: 900px){
-  .main-col{
-    margin-left: calc(var(--sidebar) + var(--gap)) !important;
   }
 }
