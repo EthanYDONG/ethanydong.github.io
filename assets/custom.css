@@ -344,23 +344,16 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 }
 
 /* =================== Mobile single-column polish (iPhone portrait) =================== */
-/* iPhone 竖屏（≤640px）：信息栏只保留头像 + 姓名，去灰底；确保姓名可见 */
 @media (max-width: 640px) and (orientation: portrait){
-
-  /* 只隐藏 .sidepanel 的“直系”子元素里，除头像与姓名以外的部分 */
   .sidepanel > :not(.portrait):not(.profile-name){
     display: none !important;
   }
-
-  /* 去掉灰背景、边框、阴影，收紧内边距 */
   .sidepanel{
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     padding: 8px 0 !important;
   }
-
-  /* 头像：居中、正方形、不变形 */
   .sidepanel .portrait{
     display: block !important;
     width: 72vw !important;
@@ -372,8 +365,6 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     object-position: 50% 35% !important;
     border-radius: 14px !important;
   }
-
-  /* 姓名：放大加粗并居中，确保不会被隐藏 */
   .sidepanel .profile-name{
     display: block !important;
     font-size: 28px !important;
@@ -385,8 +376,6 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     visibility: visible !important;
     opacity: 1 !important;
   }
-
-  /* 正文满宽 */
   .main-col{
     margin-left: 0 !important;
     max-width: 100% !important;
@@ -394,15 +383,10 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 }
 
 /* =================== Mobile landscape polish (iPhone landscape) =================== */
-/* iPhone 横屏（≤640px）：恢复完整信息栏；头像等比例缩放不裁切 */
 @media (max-width: 640px) and (orientation: landscape){
-
-  /* 取消竖屏时对“直系子元素”的隐藏规则 */
   .sidepanel > *{
-    display: revert !important;   /* 恢复元素自身的默认显示类型 */
+    display: revert !important;
   }
-
-  /* 信息卡恢复卡片外观 */
   .sidepanel{
     background: var(--panel) !important;
     border: 1px solid var(--border) !important;
@@ -410,20 +394,16 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     border-radius: 12px !important;
     padding: 14px !important;
   }
-
-  /* 头像：等比例缩小，不裁切、不拉伸（强覆盖任何固定高/cover） */
   .sidepanel .portrait{
     width: 100% !important;
     height: auto !important;
     max-height: 38vh !important;
-    object-fit: contain !important;     /* 关键：不裁切 */
+    object-fit: contain !important;
     aspect-ratio: auto !important;
     background: transparent !important;
     border-radius: 10px !important;
     margin-bottom: 10px !important;
   }
-
-  /* 两栏并排布局，空间允许 */
   .content-with-sidebar{
     display: flex !important;
     align-items: flex-start !important;
@@ -443,8 +423,6 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     max-width: none !important;
     flex: 1 1 auto !important;
   }
-
-  /* 横屏里姓名回到正常阅读字号 */
   .sidepanel .profile-name{
     font-size: 22px !important;
     font-weight: 800 !important;
@@ -452,6 +430,11 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     margin-bottom: 8px !important;
   }
 }
+/* === Desktop-only: widen space between sidebar and main === */
+@media (min-width: 900px){
+  :root { --gap: 44px; }   
+}
 
-  }
+@media (min-width: 1200px){
+  :root { --gap: 56px; } 
 }
