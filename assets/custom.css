@@ -399,44 +399,56 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
   }
 }
 /* ========== Phone: keep only photo + name in info panel, no gray background ========== */
+/* ========== Phone portrait (≤640px): photo + name only, no gray card ========== */
 @media (max-width: 640px){
 
-  /* 只保留 portrait 和 profile-name，其他直接隐藏 */
-  .sidepanel > :not(.portrait):not(.profile-name){
+  /* 1) 先隐藏 sidepanel 内部所有元素 */
+  .sidepanel *{
     display: none !important;
   }
 
-  /* 去背景、去边框、去阴影，收紧内边距 */
+  /* 2) 只显示头像和姓名（无论是否为直接子元素） */
+  .sidepanel .portrait,
+  .sidepanel .profile-name{
+    display: block !important;
+  }
+
+  /* 3) 去掉灰底、边框、阴影；缩小内边距 */
   .sidepanel{
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     padding: 8px 0 !important;
   }
+  /* 某些主题把背景给到列容器上，顺手清理一下 */
+  .side-col{
+    background: transparent !important;
+    border: 0 !important;
+  }
 
-  /* 照片更醒目，保持正方形不变形并居中 */
+  /* 4) 头像：正方形、居中、不变形 */
   .sidepanel .portrait{
     width: 72vw;
     max-width: 320px;
     aspect-ratio: 1 / 1;
     height: auto;
-    display: block;
     margin: 0 auto 10px;
     object-fit: cover;
     object-position: 50% 35%;
     border-radius: 14px;
   }
 
-  /* 姓名放大加粗并居中 */
+  /* 5) 姓名：放大加粗并居中显示 */
   .sidepanel .profile-name{
     font-size: 28px !important;
     font-weight: 800 !important;
     line-height: 1.15;
-    text-align: center;
-    margin: 0 0 6px;
+    text-align: center !important;
+    margin: 0 0 6px !important;
     color: #111 !important;
   }
 }
+
 
 /* ========== Phone landscape: keep full sidebar, avatar not squished/cropped ========== */
 @media (max-width: 640px) and (orientation: landscape){
