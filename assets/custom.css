@@ -259,14 +259,20 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 .timeline .direction-r .time-wrapper{ left: calc(50% + 12px) !important; right: auto !important; }
 .timeline .direction-l .time-wrapper{ right: calc(50% + 12px) !important; left: auto !important; }
 .timeline .direction-r{ transform: translateX(-6.3px); }
+/* =================== Universal mobile baseline (≤768px) =================== */
+@media screen and (max-width: 768px){
 
-/* =================== Mobile single-column polish =================== */
-@media (max-width: 899.98px){
+  /* 更安全的顶部/底部留白：考虑刘海安全区 */
   :root{
-    --gutter: 16px;
     --nav-h: 56px;
     --footer-h: 62px;
   }
+  body{
+    padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* 导航可横向滚动，避免挤换行 */
   .navbar > .container{
     justify-content: flex-start;
     overflow-x: auto;
@@ -274,85 +280,20 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     gap: 18px;
     padding: 0 12px;
   }
-  .navbar-list{
-    flex-wrap: nowrap;
-    gap: 18px;
-  }
-  .navbar-link{
-    font-size: 14px !important;
-    padding: 10px 4px;
-  }
-  body{
-    padding-top: var(--nav-h);
-    padding-bottom: var(--footer-h);
-  }
-  .content-with-sidebar{ margin-top: 12px; }
-  .docs-section{
-    padding: 1.25rem 0;
-    scroll-margin-top: calc(var(--nav-h) + 10px);
-  }
-  .docs-section > h4, .section-header{
-    font-size: 1.6rem;
-    margin: 0 0 .6rem;
-  }
-  .side-col{ width: 100% !important; margin-bottom: 14px; position: static !important; }
-  .sidepanel{
-    height: auto !important;
-    max-height: none !important;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
-  }
-  .sidepanel .portrait{ height: 140px; }
-  .sidepanel .profile-name{ font-size: 24px; }
-  .main-col{ margin-left: 0 !important; max-width: 100% !important; }
-  .button, .tab-nav .button{
-    min-height: 44px;
-  }
-  .timeline{ --line-x: 24px; --gap: 18px; }
-  .timeline::before{
-    left: var(--line-x);
-    width: 4px;
-    transform: translateX(0);
-  }
-  .timeline .direction-l,
-  .timeline .direction-r{
-    width: 100%;
-    padding: 0 0 0 calc(var(--line-x) + 24px);
-    text-align: left;
-    transform: none;
-  }
-  .timeline .flag{
-    max-width: 100%;
-    margin: 0 !important;
-    display: block;
-  }
-  .timeline .timeline-icon,
-  .timeline .node,
-  .timeline .dot{
-    left: var(--line-x) !important;
-    transform: translate(-50%, -50%) !important;
-  }
-  .timeline .time-wrapper{
-    left: calc(var(--line-x) + 12px) !important;
-    right: auto !important;
-    top: -6px;
-    white-space: nowrap;
-  }
-}
+  .navbar-list{ flex-wrap: nowrap; gap: 18px; }
+  .navbar-link{ font-size: 14px !important; padding: 10px 4px; }
 
-/* =================== Mobile single-column polish (iPhone portrait) =================== */
-/* iPhone 竖屏（≤640px）：信息栏只保留头像 + 姓名，去灰底；确保姓名可见 */
-@media (max-width: 640px) and (orientation: portrait){
+  /* 单列布局为默认，避免 sticky/fixed 在手机上造成覆盖 */
+  .content-with-sidebar{ display:block !important; margin-top:12px; }
+  .main-col{ margin-left:0 !important; max-width:100% !important; }
 
-  /* 只隐藏 .sidepanel 的“直系”子元素里，除头像与姓名以外的部分 */
-  .sidepanel > :not(.portrait):not(.profile-name){
-    display: none !important;
-  }
+  /* ===== 信息栏：默认“极简模式”（只保留头像+姓名） ===== */
+  /* 先全部隐藏，再白名单打开头像和姓名，确保不被上层样式覆盖 */
+  .sidepanel *{ display:none !important; }
+  .sidepanel .portrait,
+  .sidepanel .profile-name{ display:block !important; }
 
-  /* 去掉灰背景、边框、阴影，收紧内边距 */
+  /* 去灰底、边框、阴影，收紧内边距（极简） */
   .sidepanel{
     background: transparent !important;
     border: none !important;
@@ -360,23 +301,21 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     padding: 8px 0 !important;
   }
 
-  /* 头像：居中、正方形、不变形 */
+  /* 头像：正方形、居中、不变形（大多数手机竖屏） */
   .sidepanel .portrait{
-    display: block !important;
-    width: 72vw !important;
-    max-width: 320px !important;
-    aspect-ratio: 1 / 1 !important;
-    height: auto !important;
-    margin: 0 auto 10px !important;
-    object-fit: cover !important;
-    object-position: 50% 35% !important;
-    border-radius: 14px !important;
+    width: min(72vw, 340px);
+    aspect-ratio: 1 / 1;
+    height: auto;
+    display:block;
+    margin: 0 auto 10px;
+    object-fit: cover;
+    object-position: 50% 35%;
+    border-radius: 14px;
   }
 
-  /* 姓名：放大加粗并居中，确保不会被隐藏 */
+  /* 姓名：放大加粗且可见（防止被继承隐藏） */
   .sidepanel .profile-name{
-    display: block !important;
-    font-size: 28px !important;
+    font-size: clamp(22px, 6vw, 28px) !important;
     font-weight: 800 !important;
     line-height: 1.15 !important;
     text-align: center !important;
@@ -386,73 +325,75 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     opacity: 1 !important;
   }
 
-  /* 正文满宽 */
-  .main-col{
-    margin-left: 0 !important;
-    max-width: 100% !important;
-  }
+  /* 锚点跳转时别被固定导航挡住 */
+  .docs-section{ scroll-margin-top: calc(var(--nav-h) + 10px); }
 }
 
-/* =================== Mobile landscape polish (iPhone landscape) =================== */
-/* iPhone 横屏（≤640px）：恢复完整信息栏；头像等比例缩放不裁切 */
-@media (max-width: 640px) and (orientation: landscape){
+/* =================== Phone portrait (≤480px portrait) =================== */
+@media screen and (max-width: 480px) and (orientation: portrait){
+  /* 头像更紧凑一些，减少首屏占比 */
+  .sidepanel .portrait{ width: min(70vw, 300px); }
+  .sidepanel .profile-name{ font-size: clamp(20px, 6.5vw, 26px) !important; }
 
-  /* 取消竖屏时对“直系子元素”的隐藏规则 */
-  .sidepanel > *{
-    display: revert !important;   /* 恢复元素自身的默认显示类型 */
+  /* 容器左右内边距略收紧 */
+  .container, main, .page-content{ padding: 0 14px; }
+
+  /* 导航在很小屏幕可换行 */
+  .navbar > .container{ gap:8px; padding:0 10px; }
+  .navbar-list{ flex-wrap: wrap; gap:8px 10px; }
+  .navbar-link{ font-size: 13px !important; letter-spacing:.08rem; padding: 6px 6px; }
+}
+
+/* =================== Phone landscape (≤768px landscape) =================== */
+@media screen and (max-width: 768px) and (orientation: landscape){
+
+  /* 横屏改为“完整信息卡”置顶的单列，避免侧栏漂移覆盖 */
+  .content-with-sidebar{ display:block !important; }
+  .side-col{
+    position: static !important;
+    width: 100% !important; max-width: 100% !important; min-width: 0 !important;
+    margin-bottom: 12px !important;
   }
 
-  /* 信息卡恢复卡片外观 */
+  /* 取消极简隐藏，还原所有信息 */
+  .sidepanel *{ display: revert !important; }
+
+  /* 恢复卡片外观 */
   .sidepanel{
     background: var(--panel) !important;
     border: 1px solid var(--border) !important;
     box-shadow: 0 6px 18px rgba(0,0,0,.06) !important;
     border-radius: 12px !important;
-    padding: 14px !important;
+    padding: 12px !important;
   }
 
-  /* 头像：等比例缩小，不裁切、不拉伸（强覆盖任何固定高/cover） */
+  /* 头像等比例缩放，不裁切（横屏更易超宽，改用 contain） */
   .sidepanel .portrait{
     width: 100% !important;
     height: auto !important;
-    max-height: 38vh !important;
-    object-fit: contain !important;     /* 关键：不裁切 */
+    max-height: 40svh !important;   /* 新视口单位，更稳的可视高 */
+    object-fit: contain !important;  /* 不裁切 */
     aspect-ratio: auto !important;
-    background: transparent !important;
     border-radius: 10px !important;
     margin-bottom: 10px !important;
   }
 
-  /* 两栏并排布局，空间允许 */
-  .content-with-sidebar{
-    display: flex !important;
-    align-items: flex-start !important;
-    gap: 20px !important;
-  }
-  .side-col{
-    position: sticky !important;
-    top: calc(var(--nav-h) + 12px) !important;
-    flex: 0 0 240px !important;
-    width: 240px !important;
-    max-width: 240px !important;
-    min-width: 220px !important;
-    z-index: 10 !important;
-  }
-  .main-col{
-    margin-left: 0 !important;
-    max-width: none !important;
-    flex: 1 1 auto !important;
-  }
-
-  /* 横屏里姓名回到正常阅读字号 */
+  /* 姓名回归正常阅读字号 */
   .sidepanel .profile-name{
-    font-size: 22px !important;
+    font-size: clamp(18px, 3vw, 22px) !important;
     font-weight: 800 !important;
     text-align: left !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
   }
 }
 
-  }
+/* =================== Ultra-small devices (≤360px) =================== */
+@media screen and (max-width: 360px){
+  .sidepanel .portrait{ width: 80vw; }
+  .navbar-link{ font-size: 12px !important; }
 }
 
+/* =================== Reduced motion preference =================== */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+}
