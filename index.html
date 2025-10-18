@@ -1,3 +1,160 @@
+---
+layout: default
+title: Home
+---
+
+<div class="row content-with-sidebar">
+
+  <!-- 左侧：信息卡 -->
+  <aside class="four columns side-col">
+    <div class="sidepanel">
+      <img class="portrait" src="{{ site.baseurl }}{{ site.data.main_info.profile_pic }}" alt="profile">
+
+      <div class="kicker"></div>
+      <ul><li><span class="profile-name">{{ site.data.main_info.name }}</span></li></ul>
+
+      <div class="kicker">Email</div>
+      <ul>
+        <li><a href="mailto:{{ site.data.main_info.email | strip }}">{{ site.data.main_info.email }}</a></li>
+      </ul>
+
+      <div class="kicker">Website</div>
+      <ul>
+        <li><a href="{{ site.baseurl }}/">personal website</a></li>
+      </ul>
+
+      <div class="kicker">Links</div>
+      <ul>
+        {% if site.data.main_info.google_scholar %}<li><a href="{{ site.data.main_info.google_scholar }}">Google Scholar</a></li>{% endif %}
+        {% if site.data.main_info.github %}<li><a href="{{ site.data.main_info.github }}">GitHub</a></li>{% endif %}
+        {% if site.data.main_info.linkedin %}<li><a href="{{ site.data.main_info.linkedin }}">LinkedIn</a></li>{% endif %}
+      </ul>
+    </div>
+  </aside>
+  <!-- 右侧：正文 -->
+  <div class="eight columns main-col">
+
+    <!-- ========== BIO ========== -->
+    <div class="docs-section" id="bio">
+      <h4>Bio</h4>
+      <p>
+        Hello! I'm currently a first-year PhD student at <a href="https://www.nyu.edu/" target="_blank" rel="noopener noreferrer">New York University</a>. 
+        I obtained my MSc in Statistics from Renmin University of China, 
+        under the guidance of <a href=" " target="_blank" rel="noopener noreferrer">Prof. Hanfang Yang</a> and
+        <a href="https://hongtengxu.github.io/" target="_blank" rel="noopener noreferrer">Prof. Hongteng Xu</a>.
+        I was also a visiting research intern at Carnegie Mellon University, co-hosted by
+        <a href="https://www.andrew.cmu.edu/user/shixianz/" target="_blank" rel="noopener noreferrer">Prof. Shixiang (Woody) Zhu</a>
+        and
+        <a href="https://hwiberg.github.io/" target="_blank" rel="noopener noreferrer">Prof. Holly Wiberg</a>.
+        My research interests lie in <b>machine learning</b> for
+        <b>sequential data modeling and sequential decision making</b>. Specifically, I focus on
+        <b>reinforcement learning</b>, <b>stochastic process</b>, <b>control theory</b>, and their applications in <b>cyber-physical energy systems</b>.
+      </p>
+    </div>
+
+    <div class="docs-section" id="News">
+      <h4>News</h4>
+      <p><b>I am excited to begin my PhD journey at NYU in the fall of 2025!</b> <br>
+        
+        I am eager to explore interesting research ideas with fellow scholars and look forward to engaging in in-depth collaboration,
+        particularly in the areas of machine learning and control, as well as data-driven optimization for sustainable power systems. </p>
+    </div>
+
+
+    <!-- ========== PUBLICATIONS） ========== -->
+    <div class="docs-section" id="publications">
+      <h4>Publications</h4>
+      <p>
+        Most recent publications on
+        <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">CV</a>.<br/>
+        <sup>‡</sup> indicates equal contribution.
+      </p>
+
+      <ul class="tab-nav">
+        <li><div class="button active" data-ref="#papers-selected">Selected</div></li>
+        <li><div class="button" data-ref="#papers-all">All</div></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="papers-selected">
+          {% assign selected_papers = site.data.publications.papers | where: "selected", "y" %}
+          {% for paper in selected_papers %}
+            <div class="paper">
+              <p class="title"><b>{{ paper.title }}</b></p>
+              <p>{{ paper.authors }}</p>
+              <p><i>{{ paper.venue }}</i></p>
+              <div class="paper-buttons">
+                {% if paper.paper_pdf %}<a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>{% endif %}
+                {% if paper.slides %}<a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>{% endif %}
+                {% if paper.poster %}<a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>{% endif %}
+                {% if paper.video %}<a class="button" href="{{ paper.video }}" target="_blank">Video</a>{% endif %}
+                {% if paper.code %}<a class="button" href="{{ paper.code }}" target="_blank">Code</a>{% endif %}
+                {% if paper.data %}<a class="button" href="{{ paper.data }}" target="_blank">Data</a>{% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="tab-pane" id="papers-all">
+          {% for paper in site.data.publications.papers %}
+            <div class="paper">
+              <p class="title"><b>{{ paper.title }}</b></p>
+              <p>{{ paper.authors }}</p>
+              <p><i>{{ paper.venue }}</i></p>
+              <div class="paper-buttons">
+                {% if paper.paper_pdf %}<a class="button" href="{{ paper.paper_pdf | prepend: site.baseurl }}" target="_blank">Paper</a>{% endif %}
+                {% if paper.slides %}<a class="button" href="{{ paper.slides | prepend: site.baseurl }}" target="_blank">Slides</a>{% endif %}
+                {% if paper.poster %}<a class="button" href="{{ paper.poster | prepend: site.baseurl }}" target="_blank">Poster</a>{% endif %}
+                {% if paper.video %}<a class="button" href="{{ paper.video }}" target="_blank">Video</a>{% endif %}
+                {% if paper.code %}<a class="button" href="{{ paper.code }}" target="_blank">Code</a>{% endif %}
+                {% if paper.data %}<a class="button" href="{{ paper.data }}" target="_blank">Data</a>{% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== CV ========== -->
+    <div class="docs-section" id="resume">
+      <h4>CV</h4>
+      <p>Full Resume in <a href={{ "/assets/cv/Yiwei_CV.pdf" | prepend: site.baseurl }} target="_blank">PDF</a>.</p>
+    </div>
+
+  <!-- The Timeline -->
+  <ul class="timeline">
+    {% for exp in site.data.experience.experiences %}
+    <li>
+      {% if exp.category == "work" %}
+      <div class="direction-l">
+      {% else %}
+      <div class="direction-r">
+      {% endif %}
+        <div class="flag-wrapper">
+          <span class="flag">{{ exp.place }}</span>
+          <span class="time-wrapper"><span class="time">{{ exp.time }}</span></span>
+        </div>
+        <div class="desc"><b>{{ exp.title }}</b> <br/> {{ exp.subtitle }}</div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  <!-- 注意：这里不要再多一个 </div>，否则会把 .main-col 提前关掉 -->
+  
+  <!-- ========== Misc ========== -->
+  <div class="docs-section" id="misc">
+    <h4>Misc</h4>
+    <p>I enjoy citywalk, musicals, and photography :D <br> See you in New York City, in China, in Antarctica, in the world!</p>
+  </div>
+
+
+
+
+    <!-- 与顶部导航一致的“News”锚点（保留占位避免链接失效；正文已在上方） -->
+    <section id="prospective-students" class="docs-section" style="display:none;"></section>
+
+  </div><!-- /.main-col -->
+</div><!-- /.content-with-sidebar -->
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;overflow-x:hidden}
 html{scrollbar-gutter:stable}
