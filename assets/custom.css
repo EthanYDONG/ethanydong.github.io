@@ -438,18 +438,23 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 
 
 @media (min-width: 1200px){
-  :root { --gap: 52px; } 
+  :root { --gap: 56px; } 
 }
 
-
-/* Phone landscape or iPad portrait: hide the photo */
-@media (max-width: 640px) and (orientation: landscape),
-       (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .sidepanel .portrait { 
-    display: none !important; 
+/* Hide portrait on all screens narrower than 1024px:
+   - all phones (portrait & landscape)
+   - iPad portrait */
+@media (max-width: 1023.98px) {
+  .sidepanel .portrait {
+    display: none !important;
   }
+}
 
-  .sidepanel .profile-name{
-    margin-top: 4px !important;
+/* Show portrait on iPad landscape and desktop (>=1024px) */
+@media (min-width: 1024px) {
+  .sidepanel .portrait {
+    display: block !important;
+    height: auto !important;      /* 保持比例 */
+    object-fit: cover;            /* 你的现有样式可保留 */
   }
 }
