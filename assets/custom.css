@@ -259,41 +259,31 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 .timeline .direction-r .time-wrapper{ left: calc(50% + 12px) !important; right: auto !important; }
 .timeline .direction-l .time-wrapper{ right: calc(50% + 12px) !important; left: auto !important; }
 .timeline .direction-r{ transform: translateX(-6.3px); }
-/* =================== Universal mobile baseline (≤768px) =================== */
-@media screen and (max-width: 768px){
 
-  /* 更安全的顶部/底部留白：考虑刘海安全区 */
-  :root{
-    --nav-h: 56px;
-    --footer-h: 62px;
+/* ================================================================== */
+/* =================== iPhone-specific mobile optimizations ========= */
+/* ================================================================== */
+
+/* ---------- iPhone 竖屏（典型宽度 ≤ 430px）：只保留头像 + 姓名 ---------- */
+@media screen and (max-width: 430px) and (orientation: portrait){
+
+  /* 先隐藏 sidepanel 所有后代，避免被祖先 display 影响（强覆盖） */
+  .sidepanel *{
+    display: none !important;
   }
-  body{
-    padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
+
+  /* 强制让头像与姓名重新可见 */
+  .sidepanel .portrait{
+    display: block !important;
+  }
+  .sidepanel .profile-name{
+    display: block !important;
+  }
+  .sidepanel .profile-name *{
+    display: inline !important; /* 若姓名内还有 span 等，确保不被隐藏 */
   }
 
-  /* 导航可横向滚动，避免挤换行 */
-  .navbar > .container{
-    justify-content: flex-start;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 18px;
-    padding: 0 12px;
-  }
-  .navbar-list{ flex-wrap: nowrap; gap: 18px; }
-  .navbar-link{ font-size: 14px !important; padding: 10px 4px; }
-
-  /* 单列布局为默认，避免 sticky/fixed 在手机上造成覆盖 */
-  .content-with-sidebar{ display:block !important; margin-top:12px; }
-  .main-col{ margin-left:0 !important; max-width:100% !important; }
-
-  /* ===== 信息栏：默认“极简模式”（只保留头像+姓名） ===== */
-  /* 先全部隐藏，再白名单打开头像和姓名，确保不被上层样式覆盖 */
-  .sidepanel *{ display:none !important; }
-  .sidepanel .portrait,
-  .sidepanel .profile-name{ display:block !important; }
-
-  /* 去灰底、边框、阴影，收紧内边距（极简） */
+  /* 去灰底/边框/阴影，收紧内边距 */
   .sidepanel{
     background: transparent !important;
     border: none !important;
@@ -301,21 +291,21 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     padding: 8px 0 !important;
   }
 
-  /* 头像：正方形、居中、不变形（大多数手机竖屏） */
+  /* 头像：正方形、居中、不变形 */
   .sidepanel .portrait{
-    width: min(72vw, 340px);
-    aspect-ratio: 1 / 1;
-    height: auto;
-    display:block;
-    margin: 0 auto 10px;
-    object-fit: cover;
-    object-position: 50% 35%;
-    border-radius: 14px;
+    width: 72vw !important;
+    max-width: 320px !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    margin: 0 auto 10px !important;
+    object-fit: cover !important;
+    object-position: 50% 35% !important;
+    border-radius: 14px !important;
   }
 
-  /* 姓名：放大加粗且可见（防止被继承隐藏） */
+  /* 姓名：放大加粗并居中 */
   .sidepanel .profile-name{
-    font-size: clamp(22px, 6vw, 28px) !important;
+    font-size: 28px !important;
     font-weight: 800 !important;
     line-height: 1.15 !important;
     text-align: center !important;
@@ -325,40 +315,30 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     opacity: 1 !important;
   }
 
-  /* 锚点跳转时别被固定导航挡住 */
-  .docs-section{ scroll-margin-top: calc(var(--nav-h) + 10px); }
+  /* 正文不右移，铺满 */
+  .main-col{
+    margin-left: 0 !important;
+    max-width: 100% !important;
+  }
 }
 
-/* =================== Phone portrait (≤480px portrait) =================== */
-@media screen and (max-width: 480px) and (orientation: portrait){
-  /* 头像更紧凑一些，减少首屏占比 */
-  .sidepanel .portrait{ width: min(70vw, 300px); }
-  .sidepanel .profile-name{ font-size: clamp(20px, 6.5vw, 26px) !important; }
+/* ---------- iPhone 横屏（典型高度 ≤ 430px）：全宽信息卡 + 等比例头像 ---------- */
+@media screen and (max-height: 430px) and (orientation: landscape){
 
-  /* 容器左右内边距略收紧 */
-  .container, main, .page-content{ padding: 0 14px; }
+  /* 切回单列堆叠，避免侧栏“顶到最上方占位” */
+  .content-with-sidebar{
+    display: block !important;
+  }
 
-  /* 导航在很小屏幕可换行 */
-  .navbar > .container{ gap:8px; padding:0 10px; }
-  .navbar-list{ flex-wrap: wrap; gap:8px 10px; }
-  .navbar-link{ font-size: 13px !important; letter-spacing:.08rem; padding: 6px 6px; }
-}
-
-/* =================== Phone landscape (≤768px landscape) =================== */
-@media screen and (max-width: 768px) and (orientation: landscape){
-
-  /* 横屏改为“完整信息卡”置顶的单列，避免侧栏漂移覆盖 */
-  .content-with-sidebar{ display:block !important; }
+  /* 取消固定/粘滞，侧栏作为一张全宽卡片显示在正文上方 */
   .side-col{
     position: static !important;
-    width: 100% !important; max-width: 100% !important; min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     margin-bottom: 12px !important;
   }
 
-  /* 取消极简隐藏，还原所有信息 */
-  .sidepanel *{ display: revert !important; }
-
-  /* 恢复卡片外观 */
   .sidepanel{
     background: var(--panel) !important;
     border: 1px solid var(--border) !important;
@@ -367,33 +347,39 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     padding: 12px !important;
   }
 
-  /* 头像等比例缩放，不裁切（横屏更易超宽，改用 contain） */
+  /* 头像：等比例缩放，不裁切 */
   .sidepanel .portrait{
     width: 100% !important;
     height: auto !important;
-    max-height: 40svh !important;   /* 新视口单位，更稳的可视高 */
-    object-fit: contain !important;  /* 不裁切 */
+    max-height: 40vh !important;
+    object-fit: contain !important;   /* 关键：不裁切 */
     aspect-ratio: auto !important;
     border-radius: 10px !important;
     margin-bottom: 10px !important;
   }
 
-  /* 姓名回归正常阅读字号 */
+  /* 姓名：正常阅读字号 */
   .sidepanel .profile-name{
-    font-size: clamp(18px, 3vw, 22px) !important;
+    font-size: 22px !important;
     font-weight: 800 !important;
     text-align: left !important;
     margin-bottom: 6px !important;
   }
+
+  /* 正文回归满宽 */
+  .main-col{
+    margin-left: 0 !important;
+    max-width: 100% !important;
+  }
 }
 
-/* =================== Ultra-small devices (≤360px) =================== */
-@media screen and (max-width: 360px){
-  .sidepanel .portrait{ width: 80vw; }
-  .navbar-link{ font-size: 12px !important; }
+/* ===== More space between sidebar and main (no changes to CV/Timeline) ===== */
+:root { --gap: 44px; }
+@media (min-width: 1200px){
+  :root { --gap: 52px; }
 }
-
-/* =================== Reduced motion preference =================== */
-@media (prefers-reduced-motion: reduce){
-  *{ animation: none !important; transition: none !important; }
+@media (min-width: 900px){
+  .main-col{
+    margin-left: calc(var(--sidebar) + var(--gap)) !important;
+  }
 }
