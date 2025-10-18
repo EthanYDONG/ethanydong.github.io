@@ -444,11 +444,16 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
 /* Hide portrait on all screens narrower than 1024px:
    - all phones (portrait & landscape)
    - iPad portrait */
-@media (max-width: 1023.98px) {
+@media (max-width: 1023.99999px) {
   .sidepanel .portrait {
     display: none !important;
   }
 }
+  .sidepanel .profile-name{
+    margin-top: 4px !important;
+  }
+}
+
 
 /* Show portrait on iPad landscape and desktop (>=1024px) */
 @media (min-width: 1024px) {
@@ -458,3 +463,4 @@ body{ padding-top: var(--nav-h); padding-bottom: var(--footer-h); }
     object-fit: cover;            /* 你的现有样式可保留 */
   }
 }
+
